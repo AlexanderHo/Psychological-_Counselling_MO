@@ -9,6 +9,10 @@ import 'package:provider/provider.dart';
 import 'package:astrology/resourse/Login&register/login.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/province.dart';
+import '../../model/user.dart';
+import '../../reponsitory/auth_repo.dart';
+
 class RegisterPage extends StatefulWidget {
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -27,7 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
   double? longitude;
 
   final fromKey = GlobalKey<FormState>();
-  // UserModel? user;
+  UserModel? user;
 
   // final auth = FirebaseAuth.instance;
   final emailController = TextEditingController();
@@ -42,8 +46,8 @@ class _RegisterPageState extends State<RegisterPage> {
     Size size = MediaQuery.of(context).size;
     double paddingIcon = size.height * 0.009;
     double marginBetween = size.height * 0.017;
-    // final applicationBloc = Provider.of<GoogleSignInProvider>(context);
-    // applicationBloc.getAllProvince();
+    final applicationBloc = Provider.of<AuthRepo>(context);
+    applicationBloc.getAllProvince();
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -593,47 +597,46 @@ class _RegisterPageState extends State<RegisterPage> {
                                 child: Container(
                                   child: Stack(
                                     children: <Widget>[
-                                      // Positioned(
-                                      //   width: size.width * 0.85,
-                                      //   bottom: 0,
-                                      //   child: DropdownButtonHideUnderline(
-                                      //     child: DropdownButton(
-                                      //         // isExpanded: true,
-                                      //         // hint: Text(
-                                      //         //   selectedProvince == null
-                                      //         //       ? 'Thêm thành Phố'
-                                      //         //       : selectedProvince
-                                      //         //           .toString(),
-                                      //         //   style: TextStyle(
-                                      //         //       color: Colors.white,
-                                      //         //       fontSize: 20),
-                                      //         // ),
-                                      //         // items: applicationBloc.provinces!
-                                      //         //     .map<
-                                      //         //         DropdownMenuItem<
-                                      //         //             Province>>((a) {
-                                      //         //   return DropdownMenuItem(
-                                      //         //     child: Text(
-                                      //         //       a.name,
-                                      //         //     ),
-                                      //         //     value: a,
-                                      //         //   );
-                                      //         // }).toList(),
-                                      //         // icon: Icon(
-                                      //         //   MyFlutterApp.chevron_down,
-                                      //         //   color: Colors.white,
-                                      //         // ),
-                                      //         // onChanged: (Province? value) {
-                                      //         //   setState(() {
-                                      //         //     selectedProvince =
-                                      //         //         value!.name;
-                                      //         //   });
-                                      //         // }
-                                      //         ),
-                                      //   ),
-                                      //   left: 0,
-                                      //   top: 24,
-                                      // ),
+                                      Positioned(
+                                        width: size.width * 0.85,
+                                        bottom: 0,
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton(
+                                              isExpanded: true,
+                                              hint: Text(
+                                                selectedProvince == null
+                                                    ? 'Thêm thành Phố'
+                                                    : selectedProvince
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20),
+                                              ),
+                                              items: applicationBloc.provinces!
+                                                  .map<
+                                                      DropdownMenuItem<
+                                                          Province>>((a) {
+                                                return DropdownMenuItem(
+                                                  child: Text(
+                                                    a.name,
+                                                  ),
+                                                  value: a,
+                                                );
+                                              }).toList(),
+                                              icon: Icon(
+                                                MyFlutterApp.chevron_down,
+                                                color: Colors.white,
+                                              ),
+                                              onChanged: (Province? value) {
+                                                setState(() {
+                                                  selectedProvince =
+                                                      value!.name;
+                                                });
+                                              }),
+                                        ),
+                                        left: 0,
+                                        top: 24,
+                                      ),
                                       Positioned(
                                         child: Container(
                                           child: Text(
@@ -650,18 +653,21 @@ class _RegisterPageState extends State<RegisterPage> {
                                         left: 0,
                                       ),
                                       // TextField(
-                                      //   style: TextStyle(color: Colors.white, fontSize: 20),
+                                      //   style: TextStyle(
+                                      //       color: Colors.white, fontSize: 20),
                                       //   decoration: InputDecoration(
                                       //     border: InputBorder.none,
                                       //     hintText: 'Thêm thành Phố',
-                                      //     hintStyle: TextStyle(color: Colors.white, fontSize: 20),
+                                      //     hintStyle: TextStyle(
+                                      //         color: Colors.white,
+                                      //         fontSize: 20),
                                       //   ),
                                       // ),
                                     ],
                                   ),
                                 ),
                               ),
-                              //icon
+                              // icon
                               // Container(
                               //   padding: EdgeInsets.all(paddingIcon),
                               //   child: Icon(
@@ -813,19 +819,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ],
                             )),
-                        // onTap: () {
-                        //   // Navigator.push(
-                        //   //     context,
-                        //   //     MaterialPageRoute(builder: (context)=> const MapScreen())
-                        //   // );
-                        //   applicationBloc.setCurrentLocation();
-                        //   setState(() {
-                        //     longitude =
-                        //         applicationBloc.currentLocation!.longitude;
-                        //     latitude =
-                        //         applicationBloc.currentLocation!.latitude;
-                        //   });
-                        // },
+                        onTap: () {
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(builder: (context)=> const MapScreen())
+                          // );
+                          applicationBloc.setCurrentLocation();
+                          setState(() {
+                            longitude =
+                                applicationBloc.currentLocation!.longitude;
+                            latitude =
+                                applicationBloc.currentLocation!.latitude;
+                          });
+                        },
                       )
                     ],
                   ),
@@ -931,9 +937,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Profile profile = Profile(
                         //     id: 0,
                         //     name: nameController.text,
-                        //     birthDate: formatDate.format(birthDate!) +
-                        //         'T' +
-                        //         '${timeOfDay!.hour.toString().padLeft(2, '0')}:${timeOfDay!.minute.toString().padLeft(2, '0')}',
+                        // birthDate: formatDate.format(birthDate!) +
+                        //     'T' +
+                        //     '${timeOfDay!.hour.toString().padLeft(2, '0')}:${timeOfDay!.minute.toString().padLeft(2, '0')}',
                         //     birthPlace: selectedProvince.toString(),
                         //     profilePhoto: "",
                         //     longitude: longitude!,
