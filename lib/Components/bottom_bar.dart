@@ -2,6 +2,7 @@ import 'package:astrology/reponsitory/current_user_shared_preferences.dart';
 import 'package:astrology/resourse/Astrologer/Astrologer.dart';
 import 'package:astrology/resourse/Live/live.dart';
 import 'package:astrology/resourse/Surveys/Survey.dart';
+import 'package:astrology/resourse/Surveys/SurveyType.dart';
 import 'package:astrology/resourse/Wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:astrology/resourse/Home/home.dart';
@@ -181,7 +182,7 @@ class BottomBar extends StatelessWidget {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    return SurveyPage();
+                    return SurveyTypePage();
                   },
                 ));
               },
@@ -206,7 +207,7 @@ class BottomBar extends StatelessWidget {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    return SurveyPage();
+                    return SurveyTypePage();
                   },
                 ));
               },

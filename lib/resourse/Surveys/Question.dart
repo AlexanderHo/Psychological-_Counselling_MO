@@ -347,7 +347,7 @@ class _OptionListState extends State<OptionList> {
                     answer.add(widget.ansModels![index].id);
                   } else {
                     _selectedIndexs.add(index);
-                    answer.remove(widget.ansModels![index].id);
+                    // answer.remove(widget.ansModels![index].id);
                   }
                 });
               },

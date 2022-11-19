@@ -6,15 +6,18 @@ import 'package:astrology/reponsitory/current_user_shared_preferences.dart';
 import 'package:astrology/reponsitory/geolocator_service.dart';
 import 'package:astrology/reponsitory/province_service.dart';
 import 'package:astrology/reponsitory/user_.dart';
+import 'package:astrology/resourse/Home/home.dart';
 import 'package:astrology/resourse/Login&register/login.dart';
 import 'package:astrology/resourse/app_router.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthRepo {
+class AuthRepo extends ChangeNotifier {
   String? token;
   String tokenDevice = "";
 
@@ -43,11 +46,26 @@ class AuthRepo {
     print(tokenDevice);
     final data = json.decode(res.body);
 
-    if (data['message'] == "Login with role customer successful" ||
-        data['message'] == "Login with role consultant successful") {
-      return data;
+    // if (data['message'] == "Login with role customer successful" ||
+    //     data['message'] == "Login with role consultant successful") {
+    //   return data;
+    // } else {
+    //   return "auth problem";
+    // }
+
+    if (data['message'] == "Login with role customer successful") {
+      prefs.setInt("idcustomer", data['idcustomer']);
+      return AppRouter.push(HomeScreen());
     } else {
-      return "auth problem";
+      print("fail login");
+      Fluttertoast.showToast(
+          msg: "login fail",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red.shade200,
+          textColor: Colors.black,
+          fontSize: 16.0);
     }
   }
 
@@ -115,11 +133,11 @@ class AuthRepo {
 
   setCurrentLocation() async {
     currentLocation = await geoLocationService.getCurrentLocation();
-    // notifyListeners();
+    notifyListeners();
   }
 
   getAllProvince() async {
     provinces = await provinceService.getAllProvince();
-    // notifyListeners();
+    notifyListeners();
   }
 }

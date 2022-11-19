@@ -9,9 +9,11 @@ List<SurveysModel> parseSurvey(List response) {
 }
 
 //============================
-Future<List<SurveysModel>> fetchSurvey(http.Client client) async {
+Future<List<SurveysModel>> fetchSurvey(int id) async {
   var response = await http.Client().get(
-      Uri.parse('https://psycteam.azurewebsites.net/api/Surveys/getallsurvey'),
+      Uri.parse(
+          'https://psycteam.azurewebsites.net/api/Surveys/getsurveybysurveytypeid?surveytypeid=' +
+              id.toString()),
       headers: <String, String>{
         'accept': 'text/plain',
       });

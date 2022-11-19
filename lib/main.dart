@@ -12,29 +12,59 @@ import 'package:flutter/material.dart';
 import 'package:astrology/resourse/Login&register/login.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:astrology/resourse/Home/home.dart';
+import 'package:provider/provider.dart';
 
-// Future main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   SharedPreferences.setMockInitialValues({});
-//   await Firebase.initializeApp();
-//   await CurrentUser();
-//   runApp(MyApp());
-// }
+Future<void> _firebaseMessagingBackgroundHandler(message) async {
+  await Firebase.initializeApp();
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  print('Handling a background message ${message.messageId}');
+}
 
-// class MyApp extends StatefulWidget {
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  runApp(MyApp());
+  //   MaterialApp(
+  //     initialRoute: '/',
+  //     routes: {
+  //       '/': (context) => LoginPage(),
+  //       '/customer': (context) => HomeScreen(),
+  //       '/consultant': (context) => Contact(),
+  //       '/account': (context) => AccountPage(),
+  //       '/call_screen': (context) => BodyCall(),
+  //       '/register': (context) => RegisterPage(),
+  //     },
+  //     navigatorKey: AppRouter.navigatorKey,
+  //   ),
+  // );
+}
 
-// class _MyAppState extends State<MyApp> {
-//   @override
-//   Widget build(BuildContext context) => ChangeNotifierProvider(
-//         create: (context) => GoogleSignInProvider(),
-//         child: MaterialApp(
-//           home: HomePage(),
-//         ),
-//       );
-// }
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => AuthRepo(),
+        child: MaterialApp(
+          // home: HomePage(),
+          initialRoute: '/',
+          routes: {
+            '/': (context) => LoginPage(),
+            '/customer': (context) => HomeScreen(),
+            '/consultant': (context) => Contact(),
+            '/account': (context) => AccountPage(),
+            '/call_screen': (context) => BodyCall(),
+            '/register': (context) => RegisterPage(),
+          },
+          navigatorKey: AppRouter.navigatorKey,
+        ),
+      );
+}
 
 // class HomePage extends StatelessWidget {
 //   @override
@@ -62,40 +92,35 @@ import 'package:astrology/resourse/Home/home.dart';
 //   }
 // }
 
-Future<void> _firebaseMessagingBackgroundHandler(message) async {
-  await Firebase.initializeApp();
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  print('Handling a background message ${message.messageId}');
-}
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  runApp(Auth());
-}
 
-class Auth extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-            create: (context) => AuthBloc(LoginInitState(), AuthRepo())),
-      ],
-      child: MaterialApp(
-        initialRoute: '/',
-        routes: {
-          '/': (context) => LoginPage(),
-          '/customer': (context) => HomeScreen(),
-          '/consultant': (context) => Contact(),
-          '/account': (context) => AccountPage(),
-          '/call_screen': (context) => BodyCall(),
-          '/register': (context) => RegisterPage(),
-        },
-        navigatorKey: AppRouter.navigatorKey,
-      ),
-    );
-  }
-}
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+//   runApp(Auth());
+// }
+
+// class Auth extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiBlocProvider(
+//       providers: [
+//         BlocProvider(
+//             create: (context) => AuthBloc(LoginInitState(), AuthRepo())),
+//       ],
+//       child: MaterialApp(
+//         initialRoute: '/',
+//         routes: {
+//           '/': (context) => LoginPage(),
+//           '/customer': (context) => HomeScreen(),
+//           '/consultant': (context) => Contact(),
+//           '/account': (context) => AccountPage(),
+//           '/call_screen': (context) => BodyCall(),
+//           '/register': (context) => RegisterPage(),
+//         },
+//         navigatorKey: AppRouter.navigatorKey,
+//       ),
+//     );
+//   }
+// }

@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:developer';
+import 'package:astrology/reponsitory/user_.dart';
 import 'package:flutter/material.dart';
 import 'package:astrology/resourse/icon.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -29,6 +30,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String? selectedProvince;
   double? latitude;
   double? longitude;
+  String? dob;
+  String? gender;
+  String avatarURL =
+      'https://firebasestorage.googleapis.com/v0/b/psycteamv1.appspot.com/o/useravatar%2F1668496981385kissclipart-api-icon-png-clipart-computer-icons-application-pr-46d0976647deed9c.png?alt=media&token=aa90df82-6483-44a5-95fd-cb02e8ecfa98';
 
   final fromKey = GlobalKey<FormState>();
   UserModel? user;
@@ -38,6 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final passWordController = TextEditingController();
   final confirmController = TextEditingController();
   final nameController = TextEditingController();
+  final usernameController = TextEditingController();
   final genderController = GroupButtonController(selectedIndex: 0);
   final phoneController = TextEditingController();
 
@@ -195,6 +201,98 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderRadius: BorderRadius.circular(15.0),
                             buttonHeight: size.height * 0.065,
                             buttonWidth: size.width * 0.42,
+                          )),
+                      //mail
+                      Container(
+                          margin: EdgeInsets.only(top: marginBetween),
+                          height: size.height * 0.065,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            border: Border.all(color: Colors.white70),
+                            color: const Color.fromRGBO(250, 250, 250, 0.1),
+                          ),
+                          child: Row(
+                            // crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              //Icon
+                              Container(
+                                padding: EdgeInsets.all(paddingIcon),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: Container(
+                                      color: const Color.fromRGBO(0, 0, 0, 0.3),
+                                      child: const Icon(
+                                        Icons.mail,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              //Column
+                              Expanded(
+                                child: Container(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: size.height * 0.002),
+                                        height: size.height * 0.018,
+                                        child: const Text(
+                                          'Tên Đăng nhập',
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            decoration: TextDecoration.none,
+                                            color: Colors.white38,
+                                            fontSize: 14.0,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                          child: SizedBox(
+                                        height: size.height * 0.026,
+                                        child: TextField(
+                                          controller: usernameController,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20),
+                                          decoration: const InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: 'Thêm tên đăng nhập',
+                                            hintStyle: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                          keyboardType:
+                                              TextInputType.emailAddress,
+                                          autofillHints: const [
+                                            AutofillHints.email
+                                          ],
+                                        ),
+                                      )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              //icon
+                              Container(
+                                padding: EdgeInsets.all(paddingIcon),
+                                child: const Icon(
+                                  MyFlutterApp.edit_2,
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           )),
                       //mail
                       Container(
@@ -831,6 +929,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             latitude =
                                 applicationBloc.currentLocation!.latitude;
                           });
+                          print(longitude.toString());
                         },
                       )
                     ],
@@ -937,23 +1036,35 @@ class _RegisterPageState extends State<RegisterPage> {
                         // Profile profile = Profile(
                         //     id: 0,
                         //     name: nameController.text,
-                        // birthDate: formatDate.format(birthDate!) +
-                        //     'T' +
-                        //     '${timeOfDay!.hour.toString().padLeft(2, '0')}:${timeOfDay!.minute.toString().padLeft(2, '0')}',
+                        dob = formatDate.format(birthDate!) +
+                            'T' +
+                            '${timeOfDay!.hour.toString().padLeft(2, '0')}:${timeOfDay!.minute.toString().padLeft(2, '0')}';
                         //     birthPlace: selectedProvince.toString(),
                         //     profilePhoto: "",
                         //     longitude: longitude!,
                         //     latitude: latitude!,
                         //     userId: 0,
-                        //     gender: genderController.selectedIndex == 0
-                        //         ? true
-                        //         : false);
+                        gender = genderController.selectedIndex == 0
+                            ? 'Male'
+                            : 'Female';
                         // applicationBloc.signUp(emailController.text,
                         //     passWordController.text, profile);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => LoginPage()),
+                        // );
+                        addRegister(
+                            emailController,
+                            nameController,
+                            usernameController,
+                            passWordController,
+                            selectedProvince.toString(),
+                            gender!,
+                            dob!,
+                            phoneController,
+                            avatarURL,
+                            latitude,
+                            longitude);
                       } else {
                         passWordController.clear();
                         confirmController.clear();

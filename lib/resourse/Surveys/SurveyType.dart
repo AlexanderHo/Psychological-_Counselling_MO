@@ -1,25 +1,23 @@
 import 'package:astrology/Components/app_bar.dart';
-import 'package:astrology/model/Survey_model.dart';
-import 'package:astrology/reponsitory/Surveys_.dart';
+import 'package:astrology/model/SurveyType_model.dart';
+import 'package:astrology/reponsitory/SurveyType_.dart';
+import 'package:astrology/resourse/Surveys/Survey.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'Question.dart';
-
-class SurveyPage extends StatefulWidget {
-  int id;
-  SurveyPage({required this.id});
+class SurveyTypePage extends StatefulWidget {
+  const SurveyTypePage({super.key});
 
   @override
-  State<SurveyPage> createState() => _SurveyPageState();
+  State<SurveyTypePage> createState() => _SurveyTypePageState();
 }
 
-class _SurveyPageState extends State<SurveyPage> {
+class _SurveyTypePageState extends State<SurveyTypePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: TopBar.getAppBarHasBackIcon(size, context, 'Bài khảo sát', () {
+      appBar: TopBar.getAppBarHasBackIcon(size, context, 'Loại khảo sát', () {
         Navigator.pop(context);
       }),
       body: Container(
@@ -28,8 +26,8 @@ class _SurveyPageState extends State<SurveyPage> {
           image: AssetImage('assets/background/background1.png'),
           fit: BoxFit.fill,
         )),
-        child: FutureBuilder<List<SurveysModel>>(
-          future: fetchSurvey(widget.id),
+        child: FutureBuilder<List<SurveysTypeModel>>(
+          future: fetchSurveyType(http.Client()),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
@@ -52,7 +50,7 @@ class _SurveyPageState extends State<SurveyPage> {
 class SurveyList extends StatelessWidget {
   const SurveyList({Key? key, required this.surveyModels}) : super(key: key);
 
-  final List<SurveysModel> surveyModels;
+  final List<SurveysTypeModel> surveyModels;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +70,7 @@ class SurveyList extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          QuestionPage(SurveyId: surveyModels[index].id)),
+                          SurveyPage(id: surveyModels[index].id)),
                 );
               },
               child: SurveyItem(
@@ -83,7 +81,7 @@ class SurveyList extends StatelessWidget {
 }
 
 class SurveyItem extends StatelessWidget {
-  SurveysModel item;
+  SurveysTypeModel item;
   SurveyItem({required this.item});
 
   @override
@@ -91,35 +89,37 @@ class SurveyItem extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Padding(
-      padding: const EdgeInsets.only(top: 25.0),
+      padding: const EdgeInsets.only(top: 20.0),
       child: Container(
         height: 60,
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white60),
           borderRadius: BorderRadius.circular(12.0),
-          color: Color.fromARGB(255, 47, 4, 107),
+          color: Color.fromARGB(255, 138, 42, 139),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            // Container(
-            //   height: size.height * 0.2,
-            //   decoration: BoxDecoration(
-            //       image: DecorationImage(
-            //     image: NetworkImage(item.description),
-            //   )),
-            // ),
-            Text(
-              item.name,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white70,
-                fontWeight: FontWeight.w500,
-                fontSize: 20.0,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              // Container(
+              //   height: size.height * 0.2,
+              //   decoration: BoxDecoration(
+              //       image: DecorationImage(
+              //     image: NetworkImage(item.description),
+              //   )),
+              // ),
+              Text(
+                'Tên loại khảo sát :' + item.name,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20.0,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
