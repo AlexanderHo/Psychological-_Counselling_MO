@@ -39,7 +39,7 @@ Future<List<SlotModel>> fetchSlotApm(int id, String date) async {
         'accept': '*/*',
       });
   Map data = jsonDecode(response.body);
-  log(response.body);
+  print(data);
   return parseSlot(data['data']);
 }
 
@@ -101,5 +101,15 @@ Future<List<SlotModel>> fetchStream() async {
   Map data = jsonDecode(response.body);
   print(data['data']);
 
+  if (data['data'] == null) {
+    Fluttertoast.showToast(
+        msg: "Hiện tại chưa có buổi livestream nào!!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Colors.red.shade200,
+        textColor: Colors.black54,
+        fontSize: 16.0);
+  }
   return parseSlot(data['data']);
 }

@@ -1,12 +1,16 @@
 import 'dart:developer';
 
+import 'package:astrology/model/province.dart';
+import 'package:astrology/reponsitory/auth_repo.dart';
 import 'package:astrology/resourse/profile/account.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'dart:async';
 
 import '../../../reponsitory/add_profile.dart';
@@ -60,15 +64,14 @@ class _AddProfilePageState extends State<AddProfilePage> {
   String _name = '';
   final _dateController = TextEditingController();
   String _date = '';
-  final _placeController = TextEditingController();
-  String _place = '';
+
   final _genderController = TextEditingController();
   String _gender = '';
   // final _latitudeController = TextEditingController();
-  // double _latitude = 0.0;
+  double? latitude;
   // final _longitudeController = TextEditingController();
-  // double _longitude = 0.0;
-
+  double? longitude;
+  String? selectedProvince;
   // @override
   // void dispose() {
   //   _nameController.dispose();
@@ -84,6 +87,8 @@ class _AddProfilePageState extends State<AddProfilePage> {
     Size size = MediaQuery.of(context).size;
     double paddingIcon = size.height * 0.009;
     double marginBetween = size.height * 0.017;
+    final applicationBloc = Provider.of<AuthRepo>(context);
+    applicationBloc.getAllProvince();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Color.fromRGBO(27, 18, 53, 1),
@@ -117,23 +122,30 @@ class _AddProfilePageState extends State<AddProfilePage> {
                           side: BorderSide(
                             color: Color.fromRGBO(0, 117, 255, 1),
                           )))),
-              onPressed: () {
+              onPressed: () async {
                 _name = _nameController.text;
                 // _date = _dateController.text;
                 _date = formatDate.format(birthDate!) +
                     'T' +
                     '${timeOfDay!.hour.toString().padLeft(2, '0')}:${timeOfDay!.minute.toString().padLeft(2, '0')}';
-                _place = _placeController.text;
-                // _latitude = double.parse(_latitudeController.text);
-                // _longitude = double.parse(_longitudeController.text);
-                addProfile(_name, _date, _place, _gender, userId);
+                final query = selectedProvince.toString() + ", Vietnam";
+                var add = await Geocoder.local.findAddressesFromQuery(query);
+                var second = add.first;
+                print("${second.featureName} : ${second.coordinates}");
+                setState(() {
+                  longitude = second.coordinates.longitude;
+                  latitude = second.coordinates.latitude;
+                });
+                addProfile(_name, _date, selectedProvince.toString(), latitude!,
+                    longitude!, _gender, userId);
+
                 // MaterialPageRoute(
                 //   builder:
                 //       (context) => /*NatalChartProfilePage(item: widget.item,)*/
                 //           HomeScreen(),
                 // );
 
-                Navigator.pop(context);
+                // Navigator.pop(context);
               },
               child: Text(
                 'Add',
@@ -510,86 +522,17 @@ class _AddProfilePageState extends State<AddProfilePage> {
                   });
                 },
               ),
-              /*Date TextField*/
-              // Container(
-              //     height: 60,
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(15.0),
-              //       border: Border.all(color: Colors.white70),
-              //       color: Color.fromRGBO(250, 250, 250, 0.1),
-              //     ),
-              //     child: Row(
-              //       // crossAxisAlignment: CrossAxisAlignment.center,
-              //       mainAxisAlignment: MainAxisAlignment.start,
-              //       children: <Widget>[
-              //         //Icon
-              //         Container(
-              //           padding: EdgeInsets.all(8),
-              //           child: ClipRRect(
-              //             borderRadius: BorderRadius.circular(100),
-              //             child: Container(
-              //               color: Color.fromRGBO(0, 0, 0, 0.3),
-              //               child: Icon(
-              //                 _list[1].icon,
-              //                 size: 40,
-              //                 color: Colors.white,
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //         //Column
-              //         Expanded(
-              //           child: Container(
-              //             child: Column(
-              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //               crossAxisAlignment: CrossAxisAlignment.stretch,
-              //               children: <Widget>[
-              //                 Container(
-              //                   padding: EdgeInsets.only(top: 2),
-              //                   height: 17,
-              //                   child: Text(
-              //                     _list[1].title,
-              //                     textAlign: TextAlign.left,
-              //                     style: TextStyle(
-              //                       decoration: TextDecoration.none,
-              //                       color: Colors.white38,
-              //                       fontSize: 14.0,
-              //                     ),
-              //                   ),
-              //                 ),
-              //                 Container(
-              //                     child: SizedBox(
-              //                   height: 24,
-              //                   child: TextField(
-              //                     controller: _dateController,
-              //                     style: TextStyle(
-              //                         color: Colors.white, fontSize: 20),
-              //                     decoration: InputDecoration(
-              //                       border: InputBorder.none,
-              //                       hintText: _list[1].content,
-              //                       hintStyle: TextStyle(
-              //                           color: Colors.white, fontSize: 20),
-              //                     ),
-              //                   ),
-              //                 )),
-              //               ],
-              //             ),
-              //           ),
-              //         ),
-              //         //icon
-              //       ],
-              //     )),
-
               SizedBox(
                 height: size.height * 0.01,
               ),
               /*Place TextField*/
               Container(
-                  height: 60,
+                  margin: EdgeInsets.only(top: marginBetween),
+                  height: size.height * 0.065,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(color: Colors.white70),
-                    color: Color.fromRGBO(250, 250, 250, 0.1),
+                    color: const Color.fromRGBO(250, 250, 250, 0.1),
                   ),
                   child: Row(
                     // crossAxisAlignment: CrossAxisAlignment.center,
@@ -597,13 +540,13 @@ class _AddProfilePageState extends State<AddProfilePage> {
                     children: <Widget>[
                       //Icon
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsets.all(paddingIcon),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: Container(
-                            color: Color.fromRGBO(0, 0, 0, 0.3),
-                            child: Icon(
-                              _list[2].icon,
+                            color: const Color.fromRGBO(0, 0, 0, 0.3),
+                            child: const Icon(
+                              Icons.location_city,
                               size: 40,
                               color: Colors.white,
                             ),
@@ -613,190 +556,76 @@ class _AddProfilePageState extends State<AddProfilePage> {
                       //Column
                       Expanded(
                         child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                          child: Stack(
                             children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(top: 2),
-                                height: 17,
-                                child: Text(
-                                  _list[2].title,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    color: Colors.white38,
-                                    fontSize: 14.0,
-                                  ),
+                              Positioned(
+                                width: size.width * 0.85,
+                                bottom: 0,
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                      isExpanded: true,
+                                      hint: Text(
+                                        selectedProvince == null
+                                            ? 'Thêm thành Phố'
+                                            : selectedProvince.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                      items: applicationBloc.provinces!
+                                          .map<DropdownMenuItem<Province>>((a) {
+                                        return DropdownMenuItem(
+                                          child: Text(
+                                            a.name,
+                                          ),
+                                          value: a,
+                                        );
+                                      }).toList(),
+                                      icon: Icon(
+                                        MyFlutterApp.chevron_down,
+                                        color: Colors.white,
+                                      ),
+                                      onChanged: (Province? value) {
+                                        setState(() {
+                                          selectedProvince = value!.name;
+                                        });
+                                      }),
                                 ),
+                                left: 0,
+                                top: 24,
                               ),
-                              Container(
-                                  child: SizedBox(
-                                height: 24,
-                                child: TextField(
-                                  controller: _placeController,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: _list[2].content,
-                                    hintStyle: TextStyle(
-                                        color: Colors.white, fontSize: 20),
+                              Positioned(
+                                child: Container(
+                                  child: Text(
+                                    'Nơi sinh',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      decoration: TextDecoration.none,
+                                      color: Colors.white38,
+                                      fontSize: 14.0,
+                                    ),
                                   ),
                                 ),
-                              )),
+                                top: 1,
+                                left: 0,
+                              ),
                             ],
                           ),
                         ),
                       ),
-                      //icon
+                      // icon
+                      Container(
+                        padding: EdgeInsets.all(paddingIcon),
+                        child: const Icon(
+                          Icons.edit,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   )),
               SizedBox(
                 height: size.height * 0.01,
               ),
-              /*Latitude TextField*/
-              // Container(
-              //     height: 60,
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(15.0),
-              //       border: Border.all(color: Colors.white70),
-              //       color: Color.fromRGBO(250, 250, 250, 0.1),
-              //     ),
-              //     child: Row(
-              //       // crossAxisAlignment: CrossAxisAlignment.center,
-              //       mainAxisAlignment: MainAxisAlignment.start,
-              //       children: <Widget>[
-              //         //Icon
-              //         Container(
-              //           padding: EdgeInsets.all(8),
-              //           child: ClipRRect(
-              //             borderRadius: BorderRadius.circular(100),
-              //             child: Container(
-              //               color: Color.fromRGBO(0, 0, 0, 0.3),
-              //               child: Icon(
-              //                 _list[3].icon,
-              //                 size: 40,
-              //                 color: Colors.white,
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //         //Column
-              //         //         Expanded(
-              //         //           child: Container(
-              //         //             child: Column(
-              //         //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         //               crossAxisAlignment: CrossAxisAlignment.stretch,
-              //         //               children: <Widget>[
-              //         //                 Container(
-              //         //                   padding: EdgeInsets.only(top: 2),
-              //         //                   height: 17,
-              //         //                   child: Text(
-              //         //                     _list[3].title,
-              //         //                     textAlign: TextAlign.left,
-              //         //                     style: TextStyle(
-              //         //                       decoration: TextDecoration.none,
-              //         //                       color: Colors.white38,
-              //         //                       fontSize: 14.0,
-              //         //                     ),
-              //         //                   ),
-              //         //                 ),
-              //         //                 Container(
-              //         //                     child: SizedBox(
-              //         //                   height: 24,
-              //         //                   child: TextField(
-              //         //                     controller: _latitudeController,
-              //         //                     style: TextStyle(
-              //         //                         color: Colors.white, fontSize: 20),
-              //         //                     decoration: InputDecoration(
-              //         //                       border: InputBorder.none,
-              //         //                       hintText: _list[3].content,
-              //         //                       hintStyle: TextStyle(
-              //         //                           color: Colors.white, fontSize: 20),
-              //         //                     ),
-              //         //                   ),
-              //         //                 )),
-              //         //               ],
-              //         //             ),
-              //         //           ),
-              //         //         ),
-              //         //         //icon
-              //         //       ],
-              //         //     )),
-              //         // SizedBox(
-              //         //   height: size.height * 0.01,
-              //         // ),
-              //         // /* Longitude TextField */
-              //         // Container(
-              //         //     height: 60,
-              //         //     decoration: BoxDecoration(
-              //         //       borderRadius: BorderRadius.circular(15.0),
-              //         //       border: Border.all(color: Colors.white70),
-              //         //       color: Color.fromRGBO(250, 250, 250, 0.1),
-              //         //     ),
-              //         //     child: Row(
-              //         //       // crossAxisAlignment: CrossAxisAlignment.center,
-              //         //       mainAxisAlignment: MainAxisAlignment.start,
-              //         //       children: <Widget>[
-              //         //         //Icon
-              //         //         Container(
-              //         //           padding: EdgeInsets.all(8),
-              //         //           child: ClipRRect(
-              //         //             borderRadius: BorderRadius.circular(100),
-              //         //             child: Container(
-              //         //               color: Color.fromRGBO(0, 0, 0, 0.3),
-              //         //               child: Icon(
-              //         //                 _list[4].icon,
-              //         //                 size: 40,
-              //         //                 color: Colors.white,
-              //         //               ),
-              //         //             ),
-              //         //           ),
-              //         //         ),
-              //         //         //Column
-              //         //         Expanded(
-              //         //           child: Container(
-              //         //             child: Column(
-              //         //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         //               crossAxisAlignment: CrossAxisAlignment.stretch,
-              //         //               children: <Widget>[
-              //         //                 Container(
-              //         //                   padding: EdgeInsets.only(top: 2),
-              //         //                   height: 17,
-              //         //                   child: Text(
-              //         //                     _list[4].title,
-              //         //                     textAlign: TextAlign.left,
-              //         //                     style: TextStyle(
-              //         //                       decoration: TextDecoration.none,
-              //         //                       color: Colors.white38,
-              //         //                       fontSize: 14.0,
-              //         //                     ),
-              //         //                   ),
-              //         //                 ),
-              //         //                 Container(
-              //         //                     child: SizedBox(
-              //         //                   height: 24,
-              //         //                   child: TextField(
-              //         //                     controller: _longitudeController,
-              //         //                     style: TextStyle(
-              //         //                         color: Colors.white, fontSize: 20),
-              //         //                     decoration: InputDecoration(
-              //         //                       border: InputBorder.none,
-              //         //                       hintText: _list[4].content,
-              //         //                       hintStyle: TextStyle(
-              //         //                           color: Colors.white, fontSize: 20),
-              //         //                     ),
-              //         //                   ),
-              //         //                 )),
-              //         //               ],
-              //         //             ),
-              //         //           ),
-              //         //         ),
-              //         //icon
-              //       ],
-              //     )
-              //     ),
             ],
           ),
         ),
@@ -879,67 +708,6 @@ class _AccountItemState extends State<AccountItem> {
     );
   }
 }
-
-// Material(
-// color: Color.fromRGBO(27,18,53,1),
-// child: Container(
-// padding: EdgeInsets.fromLTRB(10,0,10,0),
-// height: size.height * 0.11,
-// margin: EdgeInsets.fromLTRB(0,20,0,0),
-// decoration: BoxDecoration(
-// // borderRadius: BorderRadius.circular(10.0),
-// color: Color.fromRGBO(38, 30, 63, 1),
-// ),
-// child: Row(
-// children: <Widget>[
-// // CircleAvatar(
-// //   backgroundColor:Color.fromRGBO(29, 23, 47, 1),
-// //   child: Icon(
-// //     widget.item.icon,
-// //     color: Colors.white,
-// //   ),
-// // ),
-// SizedBox(width: 10.0,),
-// Container(
-// child: Flexible(
-// child: Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// children: [
-// // Text(
-// //   widget.item.title,
-// //   style: TextStyle(
-// //     color: Colors.white70,
-// //     fontSize: 12.0,
-// //   ),
-// // ),
-// TextField(
-// style: TextStyle(
-// color: Colors.white,
-// // fontSize: 12.0,
-// ),
-// decoration: InputDecoration(
-// label: Text('Ho'),
-// prefix: CircleAvatar(
-// radius: 15.0,
-// backgroundColor:Color.fromRGBO(29, 23, 47, 1),
-// child: Icon(
-// widget.item.icon,
-// color: Colors.white,
-// ),
-// ),
-// border: OutlineInputBorder(),
-// ),
-// controller: _controller,
-// ),
-// ],
-// ),
-// ),
-// ),
-//
-// ],
-// ),
-// ),
-// );
 
 class AccountInformation {
   IconData icon;

@@ -15,14 +15,15 @@ class LivePage extends StatelessWidget {
     return Scaffold(
       appBar: TopBar.getAppBarHome(size, context),
       body: Container(
-        constraints:
-            BoxConstraints(minHeight: size.height, minWidth: size.width),
-        padding: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage('assets/background/anh-sao-bang.jpg'),
-          fit: BoxFit.fitHeight,
-        )),
+        // constraints:
+        //     BoxConstraints(minHeight: size.height, minWidth: size.width),
+        // padding: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
+        // decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //   image: AssetImage('assets/background/anh-sao-bang.jpg'),
+        //   fit: BoxFit.fitHeight,
+        // )),
+        color: Color(0xff17384e),
         child: Column(
           children: [
             Padding(
@@ -35,7 +36,10 @@ class LivePage extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return Center(
-                        child: Text('Something went wrong!!'),
+                        child: Text(
+                          'Something went wrong!!',
+                          style: TextStyle(color: Colors.amber),
+                        ),
                       );
                     } else if (snapshot.hasData) {
                       return SlotList(slotModels: snapshot.data!);
@@ -52,7 +56,7 @@ class LivePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.purple.shade400,
+        color: Color(0xff031d2e),
         child: BottomBar(selected: "Live"),
       ),
     );

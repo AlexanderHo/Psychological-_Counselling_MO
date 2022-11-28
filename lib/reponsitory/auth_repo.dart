@@ -46,13 +46,6 @@ class AuthRepo extends ChangeNotifier {
     print(tokenDevice);
     final data = json.decode(res.body);
 
-    // if (data['message'] == "Login with role customer successful" ||
-    //     data['message'] == "Login with role consultant successful") {
-    //   return data;
-    // } else {
-    //   return "auth problem";
-    // }
-
     if (data['message'] == "Login with role customer successful") {
       prefs.setInt("idcustomer", data['idcustomer']);
       return AppRouter.push(HomeScreen());

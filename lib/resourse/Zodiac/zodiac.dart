@@ -1,6 +1,7 @@
 import 'package:astrology/Components/app_bar.dart';
 import 'package:astrology/reponsitory/current_user_shared_preferences.dart';
-import 'package:astrology/resourse/Daily/daily.dart';
+import 'package:astrology/resourse/Daily/DaiLyHocroscoe.dart';
+import 'package:astrology/resourse/Daily/NewDetail.dart';
 import 'package:astrology/resourse/Home/home.dart';
 import 'package:astrology/resourse/House/House.dart';
 import 'package:astrology/resourse/NatalChart/NatalChart.dart';
@@ -41,7 +42,8 @@ class _ZodiacPageState extends State<ZodiacPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DailyPage()),
+                    MaterialPageRoute(
+                        builder: (context) => DailyHocroscopePage()),
                   );
                 },
                 child: Container(

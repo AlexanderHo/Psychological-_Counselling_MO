@@ -58,7 +58,7 @@ class AstrologerPage extends StatelessWidget {
                                       Navigator.push(context, MaterialPageRoute(
                                         builder: (context) {
                                           return SearchScreen(
-                                              searchKey: "#Love");
+                                              searchKey: "Bạn bè");
                                         },
                                       ));
                                     },
@@ -68,7 +68,7 @@ class AstrologerPage extends StatelessWidget {
                                 ),
                                 Expanded(
                                     child: Text(
-                                  'Tình yêu',
+                                  'Bạn bè',
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 14),
                                 ))
@@ -95,7 +95,7 @@ class AstrologerPage extends StatelessWidget {
                                       Navigator.push(context, MaterialPageRoute(
                                         builder: (context) {
                                           return SearchScreen(
-                                              searchKey: "#Job");
+                                              searchKey: "Sự nghiệp");
                                         },
                                       ));
                                     },
@@ -105,7 +105,7 @@ class AstrologerPage extends StatelessWidget {
                                 ),
                                 Expanded(
                                     child: Text(
-                                  'Công việc',
+                                  'Sự nghiệp',
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 14),
                                 ))
@@ -132,7 +132,7 @@ class AstrologerPage extends StatelessWidget {
                                       Navigator.push(context, MaterialPageRoute(
                                         builder: (context) {
                                           return SearchScreen(
-                                              searchKey: "#marriage");
+                                              searchKey: "Gia Đình");
                                         },
                                       ));
                                     },
@@ -144,7 +144,7 @@ class AstrologerPage extends StatelessWidget {
                                 ),
                                 Expanded(
                                     child: Text(
-                                  'Hôn nhân',
+                                  'Gia Đình',
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 14),
                                 ))
@@ -208,7 +208,7 @@ class AstrologerPage extends StatelessWidget {
                                       Navigator.push(context, MaterialPageRoute(
                                         builder: (context) {
                                           return SearchScreen(
-                                              searchKey: "#Education");
+                                              searchKey: "Chuyên môn khác");
                                         },
                                       ));
                                     },
@@ -219,7 +219,7 @@ class AstrologerPage extends StatelessWidget {
                                 ),
                                 Expanded(
                                     child: Text(
-                                  'Giáo dục',
+                                  'Chuyên môn khác',
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 14),
                                 ))
@@ -236,7 +236,7 @@ class AstrologerPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: 600,
+                height: 598,
                 width: 500,
                 child: FutureBuilder<List<ConsultantModel>>(
                   future: fetchGeneralConsultantData(http.Client()),
@@ -260,7 +260,7 @@ class AstrologerPage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.purple.shade400,
+        color: Color(0xff031d2e),
         child: BottomBar(selected: "Consultant"),
       ),
     );
@@ -280,14 +280,14 @@ class ConsulList extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                     context,
-                    // MaterialPageRoute(
-                    //     builder: (context) => AstroDetailPage(
-                    //           consulId: consulModels[index].id,
-                    //         )),
                     MaterialPageRoute(
-                      builder: (context) =>
-                          SlotBookingPage(consultantId: consulModels[index].id),
-                    ));
+                        builder: (context) => AstroDetailPage(
+                              consulId: consulModels[index].id,
+                            )));
+                // MaterialPageRoute(
+                //   builder: (context) =>
+                //       SlotBookingPage(consultantId: consulModels[index].id),
+                // ));
               },
               child: ConsulItem(
                 item: consulModels[index],
@@ -336,7 +336,7 @@ class ConsulItem extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      item.fullName,
+                      item.fullName!,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Color.fromARGB(179, 25, 25, 25),
@@ -345,7 +345,7 @@ class ConsulItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Kinh nghiệm :' + experience.toString() + ' năm',
+                      'Kinh nghiệm : Cấp ' + experience.toString(),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Color.fromARGB(179, 23, 23, 23),
@@ -354,7 +354,7 @@ class ConsulItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Địa chỉ : ' + item.address ?? '',
+                      'Địa chỉ : ' + item.address! ?? '',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Color.fromARGB(179, 23, 23, 23),
@@ -381,6 +381,7 @@ class ConsulItem extends StatelessWidget {
                             onRatingUpdate: (rating) {
                               print(rating);
                             },
+                            ignoreGestures: true,
                           ),
                         ],
                       ),

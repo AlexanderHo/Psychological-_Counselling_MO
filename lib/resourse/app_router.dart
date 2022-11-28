@@ -10,4 +10,7 @@ class AppRouter {
 
   static pushAndRemove(Widget page) => navigatorKey.currentState
       ?.pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+
+  static out(Widget page) => navigatorKey.currentState
+      ?.pushNamedAndRemoveUntil('/customer', (Route<dynamic> route) => false);
 }

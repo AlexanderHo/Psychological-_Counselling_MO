@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'package:astrology/model/Match_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -60,7 +62,12 @@ Future<String> getIDToken() async {
   return token;
 }
 
-Future<String> matching(int profileId) async {
+MatchModel parseMatchModels(Map<String, dynamic> responseBody) {
+  // final parsed = jsonDecode(responseBody);
+  return MatchModel.fromJson(responseBody);
+}
+
+Future<MatchModel> matching(int profileId) async {
   var pref = await SharedPreferences.getInstance();
   int? id = CurrentUser.getUserId() ?? 0;
   var res = await http.Client().get(
@@ -70,11 +77,13 @@ Future<String> matching(int profileId) async {
         'accept': '*/*',
       });
 
-  final data = json.decode(res.body);
-  print(data);
-  print(data['data']);
-  pref.setString("matching", data['data']);
-  return data['data'];
+  Map<String, dynamic> map = jsonDecode(res.body);
+  log(res.body);
+  if (res.statusCode == 200) {
+    return parseMatchModels(map);
+  } else {
+    throw Exception('Failed to load Matching');
+  }
 }
 
 getMatch() async {
@@ -84,7 +93,8 @@ getMatch() async {
 }
 
 Future<void> addRegister(
-    TextEditingController emailController,
+    // TextEditingController
+    emailController,
     fullnameController,
     usernameController,
     passwordController,
@@ -96,7 +106,7 @@ Future<void> addRegister(
     double? latitude,
     double? longitude) async {
   String bearer = await getIDToken();
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  // final SharedPreferences prefs = await SharedPreferences.getInstance();
   // String email = emailController.text;
   // prefs.setString('emailConsultant', email);
   // final String? token = prefs.getString('token');
@@ -115,25 +125,29 @@ Future<void> addRegister(
       'gender': gender,
       'phone': phoneController.text,
       'imageUrl': avatarURL,
-      'longtitude': longitude.toString(),
+      'longitude': longitude.toString(),
       'latitude': latitude.toString(),
     });
     print(body);
     final response = await http.post(
         Uri.parse(
-            "https://psycteam.azurewebsites.net/api/Users/createcustomer"),
+            "https://psycteam.azurewebsites.net/api/Users/createcustomerv2"),
         body: body,
-        headers: {"content-type": "application/json"});
+        headers: {'accept': 'text/plain', 'content-type': 'application/json'});
 
     final response2 = await http.put(
         Uri.parse("https://psycteam.azurewebsites.net/api/Customers/update"),
         body: body2,
-        headers: {"Content-Type": "*/*", "Authorization": "Bearer $bearer"});
-
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + bearer,
+          'accept': '*/*',
+        });
     print("api len");
-    print(response.statusCode);
-
-    print(response2.statusCode);
+    print(response.body);
+    // print(response.statusCode);
+    print(response2.body);
+    // print(response2.statusCode);
     print("api 2 len");
     if (response.statusCode == 200 && response2.statusCode == 200) {
       print("regis success");
@@ -149,7 +163,7 @@ Future<void> addRegister(
     } else {
       print("fail regis");
       Fluttertoast.showToast(
-          msg: "Đăng Kí không thành công",
+          msg: 'Email hoặc tên đăng nhập đã có. Vui lòng đk khác',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,

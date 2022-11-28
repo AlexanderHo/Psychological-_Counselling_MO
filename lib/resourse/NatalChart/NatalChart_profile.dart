@@ -1,8 +1,10 @@
 import 'package:astrology/model/Deposit_model.dart';
+import 'package:astrology/model/Match_model.dart';
 import 'package:astrology/reponsitory/current_user_shared_preferences.dart';
 import 'package:astrology/reponsitory/deposit_.dart';
 import 'package:astrology/reponsitory/user_.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NatalChartProfilePage extends StatefulWidget {
@@ -17,7 +19,7 @@ class NatalChartProfilePage extends StatefulWidget {
 }
 
 class _NatalChartProfilePageState extends State<NatalChartProfilePage> {
-  late Future<String> match;
+  late Future<MatchModel> match;
   @override
   void initState() {
     // TODO: implement initState
@@ -58,22 +60,22 @@ class _NatalChartProfilePageState extends State<NatalChartProfilePage> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("Sơ đồ sao của : " + widget.name,
+                Text("Cung hoàng đạo của : " + widget.name,
                     style: TextStyle(
-                      color: Colors.white70,
+                      color: Colors.amber,
                       fontWeight: FontWeight.bold,
                       fontSize: 25.0,
                     )),
-                Container(
-                  height: size.height * 0.5,
-                  width: size.width * 0.855,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: NetworkImage(widget.chart),
-                    fit: BoxFit.fill,
-                  )),
-                ),
-                FutureBuilder<String>(
+                // Container(
+                //   height: size.height * 0.5,
+                //   width: size.width * 0.855,
+                //   decoration: BoxDecoration(
+                //       image: DecorationImage(
+                //     image: NetworkImage(widget.chart),
+                //     fit: BoxFit.fill,
+                //   )),
+                // ),
+                FutureBuilder<MatchModel>(
                   future: match,
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
@@ -100,7 +102,7 @@ class _NatalChartProfilePageState extends State<NatalChartProfilePage> {
 }
 
 class ShowDetail extends StatelessWidget {
-  String item;
+  MatchModel item;
   ShowDetail({required this.item});
   @override
   Widget build(BuildContext context) {
@@ -110,13 +112,54 @@ class ShowDetail extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          Html(
+            data: item.zodiacprofile,
+            style: {
+              "strong": Style(
+                color: Colors.white,
+                fontSize: FontSize.larger,
+              ),
+              "p": Style(
+                color: Colors.white70,
+                fontSize: FontSize.large,
+              ),
+            },
+          ),
+          SizedBox(
+            height: 15.0,
+          ),
+          Text("Cung hoàng đạo của bạn ",
+              style: TextStyle(
+                color: Colors.amber,
+                fontWeight: FontWeight.bold,
+                fontSize: 25.0,
+              )),
+          Container(
+            padding: EdgeInsets.fromLTRB(15.0, 0, 15.0, 0),
+            child: Html(
+              data: item.zodiaccustomer,
+              style: {
+                "strong": Style(
+                  color: Colors.white70,
+                  fontSize: FontSize.larger,
+                ),
+                "p": Style(
+                  color: Colors.white70,
+                  fontSize: FontSize.large,
+                ),
+              },
+            ),
+          ),
           Text(
-            "Độ phù hợp là : " + item,
+            "Độ phù hợp là : " + item.compatibility,
             style: TextStyle(
-              color: Colors.white70,
+              color: Colors.amber[600],
               fontWeight: FontWeight.bold,
               fontSize: 25.0,
             ),
+          ),
+          SizedBox(
+            height: 10.0,
           ),
         ],
       ),

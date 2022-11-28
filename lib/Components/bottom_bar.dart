@@ -115,8 +115,8 @@ import 'package:astrology/resourse/Chat/chat.dart';
 // }
 class BottomBar extends StatelessWidget {
   String selected = "";
-  Color colorSelected = Colors.white;
-  Color colorNormal = Color.fromRGBO(87, 79, 79, 1);
+  Color colorSelected = Color(0xFFff7010);
+  Color colorNormal = Colors.white;
   BottomBar({required this.selected});
   @override
   Widget build(BuildContext context) {
@@ -141,12 +141,12 @@ class BottomBar extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/icon/home.png",
-                    color: Colors.white,
+                    color: colorSelected,
                     width: size.width * 0.09,
                   ),
                   Text(
                     "Home",
-                    style: TextStyle(fontSize: 12, color: Colors.white),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                   )
                 ],
               ),
@@ -166,18 +166,18 @@ class BottomBar extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/icon/home.png",
-                    color: Colors.black45,
+                    color: colorNormal,
                     width: size.width * 0.09,
                   ),
                   Text(
                     "Home",
-                    style: TextStyle(fontSize: 12, color: Colors.black45),
+                    style: TextStyle(fontSize: 12, color: Colors.white60),
                   )
                 ],
               ),
             ),
           //=============================================================APPOINTMENT
-          if (selected == "Call")
+          if (selected == "Chat")
             GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(
@@ -191,13 +191,13 @@ class BottomBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    "assets/icon/call_icon.png",
-                    color: Colors.white,
+                    "assets/icon/chat.png",
+                    color: colorSelected,
                     width: size.width * 0.09,
                   ),
                   Text(
                     "Call",
-                    style: TextStyle(fontSize: 12, color: Colors.white),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                   )
                 ],
               ),
@@ -216,13 +216,13 @@ class BottomBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    "assets/icon/call_icon.png",
-                    color: Colors.black45,
+                    "assets/icon/chat.png",
+                    color: colorNormal,
                     width: size.width * 0.09,
                   ),
                   Text(
-                    "Call",
-                    style: TextStyle(fontSize: 12, color: Colors.black45),
+                    "Chat",
+                    style: TextStyle(fontSize: 12, color: Colors.white60),
                   )
                 ],
               ),
@@ -243,12 +243,12 @@ class BottomBar extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/icon/consul_icon.png",
-                    color: Colors.white,
+                    color: colorSelected,
                     width: size.width * 0.09,
                   ),
                   Text(
                     "Consultant",
-                    style: TextStyle(fontSize: 12, color: Colors.white),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                   )
                 ],
               ),
@@ -269,12 +269,12 @@ class BottomBar extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/icon/consul_icon.png",
-                    color: Colors.black45,
+                    color: colorNormal,
                     width: size.width * 0.09,
                   ),
                   Text(
                     "Consultant",
-                    style: TextStyle(fontSize: 12, color: Colors.black45),
+                    style: TextStyle(fontSize: 12, color: Colors.white60),
                   )
                 ],
               ),
@@ -321,12 +321,12 @@ class BottomBar extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/icon/live.png",
-                    color: Colors.white,
+                    color: colorSelected,
                     width: size.width * 0.09,
                   ),
                   Text(
                     "Live",
-                    style: TextStyle(fontSize: 12, color: Colors.white),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                   )
                 ],
               ),
@@ -346,12 +346,12 @@ class BottomBar extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/icon/live.png",
-                    color: Colors.black45,
+                    color: colorNormal,
                     width: size.width * 0.09,
                   ),
                   Text(
                     "Live",
-                    style: TextStyle(fontSize: 12, color: Colors.black45),
+                    style: TextStyle(fontSize: 12, color: Colors.white60),
                   ),
                 ],
               ),
@@ -372,12 +372,12 @@ class BottomBar extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/icon/appointment.png",
-                    color: Colors.white,
+                    color: colorSelected,
                     width: size.width * 0.09,
                   ),
                   Text(
                     "Schedule",
-                    style: TextStyle(fontSize: 12, color: Colors.white),
+                    style: TextStyle(fontSize: 14, color: Colors.white),
                   )
                 ],
               ),
@@ -397,12 +397,12 @@ class BottomBar extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/icon/appointment.png",
-                    color: Colors.black45,
+                    color: colorNormal,
                     width: size.width * 0.09,
                   ),
                   Text(
                     "Schedule",
-                    style: TextStyle(fontSize: 12, color: Colors.black45),
+                    style: TextStyle(fontSize: 12, color: Colors.white60),
                   )
                 ],
               ),

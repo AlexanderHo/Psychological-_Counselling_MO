@@ -33,14 +33,15 @@ class _AppointmentPageState extends State<AppointmentPage> {
     return Scaffold(
       appBar: TopBar.getAppBarHome(size, context),
       body: Container(
-        constraints:
-            BoxConstraints(minHeight: size.height, minWidth: size.width),
-        padding: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage('assets/background/anh-sao-bang.jpg'),
-          fit: BoxFit.fitHeight,
-        )),
+        // constraints:
+        //     BoxConstraints(minHeight: size.height, minWidth: size.width),
+        // padding: EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
+        // decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //   image: AssetImage('assets/background/anh-sao-bang.jpg'),
+        //   fit: BoxFit.fitHeight,
+        // )),
+        color: Color(0xff17384e),
         child: Column(
           children: [
             Container(
@@ -81,7 +82,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: 268,
+                height: 267,
                 width: 500,
                 child: FutureBuilder<List<SlotModel>>(
                   future: slot,
@@ -105,7 +106,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.purple.shade400,
+        color: Color(0xff031d2e),
         child: BottomBar(selected: "schedule"),
       ),
     );
@@ -318,7 +319,7 @@ class slotItem extends StatelessWidget {
                             ),
                             child: OutlinedButton(
                               onPressed: () {
-                                room = fetchRoom(item.id);
+                                room = fetchRoom(item.id, item.bookingId!);
                               },
                               child: Text(
                                 'Tham gia',

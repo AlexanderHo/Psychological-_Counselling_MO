@@ -1,6 +1,4 @@
-import 'package:astrology/resourse/Home/home.dart';
-import 'package:astrology/resourse/app_router.dart';
-import 'package:astrology/resourse/profile/account.dart';
+import 'package:astrology/reponsitory/update-Image_.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +17,8 @@ class EditAccountPage extends StatefulWidget {
 }
 
 class _EditAccountPageState extends State<EditAccountPage> {
-  // XFile? image;
+  File? _imageFile;
+  String? urlImage;
   DateTime? birthDate;
   DateFormat formatDate = DateFormat('yyyy-MM-dd');
   String _name = CurrentUser.getCurrentUserName() ?? '';
@@ -28,11 +27,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
 
   String _place = CurrentUser.getPlace() ?? '';
 
-  // double _latitude = CurrentUser.getLatitude() ?? 0.0;
-
-  // double _longitude = CurrentUser.getLongitude() ?? 0.0;
-
-  String _imageLink = CurrentUser.getAvatarLink() ?? '';
+  String? _imageLink = CurrentUser.getAvatarLink() ?? '';
 
   String _gender = CurrentUser.getGender() ?? '';
 
@@ -49,32 +44,39 @@ class _EditAccountPageState extends State<EditAccountPage> {
         icon: Icons.cake, title: 'Ngày sinh', content: '28-09-2000'),
     AccountInformation(
         icon: Icons.place, title: 'Nơi sinh', content: '12:52:52'),
-    // AccountInformation(
-    //     icon: Icons.circle, title: 'Vĩ độ', content: 'Chọn địa chỉ'),
-    // AccountInformation(
-    //     icon: Icons.radar, title: 'Kinh độ', content: 'Chọn địa chỉ'),
   ];
 
-  Future pickImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image == null) return;
-    // final res = await uploadImage(image.path);
-    // setState(() {
-    //   _imageLink = res;
-    // });
+  _getFromCamera() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+        loadImageCustomer(_imageFile!);
+        _imageLink = CurrentUser.getAvatarLink() ?? '';
+        Navigator.of(context).pop();
+      });
+    }
   }
 
-  // void _onClicked() {
-  //   setState(() {
-  //     _isFemale = false;
-  //   });
-  // }
-
-  // void _onClicked1() {
-  //   setState(() {
-  //     _isFemale = true;
-  //   });
-  // }
+  _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+        loadImageCustomer(_imageFile!);
+        _imageLink = CurrentUser.getlink();
+        Navigator.of(context).pop();
+      });
+    }
+  }
 
   final _nameController = TextEditingController();
   String name = '';
@@ -88,14 +90,23 @@ class _EditAccountPageState extends State<EditAccountPage> {
   // final _longitudeController = TextEditingController();
   // double longitude = 0.0;
 
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _dateController.dispose();
+    _placeController.dispose();
+    // _latitudeController.dispose();
+    // _longitudeController.dispose();
+    super.dispose();
+  }
+
   // @override
-  // void dispose() {
-  //   _nameController.dispose();
-  //   _dateController.dispose();
-  //   _placeController.dispose();
-  //   // _latitudeController.dispose();
-  //   // _longitudeController.dispose();
-  //   super.dispose();
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   setState(() {
+  //     _imageLink = CurrentUser.getlink();
+  //   });
   // }
 
   @override
@@ -126,65 +137,66 @@ class _EditAccountPageState extends State<EditAccountPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 15.0, 5.0, 15.0),
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side: BorderSide(
-                            color: Color.fromRGBO(0, 117, 255, 1),
-                          )))),
-              onPressed: () {
-                name = _nameController.text;
-                if (name.isEmpty) {
-                  setState(() {
-                    name = _name;
-                  });
-                }
-                date = _dateController.text;
-                if (date.isEmpty) {
-                  setState(() {
-                    date = _date;
-                  });
-                }
-                place = _placeController.text;
-                if (place.isEmpty) {
-                  setState(() {
-                    place = _place;
-                  });
-                }
-                // _date = formatDate.format(birthDate!);
-                // latitude = double.parse(_latitudeController.text);
-                // if(latitude == 0){
-                //   setState(() {
-                //     latitude = _latitude;
-                //   });
-                // }
-                // longitude = double.parse(_longitudeController.text);
-                // if(longitude == 0){
-                //   setState(() {
-                //     longitude=_longitude;
-                //   });
-                // // }
-                updateProfile(userId, name, place, _gender);
+        // actions: [
+        //   Padding(
+        //     padding: EdgeInsets.fromLTRB(0, 15.0, 5.0, 15.0),
+        //     child: ElevatedButton(
+        //       style: ButtonStyle(
+        //           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        //               RoundedRectangleBorder(
+        //                   borderRadius: BorderRadius.circular(10.0),
+        //                   side: BorderSide(
+        //                     color: Color.fromRGBO(0, 117, 255, 1),
+        //                   )))),
+        //       onPressed: () {
+        //         name = _nameController.text;
+        //         if (name.isEmpty) {
+        //           setState(() {
+        //             name = _name;
+        //           });
+        //         }
+        //         date = _dateController.text;
+        //         if (date.isEmpty) {
+        //           setState(() {
+        //             date = _date;
+        //           });
+        //         }
+        //         place = _placeController.text;
+        //         if (place.isEmpty) {
+        //           setState(() {
+        //             place = _place;
+        //           });
+        //         }
+        //         // _date = formatDate.format(birthDate!);
+        //         // latitude = double.parse(_latitudeController.text);
+        //         // if(latitude == 0){
+        //         //   setState(() {
+        //         //     latitude = _latitude;
+        //         //   });
+        //         // }
+        //         // longitude = double.parse(_longitudeController.text);
+        //         // if(longitude == 0){
+        //         //   setState(() {
+        //         //     longitude=_longitude;
+        //         //   });
+        //         // // }
+        //         updateProfile(userId, name, place, _gender, _imageLink!);
+        //         // updateProfile(userId, name, place, _gender);
 
-                CurrentUser.updateCurrentUser(
-                    name, date, place, _gender, _imageLink);
-                // AppRouter.push(HomeScreen());
-              },
-              child: Text(
-                'Done',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
+        //         CurrentUser.updateCurrentUser(
+        //             name, date, place, _gender, _imageLink!);
+        //         // AppRouter.push(HomeScreen());
+        //       },
+        //       child: Text(
+        //         'Lưu',
+        //         style: TextStyle(
+        //           color: Colors.white,
+        //           fontWeight: FontWeight.bold,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -201,7 +213,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15.0),
                     image: DecorationImage(
-                      image: NetworkImage(_imageLink),
+                      image: NetworkImage(_imageLink!),
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -211,7 +223,56 @@ class _EditAccountPageState extends State<EditAccountPage> {
                         bottom: 0,
                         right: 0,
                         child: GestureDetector(
-                          onTap: () => pickImage(),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: Center(
+                                          child:
+                                              const Text("Chọn ảnh của bạn?")),
+                                      actions: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            TextButton.icon(
+                                              icon: Icon(
+                                                Icons.camera_alt_outlined,
+                                                color: Colors.blueGrey[200],
+                                              ),
+                                              label: Center(
+                                                  child: Text(
+                                                'Chọn ảnh từ camera',
+                                              )),
+                                              onPressed: () {
+                                                _getFromCamera();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            TextButton.icon(
+                                              icon: Icon(
+                                                Icons.photo_album_outlined,
+                                                color: Colors.blueGrey[200],
+                                              ),
+                                              label: Center(
+                                                child: Text('Chọn ảnh có sẵn'),
+                                              ),
+                                              onPressed: () {
+                                                _getFromGallery();
+                                              },
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )).then((value) => exitCode);
+                          },
                           child: CircleAvatar(
                             backgroundColor: Colors.white,
                             child: Icon(
@@ -412,7 +473,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     .toList(),
                 validator: (value) {
                   if (value == null) {
-                    return 'Please select gender.';
+                    return 'Giới tính';
                   }
                 },
                 onChanged: (value) {
@@ -672,6 +733,65 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   )),
               SizedBox(
                 height: size.height * 0.01,
+              ),
+
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 15.0, 5.0, 15.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(
+                                color: Color.fromRGBO(0, 117, 255, 1),
+                              )))),
+                  onPressed: () {
+                    name = _nameController.text;
+                    if (name.isEmpty) {
+                      setState(() {
+                        name = _name;
+                      });
+                    }
+                    date = _dateController.text;
+                    if (date.isEmpty) {
+                      setState(() {
+                        date = _date;
+                      });
+                    }
+                    place = _placeController.text;
+                    if (place.isEmpty) {
+                      setState(() {
+                        place = _place;
+                      });
+                    }
+                    // _date = formatDate.format(birthDate!);
+                    // latitude = double.parse(_latitudeController.text);
+                    // if(latitude == 0){
+                    //   setState(() {
+                    //     latitude = _latitude;
+                    //   });
+                    // }
+                    // longitude = double.parse(_longitudeController.text);
+                    // if(longitude == 0){
+                    //   setState(() {
+                    //     longitude=_longitude;
+                    //   });
+                    // // }
+                    updateProfile(userId, name, place, _gender, _imageLink!);
+                    // updateProfile(userId, name, place, _gender);
+
+                    CurrentUser.updateCurrentUser(
+                        name, date, place, _gender, _imageLink!);
+                    // AppRouter.push(HomeScreen());
+                  },
+                  child: Text(
+                    'Lưu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

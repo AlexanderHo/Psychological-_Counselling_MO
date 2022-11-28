@@ -35,7 +35,7 @@ class _DepositPageState extends State<DepositPage> {
                     children: <Widget>[
                       //Icon
                       Container(
-                        height: size.height * 0.068,
+                        height: size.height * 0.09,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
                           border: Border.all(color: Colors.black54),
@@ -66,45 +66,27 @@ class _DepositPageState extends State<DepositPage> {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          top: size.height * 0.002),
-                                      height: size.height * 0.019,
-                                      // child: const Text(
-                                      //   'Số cua',
-                                      //   textAlign: TextAlign.left,
-                                      //   style: TextStyle(
-                                      //     decoration: TextDecoration.none,
-                                      //     color: Colors.white38,
-                                      //     fontSize: 14.0,
-                                      //   ),
-                                      // ),
-                                    ),
-                                    Container(
-                                        child: SizedBox(
-                                      height: size.height * 0.027,
+                                    Form(
+                                      key: _formKey,
                                       child: TextFormField(
                                         controller: amountController,
-                                        validator: ((amountController) {
-                                          if (amountController!.isEmpty) {
+                                        validator: ((value) {
+                                          if (value!.isEmpty) {
                                             return 'Làm ơn nhập số tiền cần nạp';
-                                          } else if (int.parse(
-                                                      amountController) <
-                                                  20 ||
-                                              int.parse(amountController) >
-                                                  1000) {
+                                          } else if (int.parse(value) < 20 ||
+                                              int.parse(value) > 20000) {
                                             return 'Tiền nạp từ 20 đến 1000 cua';
                                           }
                                           return null;
                                         }),
-                                        maxLength: 4,
+                                        // maxLength: 4,
                                         keyboardType: TextInputType.number,
                                         style: const TextStyle(
                                             color: Colors.black87,
-                                            fontSize: 20),
+                                            fontSize: 21.5),
                                         decoration: const InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: 'Số cua',
+                                          hintText: 'Số Gem',
                                           hintStyle: TextStyle(
                                               color: Colors.black,
                                               fontSize: 20),
@@ -114,7 +96,7 @@ class _DepositPageState extends State<DepositPage> {
                                         //   AutofillHints.creditCardNumber
                                         // ],
                                       ),
-                                    )),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -125,12 +107,15 @@ class _DepositPageState extends State<DepositPage> {
                               child: const Icon(
                                 Icons.edit,
                                 size: 16,
-                                color: Colors.white,
+                                color: Colors.black87,
                               ),
                             ),
                           ],
                         ),
                       ),
+                      Text(
+                          '*1 Gem = 1.000 VND.\n* Bạn có thể nạp từ 20 đến 20.000 Gem.',
+                          style: TextStyle(color: Colors.red, fontSize: 12)),
                       Container(
                           margin: EdgeInsets.only(top: marginBetween),
                           child: GroupButton(
@@ -172,19 +157,23 @@ class _DepositPageState extends State<DepositPage> {
                         child: OutlinedButton(
                           onPressed: () {
                             if (methodController.selectedIndex == 0) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        MomoPage(amount: amountController)),
-                              );
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MomoPage(amount: amountController)),
+                                );
+                              }
                             } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        BakingPage(amount: amountController)),
-                              );
+                              if (_formKey.currentState!.validate()) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BakingPage(amount: amountController)),
+                                );
+                              }
                             }
                           },
                           child: Text(

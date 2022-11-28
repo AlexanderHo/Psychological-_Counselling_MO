@@ -37,7 +37,8 @@ class _QuestionPageState extends State<QuestionPage> {
     // TODO: implement initState
     super.initState();
     ques = fetchQuestion(widget.SurveyId);
-
+    answer.clear();
+    btnText = "Next Question";
     _controller = PageController(initialPage: 0);
   }
 
@@ -100,7 +101,7 @@ class _QuesListState extends State<QuesList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    ans = fetchOption(1);
+    // ans = fetchOption(widget.quesModels![index].id);
   }
 
   @override
@@ -108,6 +109,7 @@ class _QuesListState extends State<QuesList> {
     Size size = MediaQuery.of(context).size;
     return PageView.builder(
       scrollDirection: Axis.horizontal,
+      physics: NeverScrollableScrollPhysics(),
       controller: _controller!,
       onPageChanged: (page) {
         if (page == widget.quesModels!.length - 1) {
@@ -138,7 +140,8 @@ class _QuesListState extends State<QuesList> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "Question ${index + 1}/15",
+                  "Question ${index + 1}/" +
+                      widget.quesModels!.length.toString(),
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     color: Colors.black,
@@ -209,7 +212,7 @@ class _QuesListState extends State<QuesList> {
                 height: 400,
                 width: 420,
                 child: FutureBuilder<List<OptionModel>>(
-                  future: ans,
+                  future: fetchOption(widget.quesModels![index].id),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return Center(
@@ -229,38 +232,38 @@ class _QuesListState extends State<QuesList> {
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  RawMaterialButton(
-                    // disabledElevation: _controller!.page?.toInt() == 0?0.0:,
-                    onPressed: () {
-                      if (_controller!.page?.toInt() == 0) {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             ResultPage(answer: answer)));
-                        // answer.clear();
-                      } else {
-                        _controller!.previousPage(
-                            duration: Duration(milliseconds: 250),
-                            curve: Curves.easeInExpo);
+                  // RawMaterialButton(
+                  //   // disabledElevation: _controller!.page?.toInt() == 0?0.0:,
+                  //   onPressed: () {
+                  //     if (_controller!.page?.toInt() == 0) {
+                  //       // Navigator.push(
+                  //       //     context,
+                  //       //     MaterialPageRoute(
+                  //       //         builder: (context) =>
+                  //       //             ResultPage(answer: answer)));
+                  //       // answer.clear();
+                  //     } else {
+                  //       _controller!.previousPage(
+                  //           duration: Duration(milliseconds: 250),
+                  //           curve: Curves.easeInExpo);
 
-                        // AppRouter.push(QuestionPage(SurveyId: 1));
-                        setState(() {
-                          ans = fetchOption(widget.quesModels![index].id - 1);
-                        });
-                      }
-                    },
-                    shape: StadiumBorder(),
-                    fillColor: Colors.blue,
-                    padding: EdgeInsets.all(18.0),
-                    elevation: 0.0,
-                    child: Text(
-                      btnTextP,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  //       // AppRouter.push(QuestionPage(SurveyId: 1));
+                  //       setState(() {
+                  //         ans = fetchOption(widget.quesModels![index].id - 1);
+                  //       });
+                  //     }
+                  //   },
+                  //   shape: StadiumBorder(),
+                  //   fillColor: Colors.blue,
+                  //   padding: EdgeInsets.all(18.0),
+                  //   elevation: 0.0,
+                  //   child: Text(
+                  //     btnTextP,
+                  //     style: TextStyle(color: Colors.white),
+                  //   ),
+                  // ),
                   RawMaterialButton(
                     onPressed: () {
                       if (_controller!.page?.toInt() ==
@@ -270,6 +273,7 @@ class _QuesListState extends State<QuesList> {
                             MaterialPageRoute(
                                 builder: (context) =>
                                     ResultPage(answer: answer)));
+                        // dispose();
                         // answer.clear();
                       } else {
                         _controller!.nextPage(
@@ -340,14 +344,16 @@ class _OptionListState extends State<OptionList> {
                 //   ),
                 // );
                 // answer.add(widget.ansModels![index].id);
-                print(answer);
+
                 setState(() {
                   if (_isSelected) {
                     _selectedIndexs.remove(index);
-                    answer.add(widget.ansModels![index].id);
+                    answer.remove(widget.ansModels![index].id);
+                    print(answer);
                   } else {
                     _selectedIndexs.add(index);
-                    // answer.remove(widget.ansModels![index].id);
+                    answer.add(widget.ansModels![index].id);
+                    print(answer);
                   }
                 });
               },

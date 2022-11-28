@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:astrology/reponsitory/current_user_shared_preferences.dart';
 import 'package:astrology/resourse/Home/home.dart';
 import 'package:astrology/resourse/app_router.dart';
+import 'package:astrology/resourse/profile/account.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -15,8 +16,9 @@ Future<void> addProfile(
     String name,
     String date,
     String place,
-    /* double latitude,
-    double longitude, String profilePhoto,*/
+    double latitude,
+    double longitude,
+    /*String profilePhoto,*/
     String gender,
     int userId) async {
   log(userId.toString());
@@ -32,27 +34,46 @@ Future<void> addProfile(
         "name": name,
         "dob": date,
         "birthPlace": place,
-        // 'latitude': latitude,
-        // 'longtitude': longitude,
+        'latitude': latitude.toString(),
+        'longitude': longitude.toString(),
         "gender": gender,
-        "status": "active",
+        // "status": "active",
         // 'profilePhoto': profilePhoto,
         "customerId": userId
       }));
   final a = response;
   log(a.statusCode.toString());
+  if (response.statusCode == 200) {
+    Fluttertoast.showToast(
+        msg: "Thêm hồ sơ thành công",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Color.fromARGB(255, 108, 219, 113),
+        textColor: Colors.black54,
+        fontSize: 16.0);
+    AppRouter.push(AccountPage());
+  } else {
+    Fluttertoast.showToast(
+        msg: "Thêm hồ sơ thất bại",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red.shade200,
+        textColor: Colors.black54,
+        fontSize: 16.0);
+  }
 }
 
 Future<void> updateProfile(
-  int profileId,
-  String name,
-  // String date,
-  String place,
-  // double latitude,
-  // double longitude,
-  String gender,
-  // String profilePhoto
-) async {
+    int profileId,
+    String name,
+    // String date,
+    String place,
+    // double latitude,
+    // double longitude,
+    String gender,
+    String profilePhoto) async {
   String? email = CurrentUser.getEmail();
   String bearer = await getIDToken();
   String url = 'https://psycteam.azurewebsites.net/api/Customers/update';
@@ -68,6 +89,7 @@ Future<void> updateProfile(
         'email': email,
         "address": '$place',
         "gender": '$gender',
+        "imageUrl": '$profilePhoto',
       }));
   final a = response;
   if (response.statusCode == 200) {

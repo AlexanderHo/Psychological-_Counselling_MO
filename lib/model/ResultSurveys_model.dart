@@ -3,6 +3,6 @@ class ResultModel {
 
   ResultModel({required this.linkresult});
   factory ResultModel.fromJson(Map<String, dynamic> json) {
-    return ResultModel(linkresult: json['linkresult']);
+    return ResultModel(linkresult: json['linkresult'] as String);
   }
 }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'Component/Search_bar.dart';
 
 class SearchScreen extends StatelessWidget {
-  String searchKey = "";
+  String searchKey;
   SearchScreen({required this.searchKey});
 
   @override

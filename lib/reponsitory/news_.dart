@@ -6,7 +6,7 @@ import '../model/news_model.dart';
 
 List<NewsModel> parseNewsData(List responseBody) {
   return responseBody
-      .map<NewsModel>((json) => NewsModel.fromJson(json))
+      .map<NewsModel>((json) => NewsModel.fromGeneralJson(json))
       .toList();
 }
 
@@ -21,7 +21,7 @@ Future<List<NewsModel>> fetchNewsData(http.Client client) async {
     },
   );
   Map map = jsonDecode(response.body);
-  return parseNewsData(map['payload']);
+  return parseNewsData(map['data']);
 }
 
 Future<String> getIDToken() async {
@@ -29,7 +29,7 @@ Future<String> getIDToken() async {
   String pass = "admin1245";
   var res = await http.Client().post(
       Uri.parse(
-          'https://www.psychologicalcounselingv1.somee.com/api/FirebaseServices/loginadmin/'),
+          'https://psycteam.azurewebsites.net/api/FirebaseServices/loginadmin/'),
       headers: <String, String>{
         'accept': '*/*',
         'Content-Type': 'application/json'
@@ -42,4 +42,28 @@ Future<String> getIDToken() async {
   String token = data['jwttoken'];
   print('token: ' + token);
   return token;
+}
+
+NewsModel parseNewDetailModels(Map<String, dynamic> responseBody) {
+  // final parsed = jsonDecode(responseBody);
+  return NewsModel.fromJson(responseBody);
+}
+
+Future<NewsModel> fetchNewDetailData(int id) async {
+  String bearer = await getIDToken();
+  var response = await http.get(
+    Uri.parse('https://psycteam.azurewebsites.net/api/Articles/getbyid?id=' +
+        id.toString()),
+    headers: <String, String>{
+      'accept': '*/*',
+      'Authorization': 'Bearer ' + bearer,
+    },
+  );
+  var jsonString = jsonDecode(response.body);
+  Map<String, dynamic> map = jsonDecode(response.body);
+  if (response.statusCode == 200) {
+    return parseNewDetailModels(map['data'][0]);
+  } else {
+    throw Exception('Failed to load planet');
+  }
 }

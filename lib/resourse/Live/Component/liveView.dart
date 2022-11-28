@@ -1,30 +1,26 @@
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
-import 'package:astrology/reponsitory/booking_.dart';
-import 'package:astrology/resourse/Home/home.dart';
-import 'package:astrology/resourse/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:astrology/resourse/Call/Components/setting.dart';
 
-class BodyCall extends StatefulWidget {
+class BodyLive extends StatefulWidget {
   final String? chanelName;
   final ClientRole? role;
   final String? token;
-  final int? bookingId;
 
-  const BodyCall(
-      {Key? key, this.chanelName, this.role, this.token, this.bookingId})
-      : super(key: key);
+  const BodyLive({
+    Key? key,
+    this.chanelName,
+    this.role,
+    this.token,
+  }) : super(key: key);
 
   @override
-  State<BodyCall> createState() => _BodyCallState();
+  State<BodyLive> createState() => _BodyLiveState();
 }
 
-class _BodyCallState extends State<BodyCall> {
-  TextEditingController? feedback = TextEditingController();
-  TextEditingController? rate = TextEditingController();
-  final _reasonKey = GlobalKey<FormState>();
+class _BodyLiveState extends State<BodyLive> {
   final _user = <int>[];
   final _infoStrings = <String>[];
   bool muted = false;
@@ -170,69 +166,7 @@ class _BodyCallState extends State<BodyCall> {
             padding: const EdgeInsets.all(12),
           ),
           RawMaterialButton(
-            onPressed: () {
-              // => Navigator.pop(context),
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Thông báo'),
-                        content: Text('Vui Lòng đánh giá cuộc hẹn này'),
-                        actions: <Widget>[
-                          Form(
-                            key: _reasonKey,
-                            child: TextFormField(
-                              controller: feedback,
-                              decoration: InputDecoration(
-                                  hintText: 'Nhập cảm nhận của bạn...'),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Vui lòng nhập cảm nhận...';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          TextFormField(
-                            controller: rate,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                hintText: 'Nhập rating của bạn...'),
-                            validator: (value) {
-                              if (int.parse(value!) < 6 ||
-                                  int.parse(value!) > 0) {
-                                return 'Vui lòng nhập rating...';
-                              }
-                              return null;
-                            },
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 3),
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      FeedBack(widget.bookingId!, feedback!,
-                                          int.parse(rate!.text));
-
-                                      Navigator.pop(context, 'Xác nhận');
-                                    },
-                                    child: const Text('Xác nhận')),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 3),
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context, 'Hủy');
-                                    },
-                                    child: const Text('Hủy')),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ));
-              // Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context),
             child: const Icon(
               Icons.call_end,
               color: Colors.white,

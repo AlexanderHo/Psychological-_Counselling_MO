@@ -135,7 +135,7 @@ class ShowDetail extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.only(top: 20),
                           child: Text(
-                            'Số cua :' + item.crab.toString(),
+                            'Số Gem :' + item.crab.toString(),
                             style: TextStyle(
                                 color: Colors.black54,
                                 fontSize: 20,

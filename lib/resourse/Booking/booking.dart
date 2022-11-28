@@ -173,7 +173,7 @@ class _BookingPageState extends State<BookingPage> {
                       onPressed: () {
                         bookingSlot(widget.slotId, widget.consultantId,
                             widget.customerId);
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                       },
                       child: Text(
                         'XÁC NHẬN',

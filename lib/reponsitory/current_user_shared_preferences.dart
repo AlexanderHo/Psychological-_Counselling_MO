@@ -98,7 +98,8 @@ class CurrentUser {
   static int? getZodiacId() {
     return _prefs?.getInt('zodiacId');
   }
-  // static String? getPhoneNumber() {
-  //   return _prefs?.getString('phoneNumber');
-  // }
+
+  static String? getlink() {
+    return _prefs?.getString('urlImage');
+  }
 }

@@ -8,9 +8,8 @@ import 'package:http/http.dart' as http;
 
 import '../model/Result_model.dart';
 
-ResultModel parseResultModels(String responseBody) {
-  final parsed = jsonDecode(responseBody);
-  return ResultModel.fromJson(parsed);
+ResultModel parseResultModels(Map<String, dynamic> responseBody) {
+  return ResultModel.fromJson(responseBody);
 }
 
 Future<ResultModel> getResult(
@@ -29,12 +28,11 @@ Future<ResultModel> getResult(
         'Content-Type': 'application/json'
       },
       body: json.encode(map[0]));
-  final a = response;
-  print(a.body);
-  print(a);
-  log(a.statusCode.toString());
+  Map<String, dynamic> a = jsonDecode(response.body);
+  print(response.body);
+  log(response.statusCode.toString());
   if (response.statusCode == 200) {
-    return compute(parseResultModels, response.body);
+    return parseResultModels(a);
   } else {
     throw Exception('Failed to load deposit');
   }

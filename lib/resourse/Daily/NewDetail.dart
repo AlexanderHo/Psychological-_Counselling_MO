@@ -1,24 +1,26 @@
-import 'package:astrology/model/Deposit_model.dart';
-import 'package:astrology/reponsitory/deposit_.dart';
-import 'package:astrology/resourse/Home/home.dart';
+import 'package:astrology/model/planet_model.dart';
+import 'package:astrology/reponsitory/news_.dart';
+import 'package:astrology/reponsitory/planet_.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_html/flutter_html.dart';
 
-class BakingPage extends StatefulWidget {
-  TextEditingController amount;
-  BakingPage({required this.amount});
+import '../../model/news_model.dart';
+
+class NewdetailPage extends StatefulWidget {
+  int id;
+  NewdetailPage({required this.id});
 
   @override
-  State<BakingPage> createState() => _BakingPageState();
+  State<NewdetailPage> createState() => _NewdetailPageState();
 }
 
-class _BakingPageState extends State<BakingPage> {
-  late Future<DepositModel> deposit;
+class _NewdetailPageState extends State<NewdetailPage> {
+  late Future<NewsModel> news;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    deposit = getDeposit(widget.amount);
+    news = fetchNewDetailData(widget.id);
   }
 
   @override
@@ -36,7 +38,7 @@ class _BakingPageState extends State<BakingPage> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         iconTheme: IconThemeData(
-          color: Colors.black54,
+          color: Colors.black,
         ),
         backgroundColor: Colors.transparent,
         bottomOpacity: 0.0,
@@ -44,20 +46,18 @@ class _BakingPageState extends State<BakingPage> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          constraints:
-              BoxConstraints(minHeight: size.height, minWidth: size.width),
-          padding: EdgeInsets.fromLTRB(15.0, size.height * 0.1, 15.0, 0.0),
+          padding: EdgeInsets.fromLTRB(15.0, size.height * 0.1, 15.0, 20.0),
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('assets/background/background1.png'),
                   fit: BoxFit.fill)),
-          child: FutureBuilder<DepositModel>(
-            future: deposit,
+          child: FutureBuilder<NewsModel>(
+            future: news,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Center(
                   child: Text('something went wrong!!',
-                      style: TextStyle(color: Colors.white)),
+                      style: TextStyle(color: Colors.black)),
                 );
               } else if (snapshot.hasData) {
                 return ShowDetail(item: snapshot.data!);
@@ -77,7 +77,7 @@ class _BakingPageState extends State<BakingPage> {
 }
 
 class ShowDetail extends StatelessWidget {
-  DepositModel item;
+  NewsModel item;
   ShowDetail({required this.item});
   @override
   Widget build(BuildContext context) {
@@ -88,70 +88,87 @@ class ShowDetail extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            height: size.height * 0.5,
-            width: size.width * 0.855,
+            height: size.height * 0.25,
+            width: size.width * 0.45,
             decoration: BoxDecoration(
                 image: DecorationImage(
-              image: NetworkImage(item.qrcodebank!),
+              image: NetworkImage(item.urlBanner),
               fit: BoxFit.fill,
             )),
           ),
+          Text(
+            item.createDay,
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 15.0,
+            ),
+          ),
+          // Text(
+          //   item.title,
+          //   style: TextStyle(
+          //     fontSize: 15.0,
+          //     color: Colors.white70,
+          //     wordSpacing: 5.0,
+          //   ),
+          // ),
           SizedBox(
-            height: 30.0,
+            height: 15.0,
           ),
           Text(
-            'Số cua :' + item.amount.toString(),
+            item.title,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black,
+              fontSize: 20.0,
               fontWeight: FontWeight.bold,
-              fontSize: 25.0,
+            ),
+          ),
+          SizedBox(
+            height: 15.0,
+          ),
+          Text(
+            item.description,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(
             height: 10.0,
           ),
-          Text(
-            'Chủ tk : ' + item.name!,
-            style: TextStyle(
-              color: Colors.white70,
-              fontWeight: FontWeight.bold,
-              fontSize: 25.0,
-            ),
+          Html(
+            data: item.contentNews,
+            style: {
+              "strong": Style(
+                color: Colors.white,
+                fontSize: FontSize.larger,
+              ),
+              "p": Style(
+                color: Colors.white70,
+                fontSize: FontSize.large,
+              ),
+            },
           ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Text(
-            'Số đt : ' + item.phonenumber!,
-            style: TextStyle(
-              color: Colors.white70,
-              fontWeight: FontWeight.bold,
-              fontSize: 25.0,
-            ),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
-                    ));
-                Fluttertoast.showToast(
-                    msg: "Vui Lòng chờ xác nhận trong ít phút",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Color.fromARGB(255, 44, 194, 6),
-                    textColor: Colors.black,
-                    fontSize: 16.0);
-              },
-              child: Text(
-                'XÁC NHẬN',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ))
+          // SizedBox(
+          //   height: 15.0,
+          // ),
+          // Container(
+          //   padding: EdgeInsets.fromLTRB(15.0, 0, 15.0, 0),
+          //   child: Html(
+          //     data: item.mainContent,
+          //     style: {
+          //       "strong": Style(
+          //         color: Colors.white70,
+          //         fontSize: FontSize.larger,
+          //       ),
+          //       "p": Style(
+          //         color: Colors.white70,
+          //         fontSize: FontSize.large,
+          //       ),
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

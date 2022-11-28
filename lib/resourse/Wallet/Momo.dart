@@ -1,6 +1,8 @@
 import 'package:astrology/model/Deposit_model.dart';
 import 'package:astrology/reponsitory/deposit_.dart';
+import 'package:astrology/resourse/Home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class MomoPage extends StatefulWidget {
   TextEditingController amount;
@@ -94,15 +96,42 @@ class ShowDetail extends StatelessWidget {
               fit: BoxFit.fill,
             )),
           ),
+          SizedBox(
+            height: 30.0,
+          ),
           Text(
-            'Số cua' + item.amount.toString(),
+            'Số Gem nạp : ' + item.amount.toString(),
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white70,
               fontWeight: FontWeight.bold,
               fontSize: 25.0,
             ),
           ),
-
+          SizedBox(
+            height: 10.0,
+          ),
+          Text(
+            'Chủ tk : ' + item.name!,
+            style: TextStyle(
+              color: Colors.white70,
+              fontWeight: FontWeight.bold,
+              fontSize: 25.0,
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Text(
+            'Số đt : ' + item.phonenumber!,
+            style: TextStyle(
+              color: Colors.white70,
+              fontWeight: FontWeight.bold,
+              fontSize: 25.0,
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
           // Html(
           //   data: item.description,
           //   style: {
@@ -135,6 +164,26 @@ class ShowDetail extends StatelessWidget {
           //     },
           //   ),
           // ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(),
+                    ));
+                Fluttertoast.showToast(
+                    msg: "Vui Lòng chờ xác nhận trong ít phút",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Color.fromARGB(255, 44, 194, 6),
+                    textColor: Colors.black,
+                    fontSize: 16.0);
+              },
+              child: Text(
+                'XÁC NHẬN',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ))
         ],
       ),
     );

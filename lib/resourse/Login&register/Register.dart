@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:astrology/reponsitory/user_.dart';
 import 'package:flutter/material.dart';
 import 'package:astrology/resourse/icon.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:group_button/group_button.dart';
 import 'package:intl/intl.dart';
@@ -108,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   child: Container(
                                     color: const Color.fromRGBO(0, 0, 0, 0.3),
                                     child: const Icon(
-                                      MyFlutterApp.name,
+                                      Icons.accessibility_new,
                                       size: 40,
                                       color: Colors.white,
                                     ),
@@ -165,7 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               Container(
                                 padding: EdgeInsets.all(paddingIcon),
                                 child: const Icon(
-                                  MyFlutterApp.edit_2,
+                                  Icons.edit,
                                   size: 16,
                                   color: Colors.white,
                                 ),
@@ -226,7 +227,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     child: Container(
                                       color: const Color.fromRGBO(0, 0, 0, 0.3),
                                       child: const Icon(
-                                        Icons.mail,
+                                        Icons.account_box,
                                         size: 20,
                                         color: Colors.white,
                                       ),
@@ -287,7 +288,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               Container(
                                 padding: EdgeInsets.all(paddingIcon),
                                 child: const Icon(
-                                  MyFlutterApp.edit_2,
+                                  Icons.edit,
                                   size: 16,
                                   color: Colors.white,
                                 ),
@@ -379,7 +380,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               Container(
                                 padding: EdgeInsets.all(paddingIcon),
                                 child: const Icon(
-                                  MyFlutterApp.edit_2,
+                                  Icons.edit,
                                   size: 16,
                                   color: Colors.white,
                                 ),
@@ -407,7 +408,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   child: Container(
                                     color: const Color.fromRGBO(0, 0, 0, 0.3),
                                     child: const Icon(
-                                      MyFlutterApp.phone,
+                                      Icons.phone,
                                       size: 40,
                                       color: Colors.white,
                                     ),
@@ -440,7 +441,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                       Container(
                                           child: SizedBox(
                                         height: size.height * 0.026,
-                                        child: const TextField(
+                                        child: TextField(
+                                          controller: phoneController,
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20),
@@ -465,7 +467,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               Container(
                                 padding: EdgeInsets.all(paddingIcon),
                                 child: const Icon(
-                                  MyFlutterApp.edit_2,
+                                  Icons.edit,
                                   size: 16,
                                   color: Colors.white,
                                 ),
@@ -494,7 +496,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     child: Container(
                                       color: const Color.fromRGBO(0, 0, 0, 0.3),
                                       child: const Icon(
-                                        MyFlutterApp.brithday,
+                                        Icons.cake,
                                         size: 40,
                                         color: Colors.white,
                                       ),
@@ -547,7 +549,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 Container(
                                   padding: EdgeInsets.all(paddingIcon),
                                   child: const Icon(
-                                    MyFlutterApp.edit_2,
+                                    Icons.edit,
                                     size: 16,
                                     color: Colors.white,
                                   ),
@@ -589,7 +591,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     child: Container(
                                       color: const Color.fromRGBO(0, 0, 0, 0.3),
                                       child: const Icon(
-                                        MyFlutterApp.brithtime,
+                                        Icons.alarm,
                                         size: 40,
                                         color: Colors.white,
                                       ),
@@ -642,7 +644,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 Container(
                                   padding: EdgeInsets.all(paddingIcon),
                                   child: const Icon(
-                                    MyFlutterApp.edit_2,
+                                    Icons.edit,
                                     size: 16,
                                     color: Colors.white,
                                   ),
@@ -683,7 +685,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   child: Container(
                                     color: const Color.fromRGBO(0, 0, 0, 0.3),
                                     child: const Icon(
-                                      MyFlutterApp.brithday,
+                                      Icons.location_city,
                                       size: 40,
                                       color: Colors.white,
                                     ),
@@ -766,14 +768,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ),
                               // icon
-                              // Container(
-                              //   padding: EdgeInsets.all(paddingIcon),
-                              //   child: Icon(
-                              //     MyFlutterApp.chevron_down,
-                              //     size: 16,
-                              //     color: Colors.white,
-                              //   ),
-                              // ),
+                              Container(
+                                padding: EdgeInsets.all(paddingIcon),
+                                child: const Icon(
+                                  Icons.edit,
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ],
                           )),
                       // king độ vĩ độ
@@ -799,7 +801,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     child: Container(
                                       color: Color.fromRGBO(0, 0, 0, 0.3),
                                       child: Icon(
-                                        MyFlutterApp.place,
+                                        Icons.add_location_alt_outlined,
                                         size: 40,
                                         color: Colors.white,
                                       ),
@@ -906,30 +908,39 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 //icon
                                 Container(
-                                  padding: EdgeInsets.only(
-                                      top: size.height * 0.02,
-                                      right: paddingIcon),
-                                  child: Icon(
-                                    MyFlutterApp.gps,
+                                  padding: EdgeInsets.all(paddingIcon),
+                                  child: const Icon(
+                                    Icons.edit,
                                     size: 16,
                                     color: Colors.white,
                                   ),
                                 ),
                               ],
                             )),
-                        onTap: () {
+                        onTap: () async {
                           // Navigator.push(
                           //     context,
                           //     MaterialPageRoute(builder: (context)=> const MapScreen())
                           // );
-                          applicationBloc.setCurrentLocation();
+                          // applicationBloc.setCurrentLocation();
+                          // setState(() {
+                          //   longitude =
+                          //       applicationBloc.currentLocation!.longitude;
+                          //   latitude =
+                          //       applicationBloc.currentLocation!.latitude;
+                          // });
+                          // print(longitude.toString());
+                          final query =
+                              selectedProvince.toString() + ", Vietnam";
+                          var add = await Geocoder.local
+                              .findAddressesFromQuery(query);
+                          var second = add.first;
+                          print(
+                              "${second.featureName} : ${second.coordinates}");
                           setState(() {
-                            longitude =
-                                applicationBloc.currentLocation!.longitude;
-                            latitude =
-                                applicationBloc.currentLocation!.latitude;
+                            longitude = second.coordinates.longitude;
+                            latitude = second.coordinates.latitude;
                           });
-                          print(longitude.toString());
                         },
                       )
                     ],

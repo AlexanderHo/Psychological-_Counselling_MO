@@ -12,7 +12,7 @@ class TopBar {
   static AppBar getAppBarHome(Size size, BuildContext context) {
     return AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xff031d2e),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -22,7 +22,7 @@ class TopBar {
                 "Psychological Counseling",
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -38,7 +38,7 @@ class TopBar {
                 },
                 icon: Image.asset(
                   "assets/icon/profile.png",
-                  color: Colors.purple,
+                  color: Color(0xFFff7010),
                   width: size.width * 0.08,
                 ),
                 iconSize: size.width * 0.07),
@@ -66,7 +66,7 @@ class TopBar {
               },
               icon: Icon(
                 Icons.notifications_active_outlined,
-                color: Colors.purple,
+                color: Color(0xFFff7010),
                 size: size.width * 0.08,
               ),
               iconSize: size.width * 0.07,

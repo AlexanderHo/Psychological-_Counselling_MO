@@ -4,6 +4,8 @@ import 'package:astrology/model/Consultant_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/ConsutantSpec_model.dart';
+
 List<ConsultantModel> parseGeneralConsultantData(List responseBody) {
   return responseBody
       .map<ConsultantModel>((json) => ConsultantModel.fromGeneralJson(json))
@@ -49,9 +51,8 @@ Future<List<ConsultantModel>> fetchGeneralConsultantData(
 }
 
 //========================================================
-ConsultantModel parseConsultantDetailModel(String responseBody) {
-  final parsed = jsonDecode(responseBody);
-  return ConsultantModel.fromJson(parsed);
+ConsultantModel parseConsultantDetailModel(Map<String, dynamic> responseBody) {
+  return ConsultantModel.fromJson(responseBody);
 }
 
 //=======================================================
@@ -65,10 +66,38 @@ Future<ConsultantModel> fetchConsultantDetailData(int id) async {
       // 'Authorization': 'Bearer ' + bearer,
     },
   );
+  Map<String, dynamic> a = jsonDecode(response.body);
+  print(response.body);
   log(response.statusCode.toString());
   if (response.statusCode == 200) {
-    return compute(parseConsultantDetailModel, response.body);
+    return parseConsultantDetailModel(a['data']);
   } else {
-    throw Exception('Failed to load consultant');
+    throw Exception('Failed to load Consultant');
   }
+}
+
+//=================================================
+List<ConsultantSpecModel> parseGeneralConsultantSpecData(List responseBody) {
+  return responseBody
+      .map<ConsultantSpecModel>(
+          (json) => ConsultantSpecModel.fromGeneralJson(json))
+      .toList();
+}
+
+//===========================================================
+Future<List<ConsultantSpecModel>> fetchGeneralConsultantBySpecial(
+    String spec) async {
+  // String bearer = await getIDToken();
+  var response = await http.get(
+    Uri.parse(
+        'https://psycteam.azurewebsites.net/api/Consultants/Getconsultantbyspecial?search=' +
+            spec),
+    headers: <String, String>{
+      'accept': '*/*',
+      // 'Authorization': 'Bearer ' + bearer,
+    },
+  );
+  // log(response.body);
+  Map map = jsonDecode(response.body);
+  return parseGeneralConsultantSpecData(map['data']);
 }
