@@ -112,8 +112,8 @@ Future<void> updateProfile(
     String name,
     // String date,
     String place,
-    // double latitude,
-    // double longitude,
+    double latitude,
+    double longitude,
     String gender,
     String profilePhoto) async {
   String? email = CurrentUser.getEmail();
@@ -131,6 +131,8 @@ Future<void> updateProfile(
         'email': email,
         "address": '$place',
         "gender": '$gender',
+        "longitude": '$longitude',
+        "latitude": '$latitude',
         "imageUrl": '$profilePhoto',
       }));
   final a = response;

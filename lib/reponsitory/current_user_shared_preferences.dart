@@ -33,20 +33,20 @@ class CurrentUser {
     await _prefs.setInt('zodiacId', userTemp.zodiacId);
     await _prefs.setString('dob', date);
     // await _prefs.setString('time', time);
-    // await _prefs.setDouble('longitude', userTemp.profileList[0].longitude);
-    // await _prefs.setDouble('latitude', userTemp.profileList[0].latitude);
+    await _prefs.setString('longitude', userTemp.longitude);
+    await _prefs.setString('latitude', userTemp.latitude);
   }
 
   static Future<void> updateCurrentUser(String name, String date, String place,
-      String gender, String image) async {
+      String gender, String image, String longitude, String latitude) async {
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('fullname', name);
     print("chay update");
     print(_prefs.getInt('id'));
     await _prefs.setString('dob', date);
     await _prefs.setString('address', place);
-    //  await _prefs.setDouble('longitude', longitude);
-    //  await _prefs.setDouble('latitude', latitude);
+    await _prefs.setString('longitude', longitude);
+    await _prefs.setString('latitude', latitude);
     await _prefs.setString('gender', gender);
     await _prefs.setString('imageUrl', image);
   }
@@ -71,13 +71,13 @@ class CurrentUser {
     return _prefs?.getString('email');
   }
 
-  //  static double? getLongitude() {
-  //    return _prefs.getDouble('longitude');
-  //  }
+  static double? getLongitude() {
+    return _prefs?.getDouble('longitude');
+  }
 
-  //  static double? getLatitude() {
-  //    return _prefs.getDouble('latitude');
-  //  }
+  static double? getLatitude() {
+    return _prefs?.getDouble('latitude');
+  }
 
   static String? getCurrentUserName() {
     return _prefs?.getString('fullname');

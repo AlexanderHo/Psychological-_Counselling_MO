@@ -558,6 +558,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             )),
                         onTap: () {
                           showDatePicker(
+                                  locale: Locale("vi"),
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(1990),

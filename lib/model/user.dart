@@ -7,6 +7,8 @@ class UserModel {
   final String dob;
   final String imageUrl;
   final String birthchart;
+  final String latitude;
+  final String longitude;
   final String gender;
   final int zodiacId;
   final List<Profile> profileList;
@@ -20,6 +22,8 @@ class UserModel {
       required this.phone,
       required this.imageUrl,
       required this.birthchart,
+      required this.latitude,
+      required this.longitude,
       required this.gender,
       required this.zodiacId,
       required this.profileList});
@@ -34,6 +38,8 @@ class UserModel {
       phone: json['phone'] == null ? '' : json['phone'] as String?,
       imageUrl: json['imageUrl'] as String,
       birthchart: json['birthchart'] as String,
+      latitude: json['latitude'] as String,
+      longitude: json['longitude'] as String,
       gender: json['gender'] as String,
       zodiacId: json['zodiacId'] as int,
       profileList: new List<Profile>.from(

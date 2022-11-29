@@ -1,10 +1,15 @@
+import 'package:astrology/model/province.dart';
+import 'package:astrology/reponsitory/auth_repo.dart';
 import 'package:astrology/reponsitory/update-Image_.dart';
+import 'package:astrology/resourse/icon.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'dart:io';
 import 'dart:async';
 
@@ -84,12 +89,10 @@ class _EditAccountPageState extends State<EditAccountPage> {
   String date = '';
   final _placeController = TextEditingController();
   String place = '';
-  // String _gender = '';
-  // final _latitudeController = TextEditingController();
-  // double latitude = 0.0;
-  // final _longitudeController = TextEditingController();
-  // double longitude = 0.0;
-
+  double? latitude;
+  double? longitude;
+  String? selectedProvince;
+  bool isLoadling = false;
   @override
   void dispose() {
     _nameController.dispose();
@@ -100,21 +103,18 @@ class _EditAccountPageState extends State<EditAccountPage> {
     super.dispose();
   }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   setState(() {
-  //     _imageLink = CurrentUser.getlink();
-  //   });
-  // }
+  @override
+  void initState() {
+    selectedProvince = _place;
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double paddingIcon = size.height * 0.009;
     double marginBetween = size.height * 0.017;
-
+    final applicationBloc = Provider.of<AuthRepo>(context);
+    applicationBloc.getAllProvince();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Color.fromRGBO(27, 18, 53, 1),
@@ -362,75 +362,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
               SizedBox(
                 height: size.height * 0.01,
               ),
-              // Container(
-              //   padding: EdgeInsets.fromLTRB(0, 5.0, 0, 5.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: <Widget>[
-              //       GestureDetector(
-              //         onTap: () {
-              //           // _onClicked();
-              //         },
-              //         child: Container(
-              //           height: size.height * 0.05,
-              //           width: size.width * 0.43,
-              //           // decoration: BoxDecoration(
-              //           //   color: !_isFemale
-              //           //       ? Color.fromRGBO(116, 55, 245, 1)
-              //           //       : Color.fromRGBO(38, 30, 63, 1),
-              //           //   borderRadius: BorderRadius.circular(10.0),
-              //           //   border: Border.all(color: Colors.white70),
-              //           // ),
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             children: <Widget>[
-              //               Icon(
-              //                 Icons.male,
-              //                 color: Colors.white,
-              //               ),
-              //               Text(
-              //                 'Nam',
-              //                 style: TextStyle(color: Colors.white),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //       SizedBox(
-              //         width: size.width * 0.05,
-              //       ),
-              //       GestureDetector(
-              //         onTap: () {
-              //           // _onClicked1();
-              //         },
-              //         child: Container(
-              //           height: size.height * 0.05,
-              //           width: size.width * 0.43,
-              //           // decoration: BoxDecoration(
-              //           //   color: _isFemale
-              //           //       ? Color.fromRGBO(255, 74, 183, 1)
-              //           //       : Color.fromRGBO(38, 30, 63, 1),
-              //           //   borderRadius: BorderRadius.circular(10.0),
-              //           //   border: Border.all(color: Colors.white70),
-              //           // ),
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             children: <Widget>[
-              //               Icon(
-              //                 Icons.female,
-              //                 color: Colors.white,
-              //               ),
-              //               Text(
-              //                 'Nữ',
-              //                 style: TextStyle(color: Colors.white),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               DropdownButtonFormField2(
                 decoration: InputDecoration(
                   //Add isDense true and zero Padding.
@@ -564,105 +495,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
               SizedBox(
                 height: size.height * 0.01,
               ),
-              //
-              // InkWell(
-              //   child: Container(
-              //       margin: EdgeInsets.only(top: marginBetween),
-              //       height: size.height * 0.065,
-              //       decoration: BoxDecoration(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //         border: Border.all(color: Colors.white70),
-              //         color: const Color.fromRGBO(250, 250, 250, 0.1),
-              //       ),
-              //       child: Row(
-              //         // crossAxisAlignment: CrossAxisAlignment.center,
-              //         mainAxisAlignment: MainAxisAlignment.start,
-              //         children: <Widget>[
-              //           //Icon
-              //           Container(
-              //             padding: EdgeInsets.all(paddingIcon),
-              //             child: ClipRRect(
-              //               borderRadius: BorderRadius.circular(100),
-              //               child: Container(
-              //                 color: const Color.fromRGBO(0, 0, 0, 0.3),
-              //                 child: const Icon(
-              //                   Icons.cake,
-              //                   size: 40,
-              //                   color: Colors.white,
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
-              //           //Column
-              //           Expanded(
-              //             child: Container(
-              //               child: Stack(
-              //                 children: <Widget>[
-              //                   Positioned(
-              //                     child: Container(
-              //                       child: const Text(
-              //                         'Ngày sinh',
-              //                         textAlign: TextAlign.left,
-              //                         style: TextStyle(
-              //                           decoration: TextDecoration.none,
-              //                           color: Colors.white38,
-              //                           fontSize: 14.0,
-              //                         ),
-              //                       ),
-              //                     ),
-              //                     top: 1,
-              //                     left: 0,
-              //                   ),
-              //                   Positioned(
-              //                     child: Container(
-              //                         child: SizedBox(
-              //                       child: Text(
-              //                         birthDate == null
-              //                             ? 'Thêm ngày sinh'
-              //                             : formatDate.format(birthDate!),
-              //                         style: const TextStyle(
-              //                           decoration: TextDecoration.none,
-              //                           color: Colors.white,
-              //                           fontSize: 20.0,
-              //                         ),
-              //                       ),
-              //                     )),
-              //                     bottom: 1,
-              //                     left: 0,
-              //                   )
-              //                 ],
-              //               ),
-              //             ),
-              //           ),
-              //           //icon
-              //           Container(
-              //             padding: EdgeInsets.all(paddingIcon),
-              //             child: const Icon(
-              //               Icons.edit,
-              //               size: 16,
-              //               color: Colors.white,
-              //             ),
-              //           ),
-              //         ],
-              //       )),
-              //   onTap: () {
-              //     showDatePicker(
-              //             context: context,
-              //             initialDate: DateTime.now(),
-              //             firstDate: DateTime(1990),
-              //             lastDate: DateTime(2222))
-              //         .then((value) {
-              //       setState(() {
-              //         birthDate = value;
-              //         print(birthDate);
-              //       });
-              //     });
-              //   },
-              // ),
-              // SizedBox(
-              //   height: size.height * 0.01,
-              // ),
-              /*Place TextField*/
               Container(
                   height: 60,
                   decoration: BoxDecoration(
@@ -690,40 +522,61 @@ class _EditAccountPageState extends State<EditAccountPage> {
                         ),
                       ),
                       //Column
+                      //
                       Expanded(
                         child: Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                          child: Stack(
                             children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(top: 2),
-                                height: 17,
-                                child: Text(
-                                  _list[2].title,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    color: Colors.white38,
-                                    fontSize: 14.0,
-                                  ),
+                              Positioned(
+                                width: size.width * 0.85,
+                                bottom: 0,
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                      isExpanded: true,
+                                      hint: Text(
+                                        selectedProvince == null
+                                            ? 'Thêm thành Phố'
+                                            : selectedProvince.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                      items: applicationBloc.provinces!
+                                          .map<DropdownMenuItem<Province>>((a) {
+                                        return DropdownMenuItem(
+                                          child: Text(
+                                            a.name,
+                                          ),
+                                          value: a,
+                                        );
+                                      }).toList(),
+                                      icon: Icon(
+                                        MyFlutterApp.chevron_down,
+                                        color: Colors.white,
+                                      ),
+                                      onChanged: (Province? value) {
+                                        setState(() {
+                                          selectedProvince = value!.name;
+                                        });
+                                      }),
                                 ),
+                                left: 0,
+                                top: 24,
                               ),
-                              Container(
-                                  child: SizedBox(
-                                height: 24,
-                                child: TextField(
-                                  controller: _placeController,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: _place,
-                                    hintStyle: TextStyle(
-                                        color: Colors.white, fontSize: 20),
+                              Positioned(
+                                child: Container(
+                                  child: Text(
+                                    'Nơi sinh',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      decoration: TextDecoration.none,
+                                      color: Colors.white38,
+                                      fontSize: 14.0,
+                                    ),
                                   ),
                                 ),
-                              )),
+                                top: 1,
+                                left: 0,
+                              ),
                             ],
                           ),
                         ),
@@ -734,64 +587,85 @@ class _EditAccountPageState extends State<EditAccountPage> {
               SizedBox(
                 height: size.height * 0.01,
               ),
-
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 15.0, 5.0, 15.0),
+              Container(
+                padding: EdgeInsets.only(left: 10, right: 10),
+                width: MediaQuery.of(context).size.width,
+                height: 60,
                 child: ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              side: BorderSide(
-                                color: Color.fromRGBO(0, 117, 255, 1),
-                              )))),
-                  onPressed: () {
-                    name = _nameController.text;
-                    if (name.isEmpty) {
+                    style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: BorderSide(
+                                      color: Color.fromRGBO(0, 117, 255, 1),
+                                    )))),
+                    onPressed: () async {
                       setState(() {
-                        name = _name;
+                        isLoadling = true;
                       });
-                    }
-                    date = _dateController.text;
-                    if (date.isEmpty) {
-                      setState(() {
-                        date = _date;
-                      });
-                    }
-                    place = _placeController.text;
-                    if (place.isEmpty) {
-                      setState(() {
-                        place = _place;
-                      });
-                    }
-                    // _date = formatDate.format(birthDate!);
-                    // latitude = double.parse(_latitudeController.text);
-                    // if(latitude == 0){
-                    //   setState(() {
-                    //     latitude = _latitude;
-                    //   });
-                    // }
-                    // longitude = double.parse(_longitudeController.text);
-                    // if(longitude == 0){
-                    //   setState(() {
-                    //     longitude=_longitude;
-                    //   });
-                    // // }
-                    updateProfile(userId, name, place, _gender, _imageLink!);
-                    // updateProfile(userId, name, place, _gender);
 
-                    CurrentUser.updateCurrentUser(
-                        name, date, place, _gender, _imageLink!);
-                    // AppRouter.push(HomeScreen());
-                  },
-                  child: Text(
-                    'Lưu',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                      name = _nameController.text;
+                      if (name.isEmpty) {
+                        setState(() {
+                          name = _name;
+                        });
+                      }
+                      date = _dateController.text;
+                      if (date.isEmpty) {
+                        setState(() {
+                          date = _date;
+                        });
+                      }
+                      place = _placeController.text;
+                      if (place.isEmpty) {
+                        setState(() {
+                          place = _place;
+                        });
+                      }
+                      final query = selectedProvince.toString() + ", Vietnam";
+                      var add =
+                          await Geocoder.local.findAddressesFromQuery(query);
+                      var second = add.first;
+                      print("${second.featureName} : ${second.coordinates}");
+                      setState(() {
+                        longitude = second.coordinates.longitude;
+                        latitude = second.coordinates.latitude;
+                      });
+                      // updateProfile(userId, name, selectedProvince.toString(),
+                      //     _gender, _imageLink!);
+                      updateProfile(userId, name, selectedProvince.toString(),
+                          latitude!, longitude!, _gender, _imageLink!);
+                      // updateProfile(userId, name, place, _gender);
+                      CurrentUser.updateCurrentUser(
+                          name,
+                          date,
+                          selectedProvince.toString(),
+                          _gender,
+                          _imageLink!,
+                          longitude!.toString(),
+                          latitude!.toString());
+
+                      Future.delayed(
+                        Duration(seconds: 10),
+                        () {
+                          setState(() {
+                            isLoadling = false;
+                          });
+                        },
+                      );
+                    },
+                    child: isLoadling
+                        ? CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text(
+                            'Lưu',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
               ),
             ],
           ),

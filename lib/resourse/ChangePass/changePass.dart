@@ -46,27 +46,30 @@ class _ChangePassPageState extends State<ChangePassPage> {
                               child: Container(
                                   height: size.height * 0.065,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white70,
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    border: Border.all(color: Colors.white70),
+                                    color: Color.fromRGBO(250, 250, 250, 0.1),
                                   ),
                                   child: SizedBox(
                                     height: size.height * 0.026,
                                     child: TextField(
+                                      obscureText: isHidePassword,
                                       controller: oldPassController,
                                       style: const TextStyle(
                                           color: Colors.black54, fontSize: 20),
-                                      decoration: const InputDecoration(
+                                      decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: 'mật khẩu cũ',
+                                        hintText: 'Mật Khẩu cũ',
                                         hintStyle: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 20),
+                                          color: Color.fromRGBO(
+                                              250, 250, 250, 0.1),
+                                          fontSize: 20,
+                                        ),
+                                        suffixIcon: InkWell(
+                                          onTap: viewPassword,
+                                          child: passwordIcon,
+                                        ),
                                       ),
-                                      keyboardType:
-                                          TextInputType.visiblePassword,
-                                      autofillHints: const [
-                                        AutofillHints.email
-                                      ],
                                     ),
                                   )),
                             ),
