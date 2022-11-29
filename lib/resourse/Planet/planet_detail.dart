@@ -48,6 +48,7 @@ class _PlanetdetailPageState extends State<PlanetdetailPage> {
           //     image: DecorationImage(
           //         image: AssetImage('assets/background/background1.png'),
           //         fit: BoxFit.fill)),
+          color: Color.fromARGB(255, 155, 206, 240),
           child: FutureBuilder<PlanetModel>(
             future: planet,
             builder: (context, snapshot) {
@@ -131,7 +132,7 @@ class ShowDetail extends StatelessWidget {
                 fontSize: FontSize.larger,
               ),
               "p": Style(
-                color: Colors.white70,
+                color: Colors.black,
                 fontSize: FontSize.large,
               ),
             },
@@ -149,7 +150,7 @@ class ShowDetail extends StatelessWidget {
                   fontSize: FontSize.larger,
                 ),
                 "p": Style(
-                  color: Colors.white70,
+                  color: Colors.black,
                   fontSize: FontSize.large,
                 ),
               },

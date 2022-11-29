@@ -148,7 +148,7 @@ class _AddProfilePageState extends State<AddProfilePage> {
                 // Navigator.pop(context);
               },
               child: Text(
-                'Add',
+                'Thêm',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -290,7 +290,7 @@ class _AddProfilePageState extends State<AddProfilePage> {
                 ),
                 isExpanded: true,
                 hint: const Text(
-                  'Select Your Gender',
+                  'Giới tính',
                   style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
                 icon: const Icon(
@@ -318,7 +318,7 @@ class _AddProfilePageState extends State<AddProfilePage> {
                     .toList(),
                 validator: (value) {
                   if (value == null) {
-                    return 'Please select gender.';
+                    return 'Làm ơn chọn giới tính.';
                   }
                 },
                 onChanged: (value) {

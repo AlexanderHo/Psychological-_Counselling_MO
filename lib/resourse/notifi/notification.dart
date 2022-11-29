@@ -68,7 +68,7 @@ class _NotificationPageState extends State<notificationPage> {
 
   PreferredSizeWidget appBar() {
     return AppBar(
-      backgroundColor: Colors.purple,
+      backgroundColor: Color(0xff031d2e),
       title: Container(child: Text('Thông Báo')),
     );
   }

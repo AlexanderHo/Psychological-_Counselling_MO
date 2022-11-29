@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:astrology/model/Match_model.dart';
+import 'package:astrology/resourse/VerifyMail/VerifyMail.dart';
+import 'package:astrology/resourse/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -86,12 +88,6 @@ Future<MatchModel> matching(int profileId) async {
   }
 }
 
-getMatch() async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  String? macth = pref.getString("matching");
-  return macth;
-}
-
 Future<void> addRegister(
     // TextEditingController
     emailController,
@@ -151,7 +147,7 @@ Future<void> addRegister(
     print("api 2 len");
     if (response.statusCode == 200 && response2.statusCode == 200) {
       print("regis success");
-      // Get.to(VerifyEmailScreen());
+      AppRouter.push(BodyVerify(email: emailController.text));
       Fluttertoast.showToast(
           msg: "Code đã được gửi vào mail của bạn",
           toastLength: Toast.LENGTH_SHORT,

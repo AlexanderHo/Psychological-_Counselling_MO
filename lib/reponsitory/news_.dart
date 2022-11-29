@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/news_model.dart';
 
@@ -25,6 +26,7 @@ Future<List<NewsModel>> fetchNewsData(http.Client client) async {
 }
 
 Future<String> getIDToken() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
   String name = "adminpsyc";
   String pass = "admin1245";
   var res = await http.Client().post(
@@ -40,7 +42,8 @@ Future<String> getIDToken() async {
       }));
   final data = jsonDecode(res.body);
   String token = data['jwttoken'];
-  print('token: ' + token);
+  await pref.setString('Bearer', data['jwttoken']);
+  print('token 1: ' + token);
   return token;
 }
 

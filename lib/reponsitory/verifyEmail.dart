@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:astrology/resourse/Login&register/login.dart';
 import 'package:astrology/resourse/Surveys/SurveyType.dart';
 import 'package:astrology/resourse/app_router.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyEmailController {
   Future<void> verifyEmail(TextEditingController num1Controller, num2Controller,
-      num3Controller, num4Controller) async {
+      num3Controller, num4Controller, String email) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? email = prefs.getString('emailConsultant');
+    // String? email = prefs.getString('emailConsultant');
     // final String? token = prefs.getString('token');
     String numController = num1Controller.text +
         num2Controller.text +
@@ -35,7 +36,7 @@ class VerifyEmailController {
       print("api 2 len");
       if (response.statusCode == 200) {
         print("regis success");
-        AppRouter.push(SurveyTypePage());
+        AppRouter.push(LoginPage());
         Fluttertoast.showToast(
             msg: "Xác thực thành công",
             toastLength: Toast.LENGTH_SHORT,

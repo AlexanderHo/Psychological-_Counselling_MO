@@ -876,67 +876,6 @@ class _AccountItemState extends State<AccountItem> {
   }
 }
 
-// Material(
-// color: Color.fromRGBO(27,18,53,1),
-// child: Container(
-// padding: EdgeInsets.fromLTRB(10,0,10,0),
-// height: size.height * 0.11,
-// margin: EdgeInsets.fromLTRB(0,20,0,0),
-// decoration: BoxDecoration(
-// // borderRadius: BorderRadius.circular(10.0),
-// color: Color.fromRGBO(38, 30, 63, 1),
-// ),
-// child: Row(
-// children: <Widget>[
-// // CircleAvatar(
-// //   backgroundColor:Color.fromRGBO(29, 23, 47, 1),
-// //   child: Icon(
-// //     widget.item.icon,
-// //     color: Colors.white,
-// //   ),
-// // ),
-// SizedBox(width: 10.0,),
-// Container(
-// child: Flexible(
-// child: Column(
-// crossAxisAlignment: CrossAxisAlignment.start,
-// children: [
-// // Text(
-// //   widget.item.title,
-// //   style: TextStyle(
-// //     color: Colors.white70,
-// //     fontSize: 12.0,
-// //   ),
-// // ),
-// TextField(
-// style: TextStyle(
-// color: Colors.white,
-// // fontSize: 12.0,
-// ),
-// decoration: InputDecoration(
-// label: Text('Ho'),
-// prefix: CircleAvatar(
-// radius: 15.0,
-// backgroundColor:Color.fromRGBO(29, 23, 47, 1),
-// child: Icon(
-// widget.item.icon,
-// color: Colors.white,
-// ),
-// ),
-// border: OutlineInputBorder(),
-// ),
-// controller: _controller,
-// ),
-// ],
-// ),
-// ),
-// ),
-//
-// ],
-// ),
-// ),
-// );
-
 class AccountInformation {
   IconData icon;
   String title;

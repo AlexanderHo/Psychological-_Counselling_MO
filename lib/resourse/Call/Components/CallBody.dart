@@ -315,7 +315,7 @@ class _BodyCallState extends State<BodyCall> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("text"),
+        title: Text("Call"),
         actions: [
           IconButton(
             onPressed: () {

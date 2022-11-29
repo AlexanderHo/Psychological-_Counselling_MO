@@ -2,7 +2,8 @@ import 'package:astrology/reponsitory/verifyEmail.dart';
 import 'package:flutter/material.dart';
 
 class BodyVerify extends StatefulWidget {
-  BodyVerify({Key? key}) : super(key: key);
+  String email;
+  BodyVerify({required this.email});
 
   @override
   _BodyVerifyState createState() => _BodyVerifyState();
@@ -50,11 +51,8 @@ class _BodyVerifyState extends State<BodyVerify> {
               Container(
                 width: 200,
                 height: 200,
-                // decoration: BoxDecoration(
-                //   color: Colors.deepPurple.shade50,
-                // ),
                 child: Image.asset(
-                  'assets/logo/logo.png',
+                  'assets/background/zodiac.png',
                 ),
               ),
               SizedBox(
@@ -227,7 +225,7 @@ class _BodyVerifyState extends State<BodyVerify> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () => VerifyEmailController()
-                            .verifyEmail(num1, num2, num3, num4),
+                            .verifyEmail(num1, num2, num3, num4, widget.email),
                         style: ButtonStyle(
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.white),

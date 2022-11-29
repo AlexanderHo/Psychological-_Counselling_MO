@@ -24,48 +24,51 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             SafeArea(
               child: Container(
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      'Thông tin khác',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddProfilePage()));
-                      },
-                      child: CircleAvatar(
-                        child: Icon(
-                          Icons.add,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Thông tin khác',
+                        style: TextStyle(
+                          fontSize: 20.0,
                           color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
-                        radius: 15.0,
-                        backgroundColor: Colors.blue,
                       ),
-                    ),
-                    // SizedBox(width: size.width * 0.04),
-                    // GestureDetector(
-                    //     onTap: () {
-                    //       // final provider = Provider.of<GoogleSignInProvider>(
-                    //       //     context,
-                    //       //     listen: false);
-                    //       // provider.logout();
-                    //       AuthRepo().logout();
-                    //     },
-                    //     child: CircleAvatar(
-                    //       child: Icon(Icons.logout),
-                    //       backgroundColor: Colors.blue,
-                    //       radius: 15,
-                    //     )),
-                  ],
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddProfilePage()));
+                        },
+                        child: CircleAvatar(
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
+                          radius: 15.0,
+                          backgroundColor: Colors.blue,
+                        ),
+                      ),
+                      // SizedBox(width: size.width * 0.04),
+                      // GestureDetector(
+                      //     onTap: () {
+                      //       // final provider = Provider.of<GoogleSignInProvider>(
+                      //       //     context,
+                      //       //     listen: false);
+                      //       // provider.logout();
+                      //       AuthRepo().logout();
+                      //     },
+                      //     child: CircleAvatar(
+                      //       child: Icon(Icons.logout),
+                      //       backgroundColor: Colors.blue,
+                      //       radius: 15,
+                      //     )),
+                    ],
+                  ),
                 ),
               ),
             ),

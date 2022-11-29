@@ -132,22 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic),
                         ),
-                        // GestureDetector(
-                        //   onTap: () {
-                        //     Navigator.push(context, MaterialPageRoute(
-                        //       builder: (context) {
-                        //         return CallScreen();
-                        //       },
-                        //     ));
-                        //   },
-                        //   child: Text(
-                        //     "                            xem thêm",
-                        //     style: TextStyle(
-                        //         color: Colors.red[200],
-                        //         fontSize: 17,
-                        //         fontStyle: FontStyle.italic),
-                        //   ),
-                        // )
                       ],
                     ),
                   ),

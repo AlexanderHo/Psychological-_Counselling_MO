@@ -65,6 +65,48 @@ Future<void> addProfile(
   }
 }
 
+Future<void> changePass(
+  String oldPassword,
+  String newPassword,
+) async {
+  int? id = CurrentUser.getUserId();
+  // String bearer = await getIDToken();
+  String url =
+      'https://psycteam.azurewebsites.net/api/Users/changepassuserbycustomerid';
+  var response = await http.put(Uri.parse(url),
+      headers: <String, String>{
+        'accept': '*/*',
+        'Content-Type': 'application/json'
+        // 'Authorization': 'Bearer ' + bearer,
+      },
+      body: json.encode({
+        "id": '$id',
+        "oldPassword": '$oldPassword',
+        "newPassword": '$newPassword',
+      }));
+  final a = response;
+  if (response.statusCode == 200) {
+    Fluttertoast.showToast(
+        msg: "Cập nhật thành công",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Color.fromARGB(255, 108, 219, 113),
+        textColor: Colors.black54,
+        fontSize: 16.0);
+    AppRouter.push(AccountPage());
+  } else {
+    Fluttertoast.showToast(
+        msg: "Cập nhật thất bại",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red.shade200,
+        textColor: Colors.black54,
+        fontSize: 16.0);
+  }
+}
+
 Future<void> updateProfile(
     int profileId,
     String name,
@@ -75,7 +117,7 @@ Future<void> updateProfile(
     String gender,
     String profilePhoto) async {
   String? email = CurrentUser.getEmail();
-  String bearer = await getIDToken();
+  // String bearer = await getIDToken();
   String url = 'https://psycteam.azurewebsites.net/api/Customers/update';
   var response = await http.put(Uri.parse(url),
       headers: <String, String>{

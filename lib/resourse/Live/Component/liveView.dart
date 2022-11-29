@@ -249,7 +249,7 @@ class _BodyLiveState extends State<BodyLive> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("text"),
+        title: Text("Live"),
         actions: [
           IconButton(
             onPressed: () {

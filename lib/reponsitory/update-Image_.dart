@@ -8,10 +8,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../resourse/profile/add&editProfile/edit_account.dart';
 
 Future<void> loadImageCustomer(File file) async {
-  int? id = CurrentUser.getUserId();
-  String bearer = await getIDToken();
-  String? urlImage;
   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  int? id = CurrentUser.getUserId();
+  String? bearer = prefs.getString('Bearer');
+  String? urlImage;
+
   try {
     var postUri = Uri.parse(
         "https://psycteam.azurewebsites.net/api/FirebaseServices/upload");
@@ -37,30 +38,4 @@ Future<void> loadImageCustomer(File file) async {
   } catch (error) {
     print("lỗi rồi ");
   }
-}
-
-// Future<String> getUrl() async {
-//   SharedPreferences pref = await SharedPreferences.getInstance();
-//   String? urlImage = pref.getString('urlImage');
-//   return urlImage!;
-// }
-
-Future<String> getIDToken() async {
-  String name = "adminpsyc";
-  String pass = "admin1245";
-  var res = await http.Client().post(
-      Uri.parse(
-          'https://psycteam.azurewebsites.net/api/FirebaseServices/loginadmin/'),
-      headers: <String, String>{
-        'accept': '*/*',
-        'Content-Type': 'application/json'
-      },
-      body: json.encode({
-        'userName': name,
-        'passWord': pass,
-      }));
-  final data = jsonDecode(res.body);
-  String token = data['jwttoken'];
-  print('token: ' + token);
-  return token;
 }
