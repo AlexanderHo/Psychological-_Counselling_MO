@@ -59,8 +59,9 @@ ConsultantModel parseConsultantDetailModel(Map<String, dynamic> responseBody) {
 Future<ConsultantModel> fetchConsultantDetailData(int id) async {
   // String bearer = await getIDToken();
   var response = await http.Client().get(
-    Uri.parse('https://psycteam.azurewebsites.net/api/Consultants/getbyid?id=' +
-        id.toString()),
+    Uri.parse(
+        'https://psycteam.azurewebsites.net/api/Consultants/getbyidv2?id=' +
+            id.toString()),
     headers: <String, String>{
       'accept': '*/*',
       // 'Authorization': 'Bearer ' + bearer,

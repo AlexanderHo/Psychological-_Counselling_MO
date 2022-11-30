@@ -345,7 +345,7 @@ class ConsulItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Kinh nghiệm : Cấp ' + experience.toString(),
+                      'Kinh nghiệm : Cấp độ ' + experience.toString(),
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Color.fromARGB(179, 23, 23, 23),

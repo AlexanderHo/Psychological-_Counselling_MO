@@ -1,7 +1,9 @@
 import 'package:astrology/Components/app_bar.dart';
 import 'package:astrology/model/Consultant_model.dart';
+import 'package:astrology/model/Feedback_model.dart';
 import 'package:astrology/model/Specializations_model.dart';
 import 'package:astrology/reponsitory/Consultant_.dart';
+import 'package:astrology/reponsitory/FeedBack_.dart';
 import 'package:astrology/reponsitory/Specia_.dart';
 import 'package:astrology/resourse/SlotBooking/Slot_Booking.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +33,7 @@ class _AstroDetailPageState extends State<AstroDetailPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: TopBar.getAppBarHasBackIcon(size, context, 'Consultant', () {
+        appBar: TopBar.getAppBarHasBackIcon(size, context, 'Chuyên gia', () {
           Navigator.pop(context);
         }),
         body: SingleChildScrollView(
@@ -39,18 +41,19 @@ class _AstroDetailPageState extends State<AstroDetailPage> {
           child: Container(
             constraints:
                 BoxConstraints(minHeight: size.height, minWidth: size.width),
-            padding: EdgeInsets.fromLTRB(15.0, size.height * 0.1, 15.0, 0.0),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/background/background1.png'),
-                    fit: BoxFit.fill)),
+            color: Color(0xff031d2e),
+            // padding: EdgeInsets.fromLTRB(15.0, size.height * 0.1, 15.0, 0.0),
+            // decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //         image: AssetImage('assets/background/background1.png'),
+            //         fit: BoxFit.fill)),
             // mainAxisAlignment: MainAxisAlignment.start,
             // children: [
             child: Column(
               children: [
                 Container(
-                  height: 600,
-                  width: 420,
+                  // height: ,
+                  // width: 420,
                   child: FutureBuilder<ConsultantModel>(
                     future: consult,
                     builder: (context, snapshot) {
@@ -97,12 +100,15 @@ class ShowDetail extends StatelessWidget {
               height: size.height * 0.25,
               width: size.width * 0.45,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
+                  borderRadius: BorderRadius.circular(20.0),
                   image: DecorationImage(
                     image: NetworkImage(item.imageUrl!),
                     fit: BoxFit.fill,
                   )),
             ),
+          ),
+          SizedBox(
+            height: 20,
           ),
           Text(
             'Chuyên gia:' + item.fullName!,
@@ -138,7 +144,7 @@ class ShowDetail extends StatelessWidget {
             height: 10.0,
           ),
           Text(
-            'Email:' + item.email,
+            'Email : ' + item.email,
             style: TextStyle(
               color: Colors.white,
               fontSize: 20.0,
@@ -149,7 +155,7 @@ class ShowDetail extends StatelessWidget {
             height: 10.0,
           ),
           Text(
-            'Số điện thoại:' + item.phone!,
+            'Số điện thoại : ' + item.phone!,
             style: TextStyle(
               color: Colors.white,
               fontSize: 20.0,
@@ -194,7 +200,7 @@ class ShowDetail extends StatelessWidget {
             height: 10.0,
           ),
           Text(
-            'Kinh nhiệm: Cấp ' + experience.toString(),
+            'Kinh nhiệm: Cấp độ ' + experience.toString(),
             style: TextStyle(
               color: Colors.white,
               fontSize: 20.0,
@@ -253,92 +259,141 @@ class ShowDetail extends StatelessWidget {
                     ))
               ],
             ),
-          )
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 598,
+              width: 500,
+              child: FutureBuilder<List<FeedBackModel>>(
+                future: fetchFeedBack(item.id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Something went wrong!!'),
+                    );
+                  } else if (snapshot.hasData) {
+                    return FeedbackList(feedBackModels: snapshot.data!);
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-// class SpecList extends StatelessWidget {
-//   const SpecList({Key? key, required this.SpeciaModels}) : super(key: key);
+class FeedbackList extends StatelessWidget {
+  const FeedbackList({Key? key, required this.feedBackModels})
+      : super(key: key);
 
-//   final List<SpeciaModel> SpeciaModels;
+  final List<FeedBackModel> feedBackModels;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//         scrollDirection: Axis.horizontal,
-//         // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//         //   crossAxisCount: 2,
-//         //   // mainAxisSpacing:10.0,
-//         //   // crossAxisSpacing:5.0,
-//         //   childAspectRatio: 0.9,
-//         // ),
-//         itemCount: SpeciaModels.length,
-//         itemBuilder: (BuildContext context, int index) {
-//           return GestureDetector(
-//               onTap: () {
-//                 // Navigator.push(
-//                 //   context,
-//                 //   MaterialPageRoute(
-//                 //     builder: (context) => BookingPage(
-//                 //         slotId: SlotModels[index].id,
-//                 //         timeStart: SlotModels[index].timeStart,
-//                 //         timeEnd: SlotModels[index].timeEnd,
-//                 //         price: SlotModels[index].price ?? 0,
-//                 //         dateSlot: SlotModels[index].dateSlot,
-//                 //         consultantName: SlotModels[index].consultantName,
-//                 //         imageUrl: SlotModels[index].imageUrl,
-//                 //         consultantId: SlotModels[index].consultantId,
-//                 //         customerId: CurrentUser.getUserId()!),
-//                 //     // PlanetdetailPage(
-//                 //     //       id: planetModels[index].id,)
-//                 //   ),
-//                 // );
-//               },
-//               child: SpeciaItem(
-//                 item: SpeciaModels[index],
-//               ));
-//         });
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: feedBackModels.length,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+              onTap: () {},
+              child: SpeciaItem(
+                item: feedBackModels[index],
+              ));
+        });
+  }
+}
 
-// class SpeciaItem extends StatelessWidget {
-//   SpeciaModel item;
-//   SpeciaItem({required this.item});
+class SpeciaItem extends StatelessWidget {
+  FeedBackModel item;
+  SpeciaItem({required this.item});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     Size size = MediaQuery.of(context).size;
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
 
-//     return Padding(
-//       padding: const EdgeInsets.only(top: 10.0, right: 10.0),
-//       child: Container(
-//         decoration: BoxDecoration(
-//           border: Border.all(color: Colors.black54),
-//           borderRadius: BorderRadius.circular(15.0),
-//           color: Colors.white,
-//         ),
-//         child: Padding(
-//           padding: const EdgeInsets.only(right: 5.0, left: 5.0),
-//           child: Column(
-//             children: [
-//               SizedBox(
-//                 height: 5.0,
-//               ),
-//               Text(
-//                 item.specname,
-//                 style: TextStyle(
-//                   color: Colors.black54,
-//                   fontWeight: FontWeight.w500,
-//                   fontSize: 20.0,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0, right: 10.0),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black54),
+          borderRadius: BorderRadius.circular(15.0),
+          color: Color(0xff17384e),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 5.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 5.0,
+              ),
+              Text(
+                item.customerName,
+                style: TextStyle(
+                  color: Colors.white60,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18.0,
+                ),
+              ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Text(
+                item.dateCreate,
+                style: TextStyle(
+                  color: Colors.white60,
+                  fontWeight: FontWeight.w300,
+                  fontSize: 12.0,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  children: [
+                    RatingBar.builder(
+                      itemSize: 20,
+                      initialRating: item.rate.toDouble(),
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                      ),
+                      onRatingUpdate: (rating) {
+                        print(rating);
+                      },
+                      ignoreGestures: true,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Text(
+                item.feedback,
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 25.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

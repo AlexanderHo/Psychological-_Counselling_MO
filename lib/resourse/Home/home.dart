@@ -733,7 +733,7 @@ class ConsulItem extends StatelessWidget {
                 ),
               ),
               Text(
-                'Kinh nghiệm : Cấp ' + exp.toString(),
+                'Kinh nghiệm : Cấp độ ' + exp.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white60,

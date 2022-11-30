@@ -9,12 +9,8 @@ import 'package:astrology/resourse/app_router.dart';
 import 'package:astrology/resourse/profile/add&editProfile/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
-
 import '../../model/user.dart';
-
-// import '../../reponsitory/google_sign_in.dart';
 import '../../reponsitory/user_.dart';
 import 'add&editProfile/add_profile.dart';
 import 'add&editProfile/edit_account.dart';
