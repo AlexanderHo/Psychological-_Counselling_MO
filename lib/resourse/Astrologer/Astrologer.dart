@@ -1,7 +1,6 @@
 import 'package:astrology/Components/app_bar.dart';
 import 'package:astrology/reponsitory/Consultant_.dart';
 import 'package:astrology/resourse/Astrologer/AstrologerDetail.dart';
-import 'package:astrology/resourse/SlotBooking/Slot_Booking.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
@@ -284,10 +283,6 @@ class ConsulList extends StatelessWidget {
                         builder: (context) => AstroDetailPage(
                               consulId: consulModels[index].id,
                             )));
-                // MaterialPageRoute(
-                //   builder: (context) =>
-                //       SlotBookingPage(consultantId: consulModels[index].id),
-                // ));
               },
               child: ConsulItem(
                 item: consulModels[index],

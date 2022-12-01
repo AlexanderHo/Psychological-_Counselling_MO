@@ -32,7 +32,9 @@ class ConsultantModel {
     return ConsultantModel(
         id: json['id'] as int,
         fullName: json['fullName'] as String?,
-        imageUrl: json['imageUrl'] as String?,
+        imageUrl: json['imageUrl'] == null
+            ? 'https://firebasestorage.googleapis.com/v0/b/psycteamv1.appspot.com/o/useravatar%2F1668496981385kissclipart-api-icon-png-clipart-computer-icons-application-pr-46d0976647deed9c.png?alt=media&token=aa90df82-6483-44a5-95fd-cb02e8ecfa98'
+            : json['imageUrl'],
         // avartarUrl: json['avartarUrl'] as String?,
         email: json['email'] as String,
         address: json['address'] as String?,

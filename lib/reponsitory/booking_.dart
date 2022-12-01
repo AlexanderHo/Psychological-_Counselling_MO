@@ -66,9 +66,7 @@ Future<void> FeedBack(
       'accept': 'application/json',
     },
   );
-  final a = response;
-  print(a.body);
-  log(a.statusCode.toString());
+  final a = json.decode(response.body);
   if (response.statusCode == 200) {
     print("canel run");
     AppRouter.out(HomeScreen());
@@ -82,10 +80,10 @@ Future<void> FeedBack(
         fontSize: 16.0);
   } else {
     Fluttertoast.showToast(
-        msg: "Feedback thất bại",
+        msg: a['message'].toString(),
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
+        timeInSecForIosWeb: 3,
         backgroundColor: Colors.red.shade200,
         textColor: Colors.black54,
         fontSize: 16.0);

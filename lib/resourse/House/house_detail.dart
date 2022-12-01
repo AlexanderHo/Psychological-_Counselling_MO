@@ -43,11 +43,12 @@ class _HouseDetailState extends State<HouseDetail> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
+          color: Color(0xff17384e),
           padding: EdgeInsets.fromLTRB(15.0, size.height * 0.1, 15.0, 20.0),
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/background/background1.png'),
-                  fit: BoxFit.fill)),
+          // decoration: BoxDecoration(
+          //     image: DecorationImage(
+          //         image: AssetImage('assets/background/background1.png'),
+          //         fit: BoxFit.fill)),
           child: FutureBuilder<HouseModel>(
             future: house,
             builder: (context, snapshot) {

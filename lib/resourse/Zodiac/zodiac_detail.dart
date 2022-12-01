@@ -47,10 +47,11 @@ class _ZodiacdetailPageState extends State<ZodiacdetailPage> {
         scrollDirection: Axis.vertical,
         child: Container(
           padding: EdgeInsets.fromLTRB(15.0, size.height * 0.1, 15.0, 20.0),
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/background/background1.png'),
-                  fit: BoxFit.fill)),
+          color: Color.fromARGB(255, 57, 99, 126),
+          // decoration: BoxDecoration(
+          //     image: DecorationImage(
+          //         image: AssetImage('assets/background/background1.png'),
+          //         fit: BoxFit.fill)),
           child: FutureBuilder<ZodiacModel>(
             future: planet,
             builder: (context, snapshot) {
@@ -99,7 +100,7 @@ class ShowDetail extends StatelessWidget {
           Text(
             item.name,
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 25.0,
             ),
@@ -110,7 +111,7 @@ class ShowDetail extends StatelessWidget {
           Text(
             'Sơ lược về ' + item.name,
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),

@@ -2,7 +2,9 @@ import 'package:astrology/Components/app_bar.dart';
 import 'package:astrology/model/Slot_model.dart';
 import 'package:astrology/reponsitory/current_user_shared_preferences.dart';
 import 'package:astrology/reponsitory/slot_.dart';
+import 'package:astrology/resourse/Astrologer/AstrologerDetail.dart';
 import 'package:astrology/resourse/Booking/booking.dart';
+import 'package:astrology/resourse/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
@@ -50,7 +52,7 @@ class _SlotBookingPageState extends State<SlotBookingPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: TopBar.getAppBarHasBackIcon(size, context, 'Đặt lịch hẹn', () {
-        Navigator.pop(context);
+        AppRouter.push(AstroDetailPage(consulId: widget.consultantId));
       }),
       body: Column(
         children: [

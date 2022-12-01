@@ -113,3 +113,16 @@ Future<List<SlotModel>> fetchStream() async {
   }
   return parseSlot(data['data']);
 }
+
+//======================================
+Future<List<SlotModel>> fetchSlotHis(int id, String date) async {
+  var response = await http.get(
+      Uri.parse(
+          'https://psycteam.azurewebsites.net/api/SlotBookings/GetHistoryByCustomerid?date=${date}&customerid=${id}'),
+      headers: <String, String>{
+        'accept': '*/*',
+      });
+  Map data = jsonDecode(response.body);
+  print(data);
+  return parseSlot(data['data']);
+}

@@ -170,69 +170,70 @@ class _BodyCallState extends State<BodyCall> {
             padding: const EdgeInsets.all(12),
           ),
           RawMaterialButton(
-            onPressed: () {
-              // => Navigator.pop(context),
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Thông báo'),
-                        content: Text('Vui Lòng đánh giá cuộc hẹn này'),
-                        actions: <Widget>[
-                          Form(
-                            key: _reasonKey,
-                            child: TextFormField(
-                              controller: feedback,
-                              decoration: InputDecoration(
-                                  hintText: 'Nhập cảm nhận của bạn...'),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Vui lòng nhập cảm nhận...';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          TextFormField(
-                            controller: rate,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                                hintText: 'Nhập rating của bạn...'),
-                            validator: (value) {
-                              if (int.parse(value!) < 6 ||
-                                  int.parse(value!) > 0) {
-                                return 'Vui lòng nhập rating...';
-                              }
-                              return null;
-                            },
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 3),
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      FeedBack(widget.bookingId!, feedback!,
-                                          int.parse(rate!.text));
+            onPressed: () => Navigator.pop(context),
+            // {
+            //   // => Navigator.pop(context),
+            //   showDialog(
+            //       context: context,
+            //       builder: (BuildContext context) => AlertDialog(
+            //             title: const Text('Thông báo'),
+            //             content: Text('Vui Lòng đánh giá cuộc hẹn này'),
+            //             actions: <Widget>[
+            //               Form(
+            //                 key: _reasonKey,
+            //                 child: TextFormField(
+            //                   controller: feedback,
+            //                   decoration: InputDecoration(
+            //                       hintText: 'Nhập cảm nhận của bạn...'),
+            //                   validator: (value) {
+            //                     if (value == null || value.isEmpty) {
+            //                       return 'Vui lòng nhập cảm nhận...';
+            //                     }
+            //                     return null;
+            //                   },
+            //                 ),
+            //               ),
+            //               TextFormField(
+            //                 controller: rate,
+            //                 keyboardType: TextInputType.number,
+            //                 decoration: InputDecoration(
+            //                     hintText: 'Nhập rating của bạn...'),
+            //                 validator: (value) {
+            //                   if (int.parse(value!) < 6 ||
+            //                       int.parse(value!) > 0) {
+            //                     return 'Vui lòng nhập rating...';
+            //                   }
+            //                   return null;
+            //                 },
+            //               ),
+            //               Row(
+            //                 mainAxisAlignment: MainAxisAlignment.center,
+            //                 children: [
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(right: 3),
+            //                     child: ElevatedButton(
+            //                         onPressed: () {
+            //                           FeedBack(widget.bookingId!, feedback!,
+            //                               int.parse(rate!.text));
 
-                                      Navigator.pop(context, 'Xác nhận');
-                                    },
-                                    child: const Text('Xác nhận')),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 3),
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context, 'Hủy');
-                                    },
-                                    child: const Text('Hủy')),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ));
-              // Navigator.pop(context);
-            },
+            //                           Navigator.pop(context, 'Xác nhận');
+            //                         },
+            //                         child: const Text('Xác nhận')),
+            //                   ),
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(left: 3),
+            //                     child: ElevatedButton(
+            //                         onPressed: () {
+            //                           Navigator.pop(context, 'Hủy');
+            //                         },
+            //                         child: const Text('Hủy')),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ],
+            //           ));
+            //   // Navigator.pop(context);
+            // },
             child: const Icon(
               Icons.call_end,
               color: Colors.white,

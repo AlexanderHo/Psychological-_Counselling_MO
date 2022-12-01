@@ -5,9 +5,12 @@ import 'package:astrology/model/Specializations_model.dart';
 import 'package:astrology/reponsitory/Consultant_.dart';
 import 'package:astrology/reponsitory/FeedBack_.dart';
 import 'package:astrology/reponsitory/Specia_.dart';
+import 'package:astrology/resourse/Astrologer/Astrologer.dart';
 import 'package:astrology/resourse/SlotBooking/Slot_Booking.dart';
+import 'package:astrology/resourse/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AstroDetailPage extends StatefulWidget {
   int consulId;
@@ -34,7 +37,7 @@ class _AstroDetailPageState extends State<AstroDetailPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: TopBar.getAppBarHasBackIcon(size, context, 'Chuyên gia', () {
-          Navigator.pop(context);
+          AppRouter.push(AstrologerPage());
         }),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -109,6 +112,37 @@ class ShowDetail extends StatelessWidget {
           ),
           SizedBox(
             height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                  onPressed: () async {
+                    final url = 'https://zalo.me/${item.phone}';
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    }
+                  },
+                  icon: Image.asset(
+                    "assets/icon/zalo.png",
+                    color: Color(0xFFff7010),
+                    width: size.width * 0.08,
+                  ),
+                  iconSize: size.width * 0.09),
+              IconButton(
+                  onPressed: () async {
+                    final url = 'sms:${item.phone}';
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    }
+                  },
+                  icon: Image.asset(
+                    "assets/icon/sms.png",
+                    color: Color(0xFFff7010),
+                    width: size.width * 0.08,
+                  ),
+                  iconSize: size.width * 0.09),
+            ],
           ),
           Text(
             'Chuyên gia:' + item.fullName!,

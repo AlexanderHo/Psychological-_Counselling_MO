@@ -13,26 +13,6 @@ class DailyHocroscopePage extends StatefulWidget {
 }
 
 class _DailyHocroscopePageState extends State<DailyHocroscopePage> {
-  TimeOfDay timeStart =
-      TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute);
-  // String? timeConver;
-  TimeOfDay? time;
-  TextEditingController price = TextEditingController();
-  TextEditingController timeStartController = TextEditingController();
-
-  bool checkTime(TimeOfDay startTime, TimeOfDay? time) {
-    bool result = false;
-    int startTimeInt = (startTime.hour * 60 + startTime.minute) * 60;
-    int EndTimeInt = (time!.hour * 60 + time.minute) * 60;
-
-    if (EndTimeInt >= startTimeInt) {
-      result = true;
-    } else {
-      result = false;
-    }
-    return result;
-  }
-
   CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
   DateTime _focusedDay = DateTime.now();
 

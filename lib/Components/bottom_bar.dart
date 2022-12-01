@@ -1,6 +1,7 @@
 import 'package:astrology/reponsitory/current_user_shared_preferences.dart';
 import 'package:astrology/resourse/Astrologer/Astrologer.dart';
 import 'package:astrology/resourse/Live/live.dart';
+import 'package:astrology/resourse/Schedule/History.dart';
 import 'package:astrology/resourse/Surveys/Survey.dart';
 import 'package:astrology/resourse/Surveys/SurveyType.dart';
 import 'package:astrology/resourse/Wallet/wallet.dart';
@@ -8,111 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:astrology/resourse/Home/home.dart';
 import 'package:astrology/resourse/Schedule/schedule.dart';
 import 'package:astrology/resourse/Call/call.dart';
-import 'package:astrology/resourse/Chat/chat.dart';
 
-// class BottomBar extends StatefulWidget {
-//   @override
-//   State<BottomBar> createState() => _BottomBarState();
-// }
-
-// class _BottomBarState extends State<BottomBar> {
-//   late PageController _pageController;
-
-//   int _selectedIndex = 0;
-
-//   late Future<UserModel> currentUser;
-
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//     _pageController.animateToPage(index,
-//         duration: Duration(milliseconds: 500), curve: Curves.easeIn);
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _pageController = PageController(
-//       initialPage: _selectedIndex,
-//     );
-//     currentUser = GoogleSignInProvider().getCurrentUser();
-//     CurrentUser.saveCurrentUser(currentUser);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: FutureBuilder<UserModel>(
-//         future: currentUser,
-//         builder: (context, snapshot) {
-//           if (snapshot.hasError) {
-//             return Center(
-//               child: Text('Something went wrong!!'),
-//             );
-//           } else if (snapshot.hasData) {
-//             return PageView(
-//               controller: _pageController,
-//               onPageChanged: (newPage) {
-//                 setState(() {
-//                   _selectedIndex = newPage;
-//                 });
-//               },
-//               children: [
-//                 // HomePage(),
-//                 HomeScreen(),
-//                 CallPage(),
-//                 ShopPage(),
-//                 LivePage(),
-//                 SchedulePage(finished: true),
-//               ],
-//             );
-//           } else {
-//             return Center(
-//               child: CircularProgressIndicator(),
-//             );
-//           }
-//         },
-//       ),
-//       bottomNavigationBar: BottomNavigationBar(
-//         elevation: 1000.0,
-//         backgroundColor: Color.fromRGBO(154, 117, 240, 0.8),
-//         currentIndex: _selectedIndex,
-//         onTap: _onItemTapped,
-//         selectedItemColor: Color.fromRGBO(255, 46, 171, 1.0),
-//         unselectedItemColor: Colors.white,
-//         showUnselectedLabels: true,
-//         items: [
-//           BottomNavigationBarItem(
-//             icon: ImageIcon(AssetImage('assets/icon/home.png')),
-//             label: 'Home',
-//             backgroundColor: Color.fromRGBO(154, 117, 240, 0.8),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: ImageIcon(AssetImage('assets/icon/call_icon.png')),
-//             label: 'Call',
-//             backgroundColor: Color.fromRGBO(154, 117, 240, 0.8),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: ImageIcon(AssetImage('assets/icon/shop.jpg')),
-//             label: 'Shop',
-//             backgroundColor: Color.fromRGBO(154, 117, 240, 0.8),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: ImageIcon(AssetImage('assets/icon/live.png')),
-//             label: 'Live',
-//             backgroundColor: Color.fromRGBO(154, 117, 240, 0.8),
-//           ),
-//           BottomNavigationBarItem(
-//             icon: ImageIcon(AssetImage('assets/icon/appointment.png')),
-//             label: 'Lịch',
-//             backgroundColor: Color.fromRGBO(154, 117, 240, 0.8),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 class BottomBar extends StatelessWidget {
   String selected = "";
   Color colorSelected = Color(0xFFff7010);
@@ -176,58 +73,8 @@ class BottomBar extends StatelessWidget {
                 ],
               ),
             ),
-          //=============================================================APPOINTMENT
-          if (selected == "Chat")
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return SurveyTypePage();
-                  },
-                ));
-              },
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/icon/chat.png",
-                    color: colorSelected,
-                    width: size.width * 0.09,
-                  ),
-                  Text(
-                    "Call",
-                    style: TextStyle(fontSize: 14, color: Colors.white),
-                  )
-                ],
-              ),
-            )
-          else
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return SurveyTypePage();
-                  },
-                ));
-              },
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/icon/chat.png",
-                    color: colorNormal,
-                    width: size.width * 0.09,
-                  ),
-                  Text(
-                    "Chat",
-                    style: TextStyle(fontSize: 12, color: Colors.white60),
-                  )
-                ],
-              ),
-            ),
-          //=============================================================SEARCH
+
+          //=============================================================chuyen gia
           if (selected == "Consultant")
             GestureDetector(
               onTap: () {
@@ -353,6 +200,57 @@ class BottomBar extends StatelessWidget {
                     "Live",
                     style: TextStyle(fontSize: 12, color: Colors.white60),
                   ),
+                ],
+              ),
+            ),
+          //=============================================================APPOINTMENT
+          if (selected == "History")
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return HistoryPage();
+                  },
+                ));
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/icon/history-icon.png",
+                    color: colorSelected,
+                    width: size.width * 0.09,
+                  ),
+                  Text(
+                    "History",
+                    style: TextStyle(fontSize: 14, color: Colors.white),
+                  )
+                ],
+              ),
+            )
+          else
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return HistoryPage();
+                  },
+                ));
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/icon/history-icon.png",
+                    color: colorNormal,
+                    width: size.width * 0.088,
+                  ),
+                  Text(
+                    "History",
+                    style: TextStyle(fontSize: 12, color: Colors.white60),
+                  )
                 ],
               ),
             ),
