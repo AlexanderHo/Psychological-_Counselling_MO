@@ -22,17 +22,30 @@ TextEditingController? rate = TextEditingController();
 
 class _HistoryPageState extends State<HistoryPage> {
   int customerId = CurrentUser.getUserId() ?? 0;
-  CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
-  DateTime _focusedDay = DateTime.now();
+  DateTime? date = DateTime.now();
+  DateFormat formatDate = DateFormat('yyyy-MM-dd');
+  String _date = '';
 
-  final format = DateFormat('yyyy-MM-dd');
   DateTime? _selectedDay;
   late Future<List<SlotModel>> his;
   @override
   void initState() {
-    his = fetchSlotHis(customerId, format.format(_focusedDay));
+    his = fetchSlotHis(customerId, _date = formatDate.format(date!));
     super.initState();
-    print(_focusedDay);
+  }
+
+  void _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(Duration(days: 31)),
+      lastDate: DateTime.now(),
+    ).then((value) {
+      setState(() {
+        date = value!;
+        his = fetchSlotHis(customerId, _date = formatDate.format(date!));
+      });
+    });
   }
 
   @override
@@ -46,47 +59,66 @@ class _HistoryPageState extends State<HistoryPage> {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Card(
-                  child: TableCalendar(
-                    // locale: 'us',
-                    focusedDay: DateTime.now(),
-                    firstDay: DateTime.now().subtract(Duration(days: 30)),
-                    // firstDay: DateTime.now().subtract(Duration(days: 7)),
-                    lastDay: DateTime.now(),
-                    selectedDayPredicate: (day) {
-                      return isSameDay(_selectedDay, day);
-                    },
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                        his = fetchSlotHis(
-                            customerId,
-                            format.format(
-                                _focusedDay)); // update `_focusedDay` here as well
-                        print(format.format(_focusedDay));
-                      });
-                    },
-                    calendarFormat: _calendarFormat,
-                    onFormatChanged: (format) {
-                      setState(() {
-                        _calendarFormat = format;
-                      });
-                    },
-                    onPageChanged: (focusedDay) {
-                      _focusedDay = focusedDay;
-                    },
-                  ),
-                ),
-              ),
+              Container(
+                  height: 70,
+                  color: Colors.blue.shade50,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Ngày ' +
+                                    '${date!.day} ' +
+                                    'tháng ' +
+                                    '${DateFormat.M().format(date!)} ' +
+                                    'năm ' +
+                                    '${DateFormat.y().format(date!)} ',
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 25.0),
+                              ),
+                              // Text(
+                              //   '${date!.day}',
+                              //   style: TextStyle(
+                              //       fontStyle: FontStyle.normal, fontSize: 20.0),
+                              // ),
+                              // Text(
+                              //   '${DateFormat.EEEE().format(date!)}',
+                              //   style: TextStyle(
+                              //       fontStyle: FontStyle.normal, fontSize: 20.0),
+                              // )
+                            ],
+                          ),
+                        ),
+                      )),
+                      GestureDetector(
+                        onTap: _showDatePicker,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child:
+                                Icon(Icons.calendar_month, color: Colors.black),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
               SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    height: 800,
+                    height: 600,
                     width: 500,
                     child: FutureBuilder<List<SlotModel>>(
                       future: his,
@@ -156,8 +188,9 @@ class slotItem extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black38),
           borderRadius: BorderRadius.circular(15.0),
-          color:
-              item.status == "cancel" ? Colors.red[200] : Colors.green.shade50,
+          color: item.status == "cancel" || item.status == "overdue"
+              ? Colors.red[200]
+              : Colors.green.shade50,
         ),
         child: Center(
           child: Row(
@@ -187,17 +220,17 @@ class slotItem extends StatelessWidget {
                           fontSize: 18.0,
                         ),
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'Chủ đề',
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 18.0,
-                        ),
-                      ),
+                      // SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Text(
+                      //   'Chủ đề' + item.description!,
+                      //   style: TextStyle(
+                      //     color: Colors.black87,
+                      //     fontWeight: FontWeight.w400,
+                      //     fontSize: 18.0,
+                      //   ),
+                      // ),
                       SizedBox(
                         height: 5,
                       ),
@@ -226,6 +259,7 @@ class slotItem extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // item.status=="cancel" ? return null :
                           Container(
                             height: 15,
                             width: 100,
@@ -234,7 +268,8 @@ class slotItem extends StatelessWidget {
                                 color: Colors.red[200]),
                             child: ElevatedButton(
                               onPressed: () {
-                                if (item.status == "cancel") {
+                                if (item.status == "cancel" ||
+                                    item.status == "overdue") {
                                   return null;
                                 }
                                 showDialog(
@@ -331,7 +366,8 @@ class slotItem extends StatelessWidget {
                               },
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
-                                item.status == "cancel"
+                                item.status == "cancel" ||
+                                        item.status == "overdue"
                                     ? Colors.grey[400]
                                     : Colors.red[400],
                               )),
@@ -354,14 +390,10 @@ class slotItem extends StatelessWidget {
                             child: OutlinedButton(
                               onPressed: () {
                                 AppRouter.push(HisDetailPage(
-                                    slotId: item.id,
-                                    timeStart: item.timeStart,
-                                    timeEnd: item.timeEnd,
-                                    price: item.price,
-                                    dateSlot: item.dateSlot,
-                                    consultantName: item.consultantName,
-                                    imageUrl: item.imageUrl,
-                                    consultantId: item.consultantId));
+                                  slotId: item.id,
+                                  imageUrl: item.imageUrl,
+                                  consulName: item.consultantName,
+                                ));
                               },
                               child: Text(
                                 'chi tiết',

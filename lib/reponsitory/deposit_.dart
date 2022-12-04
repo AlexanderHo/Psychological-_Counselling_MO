@@ -18,7 +18,7 @@ Future<DepositModel> getDeposit(
   int id = CurrentUser.getUserId() ?? 0;
   print(amount.text);
   String url =
-      'https://psycteam.azurewebsites.net/api/Deposits/create?customerid=${id}&amount=${amount.text}';
+      'https://psycteamv2.azurewebsites.net/api/Deposits/create?customerid=${id}&amount=${amount.text}';
   var response = await http.Client().post(
     Uri.parse(url),
     headers: <String, String>{

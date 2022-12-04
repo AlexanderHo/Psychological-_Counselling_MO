@@ -1,27 +1,27 @@
 import 'package:astrology/Components/app_bar.dart';
+import 'package:astrology/reponsitory/ForgetPass.dart';
 import 'package:astrology/resourse/Wallet/Momo.dart';
 import 'package:astrology/resourse/Wallet/banking.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 
-class DepositPage extends StatefulWidget {
-  const DepositPage({super.key});
+class ForgetPassPage extends StatefulWidget {
+  const ForgetPassPage({super.key});
 
   @override
-  State<DepositPage> createState() => _DepositPageState();
+  State<ForgetPassPage> createState() => _ForgetPassPageState();
 }
 
-class _DepositPageState extends State<DepositPage> {
+class _ForgetPassPageState extends State<ForgetPassPage> {
   final _formKey = GlobalKey<FormState>();
   final amountController = TextEditingController();
-  final methodController = GroupButtonController(selectedIndex: 0);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double paddingIcon = size.height * 0.009;
     double marginBetween = size.height * 0.017;
     return Scaffold(
-        appBar: TopBar.getAppBarHasBackIcon(size, context, 'Nạp tiền', () {
+        appBar: TopBar.getAppBarHasBackIcon(size, context, 'Quên mật khẩu', () {
           Navigator.pop(context);
         }),
         body: SafeArea(
@@ -50,7 +50,7 @@ class _DepositPageState extends State<DepositPage> {
                                 child: Container(
                                   color: const Color.fromRGBO(0, 0, 0, 0.3),
                                   child: const Icon(
-                                    Icons.monetization_on_outlined,
+                                    Icons.account_box_outlined,
                                     size: 40,
                                     color: Colors.black54,
                                   ),
@@ -72,21 +72,18 @@ class _DepositPageState extends State<DepositPage> {
                                         controller: amountController,
                                         validator: ((value) {
                                           if (value!.isEmpty) {
-                                            return 'Làm ơn nhập số Gem cần nạp';
-                                          } else if (int.parse(value) < 20 ||
-                                              int.parse(value) > 20000) {
-                                            return 'Tiền Gem từ 20 đến 20000 Gem';
+                                            return 'Vui lòng nhập tên đăng nhập';
                                           }
                                           return null;
                                         }),
                                         // maxLength: 4,
-                                        keyboardType: TextInputType.number,
+                                        keyboardType: TextInputType.name,
                                         style: const TextStyle(
                                             color: Colors.black87,
                                             fontSize: 21.5),
                                         decoration: const InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: 'Số Gem',
+                                          hintText: 'Tên Đăng nhập',
                                           hintStyle: TextStyle(
                                               color: Colors.black,
                                               fontSize: 20),
@@ -113,36 +110,7 @@ class _DepositPageState extends State<DepositPage> {
                           ],
                         ),
                       ),
-                      Text(
-                          '*1 Gem = 1.000 VND.\n* Bạn có thể nạp từ 20 đến 20.000 Gem.',
-                          style: TextStyle(color: Colors.red, fontSize: 12)),
-                      Container(
-                          margin: EdgeInsets.only(top: marginBetween),
-                          child: GroupButton(
-                            controller: methodController,
-                            isRadio: true,
-                            buttons: const ["Momo", "Banking"],
-                            onSelected: (int index, bool isSelected) {},
-                            selectedButton: 0,
-                            selectedTextStyle: const TextStyle(
-                              decoration: TextDecoration.none,
-                              color: Colors.white,
-                              fontSize: 14.0,
-                            ),
-                            selectedBorderColor: const Color(0xff17384e),
-                            unselectedBorderColor: Colors.black54,
-                            selectedColor: const Color(0xff17384e),
-                            unselectedColor:
-                                const Color.fromRGBO(250, 250, 250, 0.1),
-                            unselectedTextStyle: const TextStyle(
-                              decoration: TextDecoration.none,
-                              color: Colors.black54,
-                              fontSize: 14.0,
-                            ),
-                            borderRadius: BorderRadius.circular(15.0),
-                            buttonHeight: size.height * 0.065,
-                            buttonWidth: size.width * 0.42,
-                          )),
+
                       Container(
                         margin: EdgeInsets.only(
                             top: size.height * 0.026, bottom: 10.0),
@@ -154,28 +122,12 @@ class _DepositPageState extends State<DepositPage> {
                             border: Border.all(color: Colors.white70)),
                         child: OutlinedButton(
                           onPressed: () {
-                            if (methodController.selectedIndex == 0) {
-                              if (_formKey.currentState!.validate()) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          MomoPage(amount: amountController)),
-                                );
-                              }
-                            } else {
-                              if (_formKey.currentState!.validate()) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          BakingPage(amount: amountController)),
-                                );
-                              }
+                            if (_formKey.currentState!.validate()) {
+                              ForgetPass(amountController.text);
                             }
                           },
                           child: Text(
-                            'Nạp',
+                            'Lấy Mã',
                             style: TextStyle(
                               decoration: TextDecoration.none,
                               color: Colors.white,

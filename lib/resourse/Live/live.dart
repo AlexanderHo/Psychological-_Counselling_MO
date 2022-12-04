@@ -43,6 +43,13 @@ class LivePage extends StatelessWidget {
                       );
                     } else if (snapshot.hasData) {
                       return SlotList(slotModels: snapshot.data!);
+                    } else if (snapshot.data == null) {
+                      return Center(
+                        child: Text(
+                          'Hiện chư có lịch live !!!',
+                          style: TextStyle(color: Colors.amber),
+                        ),
+                      );
                     } else {
                       return Center(
                         child: CircularProgressIndicator(),

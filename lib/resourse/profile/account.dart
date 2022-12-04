@@ -142,7 +142,7 @@ class _AccountPageState extends State<AccountPage> {
                             style: TextStyle(
                               fontSize: 20.0,
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                              // fontWeight: FontWeight.bold,
                             ),
                           ),
                           Container(
@@ -176,7 +176,7 @@ class _AccountPageState extends State<AccountPage> {
                               );
                             },
                             child: Container(
-                              padding: EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.all(10.0),
                               margin: EdgeInsets.all(10.0),
                               height: size.height * 0.06,
                               width: size.width * 0.5,

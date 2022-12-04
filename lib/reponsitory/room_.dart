@@ -16,7 +16,7 @@ RoomModel parseRoom(Map<String, dynamic> responseBody) {
 Future<RoomModel> fetchRoom(int id, int bookingId) async {
   var response = await http.get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/SlotBookings/getroomslotbooking?id=${id}'),
+          'https://psycteamv2.azurewebsites.net/api/SlotBookings/getroomslotbooking?id=${id}'),
       headers: <String, String>{
         'accept': '*/*',
       });
@@ -58,7 +58,7 @@ Future<void> _handleCameraandMic(Permission permission) async {
 Future<RoomModel> fetchLiveStream(int id) async {
   var response = await http.get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/SlotBookings/getroomslotbooking?id=${id}'),
+          'https://psycteamv2.azurewebsites.net/api/SlotBookings/getroomslotbooking?id=${id}'),
       headers: <String, String>{
         'accept': '*/*',
       });

@@ -43,7 +43,9 @@ class _HouseDetailState extends State<HouseDetail> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          color: Color(0xff17384e),
+          constraints:
+              BoxConstraints(minHeight: size.height, minWidth: size.width),
+          color: Color.fromARGB(255, 57, 99, 126),
           padding: EdgeInsets.fromLTRB(15.0, size.height * 0.1, 15.0, 20.0),
           // decoration: BoxDecoration(
           //     image: DecorationImage(

@@ -94,7 +94,7 @@ class BottomBar extends StatelessWidget {
                     width: size.width * 0.09,
                   ),
                   Text(
-                    "Consultant",
+                    "Chuyên gia",
                     style: TextStyle(fontSize: 14, color: Colors.white),
                   )
                 ],
@@ -120,7 +120,7 @@ class BottomBar extends StatelessWidget {
                     width: size.width * 0.09,
                   ),
                   Text(
-                    "Consultant",
+                    "Chuyên gia",
                     style: TextStyle(fontSize: 12, color: Colors.white60),
                   )
                 ],
@@ -223,7 +223,7 @@ class BottomBar extends StatelessWidget {
                     width: size.width * 0.09,
                   ),
                   Text(
-                    "History",
+                    "Lịch sử",
                     style: TextStyle(fontSize: 14, color: Colors.white),
                   )
                 ],
@@ -248,7 +248,7 @@ class BottomBar extends StatelessWidget {
                     width: size.width * 0.088,
                   ),
                   Text(
-                    "History",
+                    "Lịch sử",
                     style: TextStyle(fontSize: 12, color: Colors.white60),
                   )
                 ],
@@ -274,7 +274,7 @@ class BottomBar extends StatelessWidget {
                     width: size.width * 0.09,
                   ),
                   Text(
-                    "Schedule",
+                    "Cuộc hẹn",
                     style: TextStyle(fontSize: 14, color: Colors.white),
                   )
                 ],
@@ -299,7 +299,7 @@ class BottomBar extends StatelessWidget {
                     width: size.width * 0.09,
                   ),
                   Text(
-                    "Schedule",
+                    "Cuộc hẹn",
                     style: TextStyle(fontSize: 12, color: Colors.white60),
                   )
                 ],

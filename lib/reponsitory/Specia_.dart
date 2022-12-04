@@ -12,7 +12,7 @@ List<SpeciaModel> parseSpec(List response) {
 Future<List<SpeciaModel>> fetchSpec(int id) async {
   var response = await http.get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/Specializations/getbyconsultantid?id=' +
+          'https://psycteamv2.azurewebsites.net/api/Specializations/getbyconsultantid?id=' +
               id.toString()),
       headers: <String, String>{
         'accept': '*/*',

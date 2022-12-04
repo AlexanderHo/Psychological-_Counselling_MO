@@ -3,6 +3,7 @@ import 'package:astrology/blocs/auth_events.dart';
 import 'package:astrology/blocs/auth_state.dart';
 import 'package:astrology/reponsitory/auth_repo.dart';
 import 'package:astrology/reponsitory/user_.dart';
+import 'package:astrology/resourse/ChangePass/ForgetPass.dart';
 import 'package:astrology/resourse/Home/home.dart';
 import 'package:astrology/resourse/Login&register/Register.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -27,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   bool isHidePassword = true;
   Icon passwordIcon = const Icon(Icons.visibility);
   late Future<UserModel> currentUser;
+  bool isLoadling = false;
   @override
   void initState() {
     // authBloc = BlocProvider.of<AuthBloc>(context);
@@ -94,19 +96,34 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.symmetric(vertical: 16.0),
       child: OutlinedButton(
         onPressed: () {
+          setState(() {
+            isLoadling = true;
+          });
           // authBloc.add(LoginBottonPressed(
           //     userName: userName.text, password: password.text));
           AuthRepo().login(userName.text, password.text);
+          Future.delayed(
+            Duration(seconds: 3),
+            () {
+              setState(() {
+                isLoadling = false;
+              });
+            },
+          );
         },
-        child: Text(
-          'Đăng nhập',
-          style: TextStyle(
-            decoration: TextDecoration.none,
-            color: Colors.blue,
-            fontSize: 20.0,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+        child: isLoadling
+            ? CircularProgressIndicator(
+                color: Colors.white,
+              )
+            : Text(
+                'Đăng nhập',
+                style: TextStyle(
+                  decoration: TextDecoration.none,
+                  color: Colors.blue,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
       ),
     );
     return Scaffold(
@@ -127,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: size.height * 0.35,
+                height: size.height * 0.3,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/background/zodiac1.png'),
@@ -167,6 +184,13 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(),
                     Spacer(),
                     GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgetPassPage()),
+                        );
+                      },
                       child: Text(
                         'Quên mật khẩu?',
                         style: TextStyle(

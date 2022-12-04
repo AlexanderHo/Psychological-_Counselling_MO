@@ -12,7 +12,7 @@ List<OptionModel> parseOption(List response) {
 Future<List<OptionModel>> fetchOption(int surveyid) async {
   var response = await http.Client().get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/OptionQuestions/getoptionbyquestionid?questionid=${surveyid}'),
+          'https://psycteamv2.azurewebsites.net/api/OptionQuestions/getoptionbyquestionid?questionid=${surveyid}'),
       headers: <String, String>{
         'accept': '*/*',
       });

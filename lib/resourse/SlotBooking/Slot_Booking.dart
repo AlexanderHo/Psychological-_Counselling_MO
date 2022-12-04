@@ -57,7 +57,7 @@ class _SlotBookingPageState extends State<SlotBookingPage> {
       body: Column(
         children: [
           Container(
-              color: Colors.blue.shade100,
+              color: Color(0xff17384e),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -68,20 +68,27 @@ class _SlotBookingPageState extends State<SlotBookingPage> {
                       child: Column(
                         children: [
                           Text(
-                            '${DateFormat.MMMM().format(date!)}',
-                            style: TextStyle(
-                                fontStyle: FontStyle.normal, fontSize: 18.0),
+                            'Ngày ' +
+                                '${date!.day} ' +
+                                'tháng ' +
+                                '${DateFormat.M().format(date!)} ' +
+                                'năm ' +
+                                '${DateFormat.y().format(date!)} ',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 20.0),
                           ),
-                          Text(
-                            '${date!.day}',
-                            style: TextStyle(
-                                fontStyle: FontStyle.normal, fontSize: 20.0),
-                          ),
-                          Text(
-                            '${DateFormat.EEEE().format(date!)}',
-                            style: TextStyle(
-                                fontStyle: FontStyle.normal, fontSize: 20.0),
-                          )
+                          // Text(
+                          //   '${date!.day}',
+                          //   style: TextStyle(
+                          //       fontStyle: FontStyle.normal, fontSize: 20.0),
+                          // ),
+                          // Text(
+                          //   '${DateFormat.EEEE().format(date!)}',
+                          //   style: TextStyle(
+                          //       fontStyle: FontStyle.normal, fontSize: 20.0),
+                          // )
                         ],
                       ),
                     ),
@@ -92,7 +99,7 @@ class _SlotBookingPageState extends State<SlotBookingPage> {
                       padding: const EdgeInsets.all(8),
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Icon(Icons.calendar_today, color: Colors.black),
+                        child: Icon(Icons.calendar_month, color: Colors.white),
                       ),
                     ),
                   ),
@@ -106,9 +113,12 @@ class _SlotBookingPageState extends State<SlotBookingPage> {
               child: FutureBuilder<List<SlotModel>>(
                 future: slot,
                 builder: (context, snapshot) {
-                  if (snapshot.hasError) {
+                  if (snapshot.data == null) {
                     return Center(
-                      child: Text('Something went wrong!!'),
+                      child: Text(
+                        'Chưa có lịch gặp chuyên gia!!',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     );
                   } else if (snapshot.hasData) {
                     return SlotList(SlotModels: snapshot.data!);

@@ -15,7 +15,7 @@ Future<void> loadImageCustomer(File file) async {
 
   try {
     var postUri = Uri.parse(
-        "https://psycteam.azurewebsites.net/api/FirebaseServices/upload");
+        "https://psycteamv2.azurewebsites.net/api/FirebaseServices/upload");
     http.MultipartRequest request = http.MultipartRequest("POST", postUri);
     http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
       'file',

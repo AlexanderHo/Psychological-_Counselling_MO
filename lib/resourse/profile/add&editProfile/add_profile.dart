@@ -408,7 +408,7 @@ class _AddProfilePageState extends State<AddProfilePage> {
                         Container(
                           padding: EdgeInsets.all(paddingIcon),
                           child: const Icon(
-                            MyFlutterApp.edit_2,
+                            Icons.edit,
                             size: 16,
                             color: Colors.white,
                           ),
@@ -449,7 +449,7 @@ class _AddProfilePageState extends State<AddProfilePage> {
                             child: Container(
                               color: const Color.fromRGBO(0, 0, 0, 0.3),
                               child: const Icon(
-                                MyFlutterApp.brithtime,
+                                Icons.alarm,
                                 size: 40,
                                 color: Colors.white,
                               ),
@@ -502,7 +502,7 @@ class _AddProfilePageState extends State<AddProfilePage> {
                         Container(
                           padding: EdgeInsets.all(paddingIcon),
                           child: const Icon(
-                            MyFlutterApp.edit_2,
+                            Icons.edit,
                             size: 16,
                             color: Colors.white,
                           ),

@@ -28,8 +28,9 @@ Future<List<Profile>> fetchListProfile() async {
   int? id = CurrentUser.getUserId() ?? 0;
   var response = await http.get(
     Uri.parse(
-        'https://psycteam.azurewebsites.net/api/Profiles/getbyidcustomer?id=' +
-            id.toString()),
+        'https://psycteamv2.azurewebsites.net/api/Profiles/getbyidcustomer?id=' +
+            id.toString() +
+            '&pagesize=10&pagenumber=1'),
     headers: <String, String>{
       'accept': '*/*',
       'Authorization': 'Bearer ' + bearer,
@@ -49,7 +50,7 @@ Future<String> getIDToken() async {
   String pass = "admin1245";
   var res = await http.Client().post(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/FirebaseServices/loginadmin'),
+          'https://psycteamv2.azurewebsites.net/api/FirebaseServices/loginadmin'),
       headers: <String, String>{
         'accept': '*/*',
         'Content-Type': 'application/json'
@@ -74,7 +75,7 @@ Future<MatchModel> matching(int profileId) async {
   int? id = CurrentUser.getUserId() ?? 0;
   var res = await http.Client().get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/Profiles/lovecompatibility?customerid=${id}&profileid=${profileId}'),
+          'https://psycteamv2.azurewebsites.net/api/Profiles/lovecompatibility?customerid=${id}&profileid=${profileId}'),
       headers: <String, String>{
         'accept': '*/*',
       });
@@ -127,12 +128,12 @@ Future<void> addRegister(
     print(body);
     final response = await http.post(
         Uri.parse(
-            "https://psycteam.azurewebsites.net/api/Users/createcustomerv2"),
+            "https://psycteamv2.azurewebsites.net/api/Users/createcustomerv2"),
         body: body,
         headers: {'accept': 'text/plain', 'content-type': 'application/json'});
 
     final response2 = await http.put(
-        Uri.parse("https://psycteam.azurewebsites.net/api/Customers/update"),
+        Uri.parse("https://psycteamv2.azurewebsites.net/api/Customers/update"),
         body: body2,
         headers: {
           'Content-Type': 'application/json',

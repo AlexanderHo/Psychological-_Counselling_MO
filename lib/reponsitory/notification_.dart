@@ -22,7 +22,7 @@ Future<List<NotiModel>> fetchNotiData(int id) async {
 
   var response = await http.Client().get(
     Uri.parse(
-        'https://psycteam.azurewebsites.net/api/Notifications/getnotificationbycustomer?id=${id}'),
+        'https://psycteamv2.azurewebsites.net/api/Notifications/getnotificationbycustomer?id=${id}'),
     headers: <String, String>{
       'accept': '*/*',
       // 'Authorization': 'Bearer ' + bearer,
@@ -40,7 +40,7 @@ Future<void> HiddenNoti(
 ) async {
   int customerId = CurrentUser.getUserId() ?? 0;
   String url =
-      'https://psycteam.azurewebsites.net/api/Notifications/hiddennoti?id=${id}';
+      'https://psycteamv2.azurewebsites.net/api/Notifications/hiddennoti?id=${id}';
   var response = await http.Client().put(
     Uri.parse(url),
     headers: <String, String>{
@@ -62,7 +62,7 @@ Future<void> SeenNoti(
 ) async {
   int customerId = CurrentUser.getUserId() ?? 0;
   String url =
-      'https://psycteam.azurewebsites.net/api/Notifications/seennoti?id=${id}';
+      'https://psycteamv2.azurewebsites.net/api/Notifications/seennoti?id=${id}';
   var response = await http.Client().put(
     Uri.parse(url),
     headers: <String, String>{

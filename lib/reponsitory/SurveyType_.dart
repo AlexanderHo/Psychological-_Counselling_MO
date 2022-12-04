@@ -12,7 +12,7 @@ List<SurveysTypeModel> parseSurveyType(List response) {
 Future<List<SurveysTypeModel>> fetchSurveyType(http.Client client) async {
   var response = await http.Client().get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/SurveyTypes/getallsurveytype'),
+          'https://psycteamv2.azurewebsites.net/api/SurveyTypes/getallsurveytype'),
       headers: <String, String>{
         'accept': 'text/plain',
       });

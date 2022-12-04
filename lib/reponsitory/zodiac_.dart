@@ -15,7 +15,7 @@ Future<String> getIDToken() async {
   String pass = "admin1245";
   var res = await http.Client().post(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/FirebaseServices/loginadmin/'),
+          'https://psycteamv2.azurewebsites.net/api/FirebaseServices/loginadmin/'),
       headers: <String, String>{
         'accept': '*/*',
         'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ Future<String> getIDToken() async {
 Future<List<ZodiacModel>> fetchGeneralZodiacData(http.Client client) async {
   String bearer = await getIDToken();
   var response = await http.Client().get(
-    Uri.parse('https://psycteam.azurewebsites.net/api/Zodiacs/Getallzodiacs'),
+    Uri.parse('https://psycteamv2.azurewebsites.net/api/Zodiacs/Getallzodiacs'),
     headers: <String, String>{
       'accept': '*/*',
       'Authorization': 'Bearer ' + bearer,
@@ -52,7 +52,7 @@ ZodiacModel parseZodiacDetailModels(Map<String, dynamic> responseBody) {
 Future<ZodiacModel> fetchZodiacDetailData(int id) async {
   String bearer = await getIDToken();
   var response = await http.get(
-    Uri.parse('https://psycteam.azurewebsites.net/api/Zodiacs/getbyid?id=' +
+    Uri.parse('https://psycteamv2.azurewebsites.net/api/Zodiacs/getbyid?id=' +
         id.toString()),
     headers: <String, String>{
       'accept': '*/*',

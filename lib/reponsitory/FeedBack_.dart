@@ -12,7 +12,7 @@ List<FeedBackModel> parseFeedBack(List response) {
 Future<List<FeedBackModel>> fetchFeedBack(int id) async {
   var response = await http.Client().get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/Consultants/getfeedbackbyid?id=' +
+          'https://psycteamv2.azurewebsites.net/api/Consultants/getfeedbackbyid?id=' +
               id.toString()),
       headers: <String, String>{
         'accept': 'text/plain',

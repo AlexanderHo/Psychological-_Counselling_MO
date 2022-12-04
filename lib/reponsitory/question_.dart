@@ -12,7 +12,7 @@ List<QuestionModel> parseQuestion(List response) {
 Future<List<QuestionModel>> fetchQuestion(int surveyid) async {
   var response = await http.Client().get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/Questions/getquestionbysurveyid?surveyid=${surveyid}'),
+          'https://psycteamv2.azurewebsites.net/api/Questions/getquestionbysurveyid?surveyid=${surveyid}'),
       headers: <String, String>{
         'accept': 'text/plain',
       });

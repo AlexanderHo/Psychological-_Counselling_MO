@@ -19,7 +19,7 @@ List<SlotModel> parseSlot(List response) {
 Future<List<SlotModel>> fetchSlot(int id, String date) async {
   var response = await http.get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/SlotBookings/GetSlotBookingByDateAndConsultanid?date=${date}&consultantid=${id}'),
+          'https://psycteamv2.azurewebsites.net/api/SlotBookings/GetSlotBookingByDateAndConsultanid?date=${date}&consultantid=${id}'),
       headers: <String, String>{
         'accept': '*/*',
       });
@@ -34,7 +34,7 @@ Future<List<SlotModel>> fetchSlot(int id, String date) async {
 Future<List<SlotModel>> fetchSlotApm(int id, String date) async {
   var response = await http.get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/SlotBookings/GetAppointmentByCustomerid?date=${date}&customerid=${id}'),
+          'https://psycteamv2.azurewebsites.net/api/SlotBookings/GetAppointmentByCustomerid?date=${date}&customerid=${id}'),
       headers: <String, String>{
         'accept': '*/*',
       });
@@ -51,7 +51,7 @@ Future<void> CancelBooking(
 ) async {
   int customerId = CurrentUser.getUserId() ?? 0;
   String url =
-      'https://psycteam.azurewebsites.net/api/SlotBookings/cancelbycustomer?id=${idSlot}&reason=${reason.text}';
+      'https://psycteamv2.azurewebsites.net/api/SlotBookings/cancelbycustomer?id=${idSlot}&reason=${reason.text}';
   var response = await http.Client().put(
     Uri.parse(url),
     headers: <String, String>{
@@ -93,7 +93,7 @@ Future<List<SlotModel>> fetchStream() async {
   DateFormat formatDate = DateFormat('yyyy-MM-dd');
   var response = await http.get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/SlotBookings/GetSlotLiveStreamByDateAndConsultanid?date=${formatDate.format(date)}'),
+          'https://psycteamv2.azurewebsites.net/api/SlotBookings/GetSlotLiveStreamByDateAndConsultanid?date=${formatDate.format(date)}'),
       headers: <String, String>{
         'accept': '*/*',
       });
@@ -101,16 +101,6 @@ Future<List<SlotModel>> fetchStream() async {
   Map data = jsonDecode(response.body);
   print(data['data']);
 
-  if (data['data'] == null) {
-    Fluttertoast.showToast(
-        msg: "Hiện tại chưa có buổi livestream nào!!",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 3,
-        backgroundColor: Colors.red.shade200,
-        textColor: Colors.black54,
-        fontSize: 16.0);
-  }
   return parseSlot(data['data']);
 }
 
@@ -118,7 +108,7 @@ Future<List<SlotModel>> fetchStream() async {
 Future<List<SlotModel>> fetchSlotHis(int id, String date) async {
   var response = await http.get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/SlotBookings/GetHistoryByCustomerid?date=${date}&customerid=${id}'),
+          'https://psycteamv2.azurewebsites.net/api/SlotBookings/GetHistoryByCustomerid?date=${date}&customerid=${id}'),
       headers: <String, String>{
         'accept': '*/*',
       });

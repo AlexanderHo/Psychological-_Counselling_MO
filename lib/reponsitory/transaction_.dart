@@ -20,7 +20,7 @@ Future<List<TransactionModel>> fetchTransaction() async {
   int id = CurrentUser.getUserId() ?? 0;
   var response = await http.get(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/Transactions/Getbookingtransbycustomerid?id=${id}'),
+          'https://psycteamv2.azurewebsites.net/api/Transactions/Getbookingtransbycustomerid?id=${id}'),
       headers: <String, String>{
         'accept': '*/*',
       });

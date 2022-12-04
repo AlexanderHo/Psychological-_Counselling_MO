@@ -16,7 +16,7 @@ Future<String> getIDToken() async {
   String pass = "admin1245";
   var res = await http.Client().post(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/FirebaseServices/loginadmin/'),
+          'https://psycteamv2.azurewebsites.net/api/FirebaseServices/loginadmin/'),
       headers: <String, String>{
         'accept': '*/*',
         'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ Future<String> getIDToken() async {
 Future<List<HouseModel>> fetchGeneralHouseData(http.Client client) async {
   String bearer = await getIDToken();
   var response = await client.get(
-    Uri.parse('https://psycteam.azurewebsites.net/api/Houses/Getallhouses'),
+    Uri.parse('https://psycteamv2.azurewebsites.net/api/Houses/Getallhouses'),
     headers: <String, String>{
       'accept': '*/*',
       'Authorization': 'Bearer ' + bearer,
@@ -52,7 +52,7 @@ HouseModel parseHouseDetailModels(Map<String, dynamic> responseBody) {
 Future<HouseModel> fetchHouseDetailData(int id) async {
   String bearer = await getIDToken();
   var response = await http.get(
-    Uri.parse('https://psycteam.azurewebsites.net/api/Houses/getbyid?id=' +
+    Uri.parse('https://psycteamv2.azurewebsites.net/api/Houses/getbyid?id=' +
         id.toString()),
     headers: <String, String>{
       'accept': '*/*',

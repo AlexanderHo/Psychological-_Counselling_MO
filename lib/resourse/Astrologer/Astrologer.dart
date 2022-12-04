@@ -131,7 +131,7 @@ class AstrologerPage extends StatelessWidget {
                                       Navigator.push(context, MaterialPageRoute(
                                         builder: (context) {
                                           return SearchScreen(
-                                              searchKey: "Gia Đình");
+                                              searchKey: "Gia Ðình");
                                         },
                                       ));
                                     },
@@ -143,7 +143,7 @@ class AstrologerPage extends StatelessWidget {
                                 ),
                                 Expanded(
                                     child: Text(
-                                  'Gia Đình',
+                                  'Gia Ðình',
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 14),
                                 ))

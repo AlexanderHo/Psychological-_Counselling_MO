@@ -14,7 +14,7 @@ Future<DailyModel> fetchDailyData(String date) async {
   String bearer = await getIDToken();
   var response = await http.get(
     Uri.parse(
-        'https://psycteam.azurewebsites.net/api/DailyHoroscopes/Getalldailyhoroscopes?id=${id}&date=${date}'),
+        'https://psycteamv2.azurewebsites.net/api/DailyHoroscopes/Getalldailyhoroscopes?id=${id}&date=${date}'),
     headers: <String, String>{
       'accept': '*/*',
       'Authorization': 'Bearer ' + bearer,
@@ -35,7 +35,7 @@ Future<String> getIDToken() async {
   String pass = "admin1245";
   var res = await http.Client().post(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/FirebaseServices/loginadmin'),
+          'https://psycteamv2.azurewebsites.net/api/FirebaseServices/loginadmin'),
       headers: <String, String>{
         'accept': '*/*',
         'Content-Type': 'application/json'

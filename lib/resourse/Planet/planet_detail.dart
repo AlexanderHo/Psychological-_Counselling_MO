@@ -44,11 +44,9 @@ class _PlanetdetailPageState extends State<PlanetdetailPage> {
         scrollDirection: Axis.vertical,
         child: Container(
           padding: EdgeInsets.fromLTRB(15.0, size.height * 0.1, 15.0, 0.0),
-          // decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //         image: AssetImage('assets/background/background1.png'),
-          //         fit: BoxFit.fill)),
-          color: Color(0xff17384e),
+          constraints:
+              BoxConstraints(minHeight: size.height, minWidth: size.width),
+          color: Color.fromARGB(255, 57, 99, 126),
           child: FutureBuilder<PlanetModel>(
             future: planet,
             builder: (context, snapshot) {

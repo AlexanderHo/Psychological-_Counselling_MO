@@ -114,7 +114,7 @@ class ShowDetail extends StatelessWidget {
             height: 200,
             width: 450,
             decoration: BoxDecoration(
-                color: Colors.purple.shade100,
+                color: Color(0xff17384e),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(38),
                   bottomRight: Radius.circular(38),
@@ -137,14 +137,14 @@ class ShowDetail extends StatelessWidget {
                           child: Text(
                             'Số Gem :' + item.crab.toString(),
                             style: TextStyle(
-                                color: Colors.black54,
+                                color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'roboto'),
                           ),
                         ),
                         SizedBox(
-                          width: 20,
+                          height: 10,
                         ),
                         Container(
                           decoration: BoxDecoration(

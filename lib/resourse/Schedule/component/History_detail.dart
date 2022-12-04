@@ -1,25 +1,18 @@
 import 'package:astrology/Components/app_bar.dart';
+import 'package:astrology/model/History.dart';
+import 'package:astrology/reponsitory/History_.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HisDetailPage extends StatefulWidget {
   int slotId;
-  String? timeStart;
-  String? timeEnd;
-  int? price;
-  String? dateSlot;
-  String? consultantName;
   String? imageUrl;
-  int consultantId;
+  String? consulName;
+
   HisDetailPage({
     required this.slotId,
-    required this.timeStart,
-    required this.timeEnd,
-    required this.price,
-    required this.dateSlot,
-    required this.consultantName,
     required this.imageUrl,
-    required this.consultantId,
+    required this.consulName,
   });
 
   @override
@@ -37,118 +30,170 @@ class _HisDetailPageState extends State<HisDetailPage> {
       }),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              height: 200,
-              width: 450,
-              decoration: BoxDecoration(
-                  color: Colors.purple.shade100,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(38),
-                    bottomRight: Radius.circular(38),
-                  )),
-              child: Container(
-                margin: EdgeInsets.only(left: 10, bottom: 10),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 35, top: 10),
-                      child:
-                          // Image.asset('assets/images/cute.jpg'),
-                          Image(
+        child: Container(
+          color: Color(0xff17384e),
+          child: Column(
+            children: [
+              Center(
+                child: Container(
+                  height: size.height * 0.25,
+                  width: size.width * 0.45,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      image: DecorationImage(
                         image: NetworkImage(widget.imageUrl!),
-                      ),
+                        fit: BoxFit.fill,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Chuyên gia:' + widget.consulName!,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                ),
+              ),
+              Container(
+                height: 600,
+                width: 500,
+                child: FutureBuilder<HistoryModel>(
+                  future: fetchHistory(widget.slotId),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text('something went wrong!!',
+                            style: TextStyle(color: Colors.black)),
+                      );
+                    } else if (snapshot.hasData) {
+                      return ShowDetail(item: snapshot.data!);
+                    } else {
+                      return Container(
+                          height: size.height,
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ));
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShowDetail extends StatelessWidget {
+  HistoryModel item;
+  ShowDetail({required this.item});
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    return Container(
+      width: size.width,
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            // Center(
+            //   child: Container(
+            //     height: size.height * 0.25,
+            //     width: size.width * 0.45,
+            //     decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(20.0),
+            //         image: DecorationImage(
+            //           image: NetworkImage(widget.imageUrl!),
+            //           fit: BoxFit.fill,
+            //         )),
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 20,
+            // ),
+
+            // Text(
+            //   'Chuyên gia:' + widget.consultantName!,
+            //   style: TextStyle(
+            //     color: Colors.white,
+            //     fontWeight: FontWeight.bold,
+            //     fontSize: 25.0,
+            //   ),
+            // ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              'Thời gian bắt đầu : ' + item.timeStart!,
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              'Thời gian kết thúc :' + item.timeEnd!,
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              'Giá : ' + item.price.toString() + ' Gem',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              'Trạng thái : ' + item.status!,
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            item.reasonOfCustomer == null
+                ? Text(
+                    'Thời gian hủy : ' + item.reasonOfConsultant!,
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(
-                      width: 30,
+                  )
+                : Text(
+                    'Thời gian hủy : ' + item.reasonOfCustomer!,
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 20),
-                            child: Text(
-                              widget.consultantName!,
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'roboto'),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 15),
-                            child: Text(
-                              'Giá: ' + widget.price.toString(),
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'roboto'),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 30),
-              child: Text(
-                'Thời gian bắt đầu: ' + widget.timeStart!,
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 22,
-                  fontFamily: 'roboto',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 30),
-              child: Text(
-                'Thời gian kết thúc: ' + widget.timeEnd!,
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 22,
-                  fontFamily: 'roboto',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 30),
-              child: Text(
-                'Thời lượng : 30 minutes',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 25,
-                  fontFamily: 'roboto',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 30),
-              child: Text(
-                'Ngày: ' +
-                    DateFormat.yMd()
-                        .format(DateTime.parse(widget.dateSlot!))
-                        .toString(),
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 25,
-                  fontFamily: 'roboto',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
+                  ),
+            SizedBox(
+              height: 10.0,
             ),
           ],
         ),

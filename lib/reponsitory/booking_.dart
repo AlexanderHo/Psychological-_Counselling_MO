@@ -17,7 +17,7 @@ Future<void> bookingSlot(
 ) async {
   // String bearer = await getIDToken();
   String url =
-      'https://psycteam.azurewebsites.net/api/Bookings/create?slotid=${slotId}&customerid=${customerId}&consultantid=${consultantId}';
+      'https://psycteamv2.azurewebsites.net/api/Bookings/create?slotid=${slotId}&customerid=${customerId}&consultantid=${consultantId}';
   var response = await http.Client().post(
     Uri.parse(url),
     headers: <String, String>{
@@ -59,7 +59,7 @@ Future<void> FeedBack(
 ) async {
 // String bearer = await getIDToken();
   String url =
-      'https://psycteam.azurewebsites.net/api/Bookings/feedbackbycustomer?id=${bookingId}&feedback=${Feedback.text}&rate=${rate}';
+      'https://psycteamv2.azurewebsites.net/api/Bookings/feedbackbycustomer?id=${bookingId}&feedback=${Feedback.text}&rate=${rate}';
   var response = await http.Client().put(
     Uri.parse(url),
     headers: <String, String>{

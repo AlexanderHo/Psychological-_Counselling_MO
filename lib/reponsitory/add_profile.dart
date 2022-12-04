@@ -23,7 +23,7 @@ Future<void> addProfile(
     int userId) async {
   log(userId.toString());
   String bearer = await getIDToken();
-  String url = 'https://psycteam.azurewebsites.net/api/Profiles/create';
+  String url = 'https://psycteamv2.azurewebsites.net/api/Profiles/create';
   var response = await http.Client().post(Uri.parse(url),
       headers: <String, String>{
         'accept': 'application/json',
@@ -72,7 +72,7 @@ Future<void> changePass(
   int? id = CurrentUser.getUserId();
   // String bearer = await getIDToken();
   String url =
-      'https://psycteam.azurewebsites.net/api/Users/changepassuserbycustomerid';
+      'https://psycteamv2.azurewebsites.net/api/Users/changepassuserbycustomerid';
   var response = await http.put(Uri.parse(url),
       headers: <String, String>{
         'accept': '*/*',
@@ -118,7 +118,7 @@ Future<void> updateProfile(
     String profilePhoto) async {
   String? email = CurrentUser.getEmail();
   // String bearer = await getIDToken();
-  String url = 'https://psycteam.azurewebsites.net/api/Customers/update';
+  String url = 'https://psycteamv2.azurewebsites.net/api/Customers/update';
   var response = await http.put(Uri.parse(url),
       headers: <String, String>{
         'accept': '*/*',

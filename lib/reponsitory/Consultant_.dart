@@ -39,7 +39,7 @@ Future<List<ConsultantModel>> fetchGeneralConsultantData(
   // String bearer = await getIDToken();
   var response = await client.get(
     Uri.parse(
-        'https://psycteam.azurewebsites.net/api/Consultants/Getallconsultant'),
+        'https://psycteamv2.azurewebsites.net/api/Consultants/Getallconsultant'),
     headers: <String, String>{
       'accept': '*/*',
       // 'Authorization': 'Bearer ' + bearer,
@@ -60,7 +60,7 @@ Future<ConsultantModel> fetchConsultantDetailData(int id) async {
   // String bearer = await getIDToken();
   var response = await http.Client().get(
     Uri.parse(
-        'https://psycteam.azurewebsites.net/api/Consultants/getbyidv2?id=' +
+        'https://psycteamv2.azurewebsites.net/api/Consultants/getbyidv2?id=' +
             id.toString()),
     headers: <String, String>{
       'accept': '*/*',
@@ -91,7 +91,7 @@ Future<List<ConsultantSpecModel>> fetchGeneralConsultantBySpecial(
   // String bearer = await getIDToken();
   var response = await http.get(
     Uri.parse(
-        'https://psycteam.azurewebsites.net/api/Consultants/Getconsultantbyspecial?search=' +
+        'https://psycteamv2.azurewebsites.net/api/Consultants/Getconsultantbyspecial?search=' +
             spec),
     headers: <String, String>{
       'accept': '*/*',

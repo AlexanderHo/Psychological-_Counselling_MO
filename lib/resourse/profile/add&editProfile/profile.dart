@@ -20,81 +20,84 @@ class _ProfilePageState extends State<ProfilePage> {
         color: Color(0xff17384e),
         constraints:
             BoxConstraints(minHeight: size.height, minWidth: size.width),
-        child: Column(
-          children: [
-            SafeArea(
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        'Thông tin khác',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddProfilePage()));
-                        },
-                        child: CircleAvatar(
-                          child: Icon(
-                            Icons.add,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8, right: 8),
+          child: Column(
+            children: [
+              SafeArea(
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'Thông tin khác',
+                          style: TextStyle(
+                            fontSize: 20.0,
                             color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
-                          radius: 15.0,
-                          backgroundColor: Colors.blue,
                         ),
-                      ),
-                      // SizedBox(width: size.width * 0.04),
-                      // GestureDetector(
-                      //     onTap: () {
-                      //       // final provider = Provider.of<GoogleSignInProvider>(
-                      //       //     context,
-                      //       //     listen: false);
-                      //       // provider.logout();
-                      //       AuthRepo().logout();
-                      //     },
-                      //     child: CircleAvatar(
-                      //       child: Icon(Icons.logout),
-                      //       backgroundColor: Colors.blue,
-                      //       radius: 15,
-                      //     )),
-                    ],
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddProfilePage()));
+                          },
+                          child: CircleAvatar(
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                            radius: 15.0,
+                            backgroundColor: Colors.blue,
+                          ),
+                        ),
+                        // SizedBox(width: size.width * 0.04),
+                        // GestureDetector(
+                        //     onTap: () {
+                        //       // final provider = Provider.of<GoogleSignInProvider>(
+                        //       //     context,
+                        //       //     listen: false);
+                        //       // provider.logout();
+                        //       AuthRepo().logout();
+                        //     },
+                        //     child: CircleAvatar(
+                        //       child: Icon(Icons.logout),
+                        //       backgroundColor: Colors.blue,
+                        //       radius: 15,
+                        //     )),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            FutureBuilder<List<Profile>>(
-              future: fetchListProfile(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      'Chưa có hồ sơ',
-                      style: TextStyle(
-                        color: Colors.yellow,
-                        fontSize: 25.0,
+              FutureBuilder<List<Profile>>(
+                future: fetchListProfile(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Chưa có hồ sơ',
+                        style: TextStyle(
+                          color: Colors.yellow,
+                          fontSize: 25.0,
+                        ),
                       ),
-                    ),
-                  );
-                } else if (snapshot.hasData) {
-                  return ProfileList(profileList: snapshot.data!);
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          ],
+                    );
+                  } else if (snapshot.hasData) {
+                    return ProfileList(profileList: snapshot.data!);
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

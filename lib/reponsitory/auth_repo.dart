@@ -33,7 +33,7 @@ class AuthRepo extends ChangeNotifier {
     String? tokenDevice = prefs.getString('tokenDevice');
     var res = await http.Client().post(
         Uri.parse(
-            'https://psycteam.azurewebsites.net/api/FirebaseServices/loginapp'),
+            'https://psycteamv2.azurewebsites.net/api/FirebaseServices/loginapp'),
         headers: <String, String>{
           'accept': '*/*',
           'Content-Type': 'application/json'
@@ -86,8 +86,9 @@ class AuthRepo extends ChangeNotifier {
     // String bearer = await getIDToken();
     int? id = await AuthRepo.getId();
     var response = await http.get(
-      Uri.parse('https://psycteam.azurewebsites.net/api/Customers/getbyid?id=' +
-          id.toString()),
+      Uri.parse(
+          'https://psycteamv2.azurewebsites.net/api/Customers/getbyid?id=' +
+              id.toString()),
       headers: <String, String>{
         'accept': '*/*',
         // 'Authorization': 'Bearer ' + bearer,

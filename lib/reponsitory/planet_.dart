@@ -18,7 +18,7 @@ Future<String> getIDToken() async {
   String pass = "admin1245";
   var res = await http.Client().post(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/FirebaseServices/loginadmin/'),
+          'https://psycteamv2.azurewebsites.net/api/FirebaseServices/loginadmin/'),
       headers: <String, String>{
         'accept': '*/*',
         'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ Future<String> getIDToken() async {
 Future<List<PlanetModel>> fetchGeneralPlanetData(http.Client client) async {
   String bearer = await getIDToken();
   var response = await http.Client().get(
-    Uri.parse('https://psycteam.azurewebsites.net/api/Planets/Getallplanets'),
+    Uri.parse('https://psycteamv2.azurewebsites.net/api/Planets/Getallplanets'),
     headers: <String, String>{
       'accept': '*/*',
       'Authorization': 'Bearer ' + bearer,
@@ -55,7 +55,7 @@ PlanetModel parsePlanetDetailModels(Map<String, dynamic> responseBody) {
 Future<PlanetModel> fetchPlanetDetailData(int id) async {
   String bearer = await getIDToken();
   var response = await http.get(
-    Uri.parse('https://psycteam.azurewebsites.net/api/Planets/getbyid?id=' +
+    Uri.parse('https://psycteamv2.azurewebsites.net/api/Planets/getbyid?id=' +
         id.toString()),
     headers: <String, String>{
       'accept': '*/*',

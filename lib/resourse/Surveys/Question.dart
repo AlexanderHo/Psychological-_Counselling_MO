@@ -22,7 +22,7 @@ int question_pos = 0;
 int score = 0;
 bool btnPressed = false;
 PageController? _controller;
-String btnText = "Next Question";
+String btnText = "Câu tiếp theo";
 String btnTextP = "Previous Question";
 bool answered = false;
 late Future<List<OptionModel>> ans;
@@ -38,7 +38,7 @@ class _QuestionPageState extends State<QuestionPage> {
     super.initState();
     ques = fetchQuestion(widget.SurveyId);
     answer.clear();
-    btnText = "Next Question";
+    btnText = "Câu tiếp theo";
     _controller = PageController(initialPage: 0);
   }
 
@@ -121,7 +121,7 @@ class _QuesListState extends State<QuesList> {
           //   answered = false;
           // });
           setState(() {
-            btnText = "See Results";
+            btnText = "Kết quả";
           });
         }
         physics:
@@ -140,7 +140,7 @@ class _QuesListState extends State<QuesList> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "Question ${index + 1}/" +
+                  "Câu hỏi ${index + 1}/" +
                       widget.quesModels!.length.toString(),
                   textAlign: TextAlign.start,
                   style: TextStyle(

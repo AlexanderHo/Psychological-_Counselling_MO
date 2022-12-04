@@ -21,7 +21,7 @@ Future<ResultModel> getResult(
   var map = ansModel.getListMap(result);
   print(map);
   String url =
-      'https://psycteam.azurewebsites.net/api/ResultSurveys/submitsurveybylist';
+      'https://psycteamv2.azurewebsites.net/api/ResultSurveys/submitsurveybylist';
   var response = await http.Client().post(Uri.parse(url),
       headers: <String, String>{
         'accept': 'text/plain',

@@ -27,6 +27,20 @@ class _AppointmentPageState extends State<AppointmentPage> {
     slot = fetchSlotApm(customerId, _date = formatDate.format(date!));
   }
 
+  void _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 31)),
+    ).then((value) {
+      setState(() {
+        date = value!;
+        slot = fetchSlotApm(customerId, _date = formatDate.format(date!));
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -41,68 +55,99 @@ class _AppointmentPageState extends State<AppointmentPage> {
         //   image: AssetImage('assets/background/anh-sao-bang.jpg'),
         //   fit: BoxFit.fitHeight,
         // )),
+        constraints:
+            BoxConstraints(minHeight: size.height, minWidth: size.width),
         color: Color(0xff17384e),
-        child: Column(
-          children: [
-            Container(
-                color: Colors.blue.shade50,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          children: [
-                            Text(
-                              '${date}'.split(' ')[0],
-                              style: TextStyle(
-                                  fontStyle: FontStyle.normal, fontSize: 15.0),
-                            ),
-                            CalendarDatePicker(
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime.now(),
-                                lastDate:
-                                    DateTime.now().add(Duration(days: 31)),
-                                onDateChanged: (newDate) {
-                                  setState(() {
-                                    date = newDate;
-                                    slot = fetchSlotApm(customerId,
-                                        _date = formatDate.format(date!));
-                                  });
-                                })
-                          ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              Container(
+                  height: 70,
+                  color: Colors.blue.shade50,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Ngày ' +
+                                    '${date!.day} ' +
+                                    'tháng ' +
+                                    '${DateFormat.M().format(date!)} ' +
+                                    'năm ' +
+                                    '${DateFormat.y().format(date!)} ',
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 25.0),
+                              ),
+                              // Text(
+                              //   '${date!.day}',
+                              //   style: TextStyle(
+                              //       fontStyle: FontStyle.normal, fontSize: 20.0),
+                              // ),
+                              // Text(
+                              //   '${DateFormat.EEEE().format(date!)}',
+                              //   style: TextStyle(
+                              //       fontStyle: FontStyle.normal, fontSize: 20.0),
+                              // )
+                            ],
+                          ),
+                        ),
+                      )),
+                      GestureDetector(
+                        onTap: _showDatePicker,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child:
+                                Icon(Icons.calendar_month, color: Colors.black),
+                          ),
                         ),
                       ),
-                    )),
-                  ],
-                )),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: 267,
-                width: 500,
-                child: FutureBuilder<List<SlotModel>>(
-                  future: slot,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text('Something went wrong!!'),
-                      );
-                    } else if (snapshot.hasData) {
-                      return SlotList(SlotModels: snapshot.data!);
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
+                    ],
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 267,
+                  width: 500,
+                  child: FutureBuilder<List<SlotModel>>(
+                    future: slot,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text('Something went wrong!!'),
+                        );
+                      } else if (snapshot.hasData) {
+                        return SlotList(SlotModels: snapshot.data!);
+                      } else if (snapshot.data == null) {
+                        return Center(
+                          child: Text(
+                            'Hiện chưa có buổi hẹn!!',
+                            style: TextStyle(color: Colors.amber),
+                          ),
+                        );
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(

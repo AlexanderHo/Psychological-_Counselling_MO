@@ -15,7 +15,7 @@ Future<List<NewsModel>> fetchNewsData(http.Client client) async {
   String bearer = await getIDToken();
   var response = await client.get(
     Uri.parse(
-        'https://psycteam.azurewebsites.net/api/Articles/getarticlescustomer'),
+        'https://psycteamv2.azurewebsites.net/api/Articles/getarticlescustomer'),
     headers: <String, String>{
       'accept': '*/*',
       'Authorization': 'Bearer ' + bearer,
@@ -31,7 +31,7 @@ Future<String> getIDToken() async {
   String pass = "admin1245";
   var res = await http.Client().post(
       Uri.parse(
-          'https://psycteam.azurewebsites.net/api/FirebaseServices/loginadmin/'),
+          'https://psycteamv2.azurewebsites.net/api/FirebaseServices/loginadmin/'),
       headers: <String, String>{
         'accept': '*/*',
         'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ NewsModel parseNewDetailModels(Map<String, dynamic> responseBody) {
 Future<NewsModel> fetchNewDetailData(int id) async {
   String bearer = await getIDToken();
   var response = await http.get(
-    Uri.parse('https://psycteam.azurewebsites.net/api/Articles/getbyid?id=' +
+    Uri.parse('https://psycteamv2.azurewebsites.net/api/Articles/getbyid?id=' +
         id.toString()),
     headers: <String, String>{
       'accept': '*/*',

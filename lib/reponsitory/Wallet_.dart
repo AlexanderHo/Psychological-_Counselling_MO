@@ -19,7 +19,7 @@ Future<WalletModel> fetchWallet() async {
   // String bearer = await getIDToken();
   var response = await http.get(
     Uri.parse(
-        'https://psycteam.azurewebsites.net/api/Wallets/getbycustomerid?id=' +
+        'https://psycteamv2.azurewebsites.net/api/Wallets/getbycustomerid?id=' +
             customerId.toString()),
     headers: <String, String>{
       'accept': '*/*',
