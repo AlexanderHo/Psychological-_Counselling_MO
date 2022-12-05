@@ -267,7 +267,7 @@ class slotItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            height: 15,
+                            height: 25,
                             width: 100,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
@@ -356,7 +356,7 @@ class slotItem extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            height: 15,
+                            height: 25,
                             width: 100,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),

@@ -20,7 +20,7 @@ HistoryModel parseHistoryDetailModels(responseBody) {
 //==========================================
 Future<HistoryModel> fetchHistory(int id) async {
   var response = await http.get(
-      Uri.parse('https://psycteam.azurewebsites.net/api/SlotBookings/' +
+      Uri.parse('https://psycteamv2.azurewebsites.net/api/SlotBookings/' +
           id.toString()),
       headers: <String, String>{
         'accept': '*/*',

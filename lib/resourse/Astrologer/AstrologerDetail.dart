@@ -272,12 +272,21 @@ class ShowDetail extends StatelessWidget {
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
+
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 60,
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: BorderSide(
+                                      color: Color.fromRGBO(0, 117, 255, 1),
+                                    )))),
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -287,12 +296,10 @@ class ShowDetail extends StatelessWidget {
                           ));
                     },
                     child: Text(
-                      'Đặc Lịch',
+                      'Lịch làm việc',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ))
-              ],
-            ),
+                    ))),
           ),
 
           Padding(

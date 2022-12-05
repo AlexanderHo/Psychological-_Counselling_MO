@@ -121,51 +121,54 @@ class SlotItem extends StatelessWidget {
                     )),
               ),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      item.description!,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18.0,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    Text(
-                      item.consultantName!,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Color.fromARGB(179, 25, 25, 25),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18.0,
+                      Text(
+                        'Chủ đề :' + item.description!,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18.0,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Thời gian bắt đầu :' +
-                          '${formatTime.format(_convertStringToDateTime(item.timeStart!)!)}',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Color.fromARGB(179, 23, 23, 23),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15.0,
+                      Text(
+                        item.consultantName!,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Color.fromARGB(179, 25, 25, 25),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18.0,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Dự kiến kết thúc : ' +
-                          '${formatTime.format(_convertStringToDateTime(item.timeEnd!)!)}',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Color.fromARGB(179, 23, 23, 23),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15.0,
+                      Text(
+                        'Thời gian bắt đầu :' +
+                            '${formatTime.format(_convertStringToDateTime(item.timeStart!)!)}',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Color.fromARGB(179, 23, 23, 23),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15.0,
+                        ),
                       ),
-                    ),
-                  ],
+                      Text(
+                        'Dự kiến kết thúc : ' +
+                            '${formatTime.format(_convertStringToDateTime(item.timeEnd!)!)}',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Color.fromARGB(179, 23, 23, 23),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],

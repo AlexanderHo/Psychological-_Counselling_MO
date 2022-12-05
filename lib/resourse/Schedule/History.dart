@@ -4,6 +4,7 @@ import 'package:astrology/model/Slot_model.dart';
 import 'package:astrology/reponsitory/booking_.dart';
 import 'package:astrology/reponsitory/current_user_shared_preferences.dart';
 import 'package:astrology/reponsitory/slot_.dart';
+import 'package:astrology/resourse/Schedule/component/Detail_history.dart';
 import 'package:astrology/resourse/Schedule/component/History_detail.dart';
 import 'package:astrology/resourse/app_router.dart';
 import 'package:flutter/material.dart';
@@ -261,7 +262,7 @@ class slotItem extends StatelessWidget {
                         children: [
                           // item.status=="cancel" ? return null :
                           Container(
-                            height: 15,
+                            height: 25,
                             width: 100,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
@@ -381,7 +382,7 @@ class slotItem extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            height: 15,
+                            height: 25,
                             width: 100,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
@@ -389,11 +390,17 @@ class slotItem extends StatelessWidget {
                             ),
                             child: OutlinedButton(
                               onPressed: () {
-                                AppRouter.push(HisDetailPage(
-                                  slotId: item.id,
-                                  imageUrl: item.imageUrl,
-                                  consulName: item.consultantName,
-                                ));
+                                item.status == "success"
+                                    ? AppRouter.push(DetailHisPage(
+                                        slotId: item.id,
+                                        imageUrl: item.imageUrl,
+                                        consulName: item.consultantName,
+                                      ))
+                                    : AppRouter.push(HisDetailPage(
+                                        slotId: item.id,
+                                        imageUrl: item.imageUrl,
+                                        consulName: item.consultantName,
+                                      ));
                               },
                               child: Text(
                                 'chi tiết',

@@ -116,7 +116,7 @@ class _BodyLiveState extends State<BodyLive> {
       children: List.generate(
         views.length,
         (index) => Expanded(
-          child: views[index],
+          child: views[0],
         ),
       ),
     );

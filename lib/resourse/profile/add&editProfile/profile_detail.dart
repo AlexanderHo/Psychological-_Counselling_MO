@@ -487,7 +487,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
                   );
                 },
                 child: Text(
-                  'Xem Bảng Đồ Sao',
+                  'Độ phù hợp ',
                   style: TextStyle(
                     fontSize: 20.0,
                   ),

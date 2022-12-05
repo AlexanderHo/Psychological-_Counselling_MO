@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 Future<void> ForgetPass(String userName) async {
   var response = await http.post(
     Uri.parse(
-        'https://psycteam.azurewebsites.net/api/register/resendbyusername?username=' +
+        'https://psycteamv2.azurewebsites.net/api/register/resendbyusername?username=' +
             userName),
     headers: <String, String>{
       'accept': '*/*',
@@ -36,7 +36,7 @@ Future<void> ForgetPass(String userName) async {
 //========================================================
 Future<void> NewPass(String userName, String pass, String code) async {
   String url =
-      'https://psycteam.azurewebsites.net/api/register/changepassbyusername';
+      'https://psycteamv2.azurewebsites.net/api/register/changepassbyusername';
   var response = await http.put(Uri.parse(url),
       headers: <String, String>{
         'accept': '*/*',

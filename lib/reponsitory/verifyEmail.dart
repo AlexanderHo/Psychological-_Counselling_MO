@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:astrology/resourse/Login&register/login.dart';
+import 'package:astrology/resourse/Surveys/First-Login.dart';
 import 'package:astrology/resourse/Surveys/SurveyType.dart';
 import 'package:astrology/resourse/app_router.dart';
 import 'package:flutter/material.dart';
@@ -30,14 +31,9 @@ class VerifyEmailController {
             "Content-Type": "application/json",
             "Authorization": "Bearer $token"
           });
-
-      print("api len");
-      print(response.statusCode);
-
-      print("api 2 len");
+      final data = json.decode(response.body);
       if (response.statusCode == 200) {
-        print("regis success");
-        AppRouter.push(LoginPage());
+        prefs.setInt("idcustomer", data['idcustomer']);
         Fluttertoast.showToast(
             msg: "Xác thực thành công",
             toastLength: Toast.LENGTH_SHORT,
@@ -46,6 +42,7 @@ class VerifyEmailController {
             backgroundColor: Color.fromARGB(255, 21, 170, 28),
             textColor: Colors.black,
             fontSize: 16.0);
+        AppRouter.push(FirstPage());
       } else {
         print("fail regis");
         Fluttertoast.showToast(

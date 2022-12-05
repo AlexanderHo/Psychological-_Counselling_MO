@@ -15,6 +15,7 @@ import 'package:astrology/resourse/Zodiac/zodiaclist.dart';
 import 'package:flutter/material.dart';
 import 'package:astrology/Components/app_bar.dart';
 import 'package:astrology/Components/bottom_bar.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/Consultant_model.dart';
@@ -44,618 +45,533 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: TopBar.getAppBarHome(size, context),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        // padding: EdgeInsets.all(value),
-        child: Container(
-          color: Color(0xff17384e),
-          child: Column(
-            children: [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //   children: [
-              //     IconButton(
-              //       onPressed: () {
-              //         Navigator.push(context, MaterialPageRoute(
-              //           builder: (context) {
-              //             return DailyHocroscopePage();
-              //           },
-              //         ));
-              //       },
-              //       icon: Image.asset(
-              //         "assets/icon/daily-icon.png",
-              //         color: Colors.amber,
-              //       ),
-              //       iconSize: size.width * 0.2,
-              //     ),
-              //     IconButton(
-              //       onPressed: () {
-              //         Navigator.push(context, MaterialPageRoute(
-              //           builder: (context) {
-              //             return ZodiacPage();
-              //           },
-              //         ));
-              //       },
-              //       icon: Image.asset(
-              //         "assets/icon/zodiac_icon.png",
-              //         color: Colors.amber,
-              //       ),
-              //       iconSize: size.width * 0.25,
-              //     ),
-              //     // IconButton(
-              //     //   onPressed: () {
-              //     //     Navigator.push(context, MaterialPageRoute(
-              //     //       builder: (context) {
-              //     //         return MatchingPage();
-              //     //       },
-              //     //     ));
-              //     //   },
-              //     //   icon: Image.asset(
-              //     //     "assets/icon/match-icon.jpg",
-              //     //     color: Colors.amber,
-              //     //   ),
-              //     //   iconSize: size.width * 0.2,
-              //     // ),
-              //     // IconButton(
-              //     //   onPressed: () {
-              //     //     Navigator.push(context, MaterialPageRoute(
-              //     //       builder: (context) {
-              //     //         return ShopPage();
-              //     //       },
-              //     //     ));
-              //     //   },
-              //     //   icon: Image.asset("assets/icon/shop.jpg"),
-              //     //   iconSize: size.width * 0.2,
-              //     // )
-              //   ],
-              // ),
-              //=======================================================
-
-              SizedBox(
-                height: 20,
-              ),
-              //================================================================================
-              Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 40, left: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Bảng tin",
-                          style: TextStyle(
-                              color: Colors.amber,
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 210,
-                    width: 400,
-                    child: FutureBuilder<List<NewsModel>>(
-                        future: fetchNewsData(http.Client()),
-                        builder: ((context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: Text('Something went wrong!!'),
-                            );
-                          } else if (snapshot.hasData) {
-                            return NewList(newsModels: snapshot.data!);
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        })),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              //=========================================================================================================NEAR SPA
-              Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Chuyên gia giỏi",
-                          style: TextStyle(
-                              color: Colors.purple[100],
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return AstrologerPage();
-                              },
-                            ));
-                          },
-                          child: Text(
-                            "                            xem thêm",
+    return WillPopScope(
+      onWillPop: () async {
+        final value = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Alert"),
+              content: const Text('Do you want Exit???'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    AuthRepo().logout();
+                    Navigator.of(context).pop(true);
+                  },
+                  child: const Text('Yes'),
+                ),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('No'),
+                )
+              ],
+            );
+          },
+        );
+        if (value != null) {
+          return Future.value(value);
+        } else {
+          return Future.value(false);
+        }
+      },
+      child: Scaffold(
+        appBar: TopBar.getAppBarHome(size, context),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          // padding: EdgeInsets.all(value),
+          child: Container(
+            color: Color(0xff17384e),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                //================================================================================
+                Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 40, left: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Bảng tin",
                             style: TextStyle(
-                                color: Colors.red[200],
-                                fontSize: 17,
+                                color: Colors.amber,
+                                fontSize: 23,
+                                fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.italic),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 210,
-                    width: 400,
-                    child: FutureBuilder<List<ConsultantModel>>(
-                        future: fetchGeneralConsultantData(http.Client()),
-                        builder: ((context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: Text('Something went wrong!!'),
-                            );
-                          } else if (snapshot.hasData) {
-                            return ConsulList(consulModels: snapshot.data!);
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        })),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              //================================================================
-              // Column(
-              //   children: [
-              //     Padding(
-              //       padding: EdgeInsets.only(bottom: 40),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //         children: [
-              //           Text(
-              //             "Live",
-              //             style: TextStyle(
-              //                 color: Colors.purple[100],
-              //                 fontSize: 20,
-              //                 fontWeight: FontWeight.bold,
-              //                 fontStyle: FontStyle.italic),
-              //           ),
-              //           GestureDetector(
-              //             onTap: () {
-              //               Navigator.push(context, MaterialPageRoute(
-              //                 builder: (context) {
-              //                   return CallScreen();
-              //                 },
-              //               ));
-              //             },
-              //             child: Text(
-              //               "                            See more",
-              //               style: TextStyle(
-              //                   color: Colors.red[200],
-              //                   fontSize: 18,
-              //                   fontStyle: FontStyle.italic),
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //     ),
-              // Container(
-              //   height: 210,
-              //   width: 400,
-              //   child: FutureBuilder<List<ConsultantModel>>(
-              //       future: fetchGeneralConsultantData(http.Client()),
-              //       builder: ((context, snapshot) {
-              //         if (snapshot.hasError) {
-              //           return Center(
-              //             child: Text('Something went wrong!!'),
-              //           );
-              //         } else if (snapshot.hasData) {
-              //           return ConsulList(consulModels: snapshot.data!);
-              //         } else {
-              //           return Center(
-              //             child: CircularProgressIndicator(),
-              //           );
-              //         }
-              //       })),
-              // ),
-              //   ],
-              // ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DailyHocroscopePage()),
-                      );
-                    },
-                    child: Container(
-                      height: size.height * 0.4,
-                      padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Color.fromRGBO(80, 27, 101, 1),
-                        image: DecorationImage(
-                          image: AssetImage('assets/home/daily.jpg'),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            bottom: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    padding:
-                                        EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Lá số hằng ngày',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.0,
-                                          ),
-                                        ),
-                                        SizedBox(height: 5.0),
-                                        Text(
-                                          'bạn có thể tìm hiểu tất tần tật về \nlá số của bạn',
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  CircleAvatar(
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.black,
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    radius: 20.0,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ZodiacListPage()),
-                      );
-                    },
-                    child: Container(
-                      height: size.height * 0.4,
-                      padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Color.fromRGBO(80, 27, 101, 1),
-                        image: DecorationImage(
-                          image: AssetImage('assets/home/zodiac.png'),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      child: Stack(
+                    Container(
+                      height: 210,
+                      width: 400,
+                      child: FutureBuilder<List<NewsModel>>(
+                          future: fetchNewsData(http.Client()),
+                          builder: ((context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text('Something went wrong!!'),
+                              );
+                            } else if (snapshot.hasData) {
+                              return NewList(newsModels: snapshot.data!);
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          })),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                //=========================================================================================================NEAR SPA
+                Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 40),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Positioned(
-                            bottom: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    padding:
-                                        EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Cung hoàng đạo',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.0,
-                                          ),
-                                        ),
-                                        SizedBox(height: 5.0),
-                                        Text(
-                                          'bạn có thể tìm hiểu tất tần tật về \n12 cung hoàng đạo',
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  CircleAvatar(
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.black,
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    radius: 20.0,
-                                  ),
-                                ],
-                              ),
-                            ),
+                          Text(
+                            "Chuyên gia giỏi",
+                            style: TextStyle(
+                                color: Colors.purple[100],
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic),
                           ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return AstrologerPage();
+                                },
+                              ));
+                            },
+                            child: Text(
+                              "                            xem thêm",
+                              style: TextStyle(
+                                  color: Colors.red[200],
+                                  fontSize: 17,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          )
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NatalCharPage()),
-                      );
-                    },
-                    child: Container(
-                      height: size.height * 0.4,
-                      padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Color.fromRGBO(35, 66, 112, 1),
-                        image: DecorationImage(
-                          image: AssetImage('assets/home/natal-chart.png'),
-                          fit: BoxFit.fill,
+                    Container(
+                      height: 210,
+                      width: 400,
+                      child: FutureBuilder<List<ConsultantModel>>(
+                          future: fetchGeneralConsultantData(http.Client()),
+                          builder: ((context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text('Something went wrong!!'),
+                              );
+                            } else if (snapshot.hasData) {
+                              return ConsulList(consulModels: snapshot.data!);
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          })),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DailyHocroscopePage()),
+                        );
+                      },
+                      child: Container(
+                        height: size.height * 0.4,
+                        padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Color.fromRGBO(80, 27, 101, 1),
+                          image: DecorationImage(
+                            image: AssetImage('assets/home/daily.jpg'),
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            bottom: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    padding:
-                                        EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Bản đồ sao',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.0,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Lá số hằng ngày',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20.0,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(height: 5.0),
-                                        Text(
-                                          'bạn muốn hiểu rõ về con người \ncủa bạn? bạn đã đến đúng nơi rồi đó',
-                                          style: TextStyle(
+                                          SizedBox(height: 5.0),
+                                          Text(
+                                            'bạn có thể tìm hiểu tất tần tật về \nlá số của bạn',
+                                            style: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 12.5),
-                                        ),
-                                      ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  CircleAvatar(
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.black,
+                                    CircleAvatar(
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.black,
+                                      ),
+                                      backgroundColor: Colors.white,
+                                      radius: 20.0,
                                     ),
-                                    backgroundColor: Colors.white,
-                                    radius: 20.0,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => PlanetPage()),
-                      );
-                    },
-                    child: Container(
-                      height: size.height * 0.4,
-                      padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Color.fromRGBO(80, 27, 101, 1),
-                        image: DecorationImage(
-                          image: AssetImage('assets/home/planet.jpg'),
-                          fit: BoxFit.fill,
+                          ],
                         ),
                       ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            bottom: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    padding:
-                                        EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Hành Tinh',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.0,
-                                          ),
-                                        ),
-                                        SizedBox(height: 5.0),
-                                        Text(
-                                          'bạn có thể tìm hiểu tất tần tật về \nhành tinh của bạn',
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  CircleAvatar(
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.black,
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    radius: 20.0,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HousePage()),
-                      );
-                    },
-                    child: Container(
-                      height: size.height * 0.4,
-                      padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Color.fromRGBO(35, 66, 112, 1),
-                        image: DecorationImage(
-                          image: AssetImage('assets/home/house.jpg'),
-                          fit: BoxFit.fill,
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ZodiacListPage()),
+                        );
+                      },
+                      child: Container(
+                        height: size.height * 0.4,
+                        padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Color.fromRGBO(80, 27, 101, 1),
+                          image: DecorationImage(
+                            image: AssetImage('assets/home/zodiac.png'),
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            bottom: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    padding:
-                                        EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Nhà',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.0,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Cung hoàng đạo',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20.0,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(height: 5.0),
-                                        Text(
-                                          'bạn có thể tìm hiểu về nhà trong thiên\nvăn học của bạn',
-                                          style: TextStyle(
+                                          SizedBox(height: 5.0),
+                                          Text(
+                                            'bạn có thể tìm hiểu tất tần tật về \n12 cung hoàng đạo',
+                                            style: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 12.5),
-                                        ),
-                                      ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  CircleAvatar(
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.black,
+                                    CircleAvatar(
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.black,
+                                      ),
+                                      backgroundColor: Colors.white,
+                                      radius: 20.0,
                                     ),
-                                    backgroundColor: Colors.white,
-                                    radius: 20.0,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NatalCharPage()),
+                        );
+                      },
+                      child: Container(
+                        height: size.height * 0.4,
+                        padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Color.fromRGBO(35, 66, 112, 1),
+                          image: DecorationImage(
+                            image: AssetImage('assets/home/natal-chart.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Bản đồ sao',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20.0,
+                                            ),
+                                          ),
+                                          SizedBox(height: 5.0),
+                                          Text(
+                                            'bạn muốn hiểu rõ về con người \ncủa bạn? bạn đã đến đúng nơi rồi đó',
+                                            style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 12.5),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    CircleAvatar(
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.black,
+                                      ),
+                                      backgroundColor: Colors.white,
+                                      radius: 20.0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => PlanetPage()),
+                        );
+                      },
+                      child: Container(
+                        height: size.height * 0.4,
+                        padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Color.fromRGBO(80, 27, 101, 1),
+                          image: DecorationImage(
+                            image: AssetImage('assets/home/planet.jpg'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Hành Tinh',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20.0,
+                                            ),
+                                          ),
+                                          SizedBox(height: 5.0),
+                                          Text(
+                                            'bạn có thể tìm hiểu tất tần tật về \nhành tinh của bạn',
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    CircleAvatar(
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.black,
+                                      ),
+                                      backgroundColor: Colors.white,
+                                      radius: 20.0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HousePage()),
+                        );
+                      },
+                      child: Container(
+                        height: size.height * 0.4,
+                        padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: Color.fromRGBO(35, 66, 112, 1),
+                          image: DecorationImage(
+                            image: AssetImage('assets/home/house.jpg'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20.0, 0, 20.0, 0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Nhà',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20.0,
+                                            ),
+                                          ),
+                                          SizedBox(height: 5.0),
+                                          Text(
+                                            'bạn có thể tìm hiểu về nhà trong thiên\nvăn học của bạn',
+                                            style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 12.5),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    CircleAvatar(
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.black,
+                                      ),
+                                      backgroundColor: Colors.white,
+                                      radius: 20.0,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Color(0xff031d2e),
-        child: BottomBar(selected: "home"),
+        bottomNavigationBar: BottomAppBar(
+          color: Color(0xff031d2e),
+          child: BottomBar(selected: "home"),
+        ),
       ),
     );
   }
@@ -694,10 +610,11 @@ class ConsulItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     int exp = item.experience ?? 0;
+    double? rating = item.rating ?? 0.0;
     return Padding(
-      padding: const EdgeInsets.only(right: 4.0),
+      padding: const EdgeInsets.only(right: 8.0),
       child: Container(
-        width: 130,
+        width: 190,
         // padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white60),
@@ -727,7 +644,7 @@ class ConsulItem extends StatelessWidget {
                 item.fullName!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white60,
+                  color: Colors.white,
                   fontWeight: FontWeight.w500,
                   fontSize: 17.0,
                 ),
@@ -736,9 +653,34 @@ class ConsulItem extends StatelessWidget {
                 'Kinh nghiệm : Cấp độ ' + exp.toString(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white60,
+                  color: Colors.white,
                   fontWeight: FontWeight.w400,
                   fontSize: 15.0,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RatingBar.builder(
+                      itemSize: 25,
+                      initialRating: rating,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                      ),
+                      onRatingUpdate: (rating) {
+                        print(rating);
+                      },
+                      ignoreGestures: true,
+                    ),
+                  ],
                 ),
               ),
             ],

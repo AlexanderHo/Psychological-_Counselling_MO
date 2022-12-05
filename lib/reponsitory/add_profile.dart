@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:astrology/model/user.dart';
 import 'package:astrology/reponsitory/current_user_shared_preferences.dart';
 import 'package:astrology/resourse/Home/home.dart';
 import 'package:astrology/resourse/app_router.dart';
 import 'package:astrology/resourse/profile/account.dart';
+import 'package:astrology/resourse/profile/add&editProfile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -52,7 +54,7 @@ Future<void> addProfile(
         backgroundColor: Color.fromARGB(255, 108, 219, 113),
         textColor: Colors.black54,
         fontSize: 16.0);
-    AppRouter.push(AccountPage());
+    AppRouter.push(ProfilePage());
   } else {
     Fluttertoast.showToast(
         msg: "Thêm hồ sơ thất bại",

@@ -52,10 +52,10 @@ class AuthRepo extends ChangeNotifier {
     } else {
       print("fail login");
       Fluttertoast.showToast(
-          msg: "login fail",
+          msg: "Sai tên đăng nhập hoặc mật khẩu!!!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 3,
           backgroundColor: Colors.red.shade200,
           textColor: Colors.black,
           fontSize: 16.0);

@@ -3,6 +3,7 @@ import 'package:astrology/reponsitory/Wallet_.dart';
 import 'package:astrology/reponsitory/auth_repo.dart';
 import 'package:astrology/reponsitory/current_user_shared_preferences.dart';
 import 'package:astrology/resourse/ChangePass/changePass.dart';
+import 'package:astrology/resourse/Surveys/First-Login.dart';
 import 'package:astrology/resourse/Surveys/SurveyType.dart';
 import 'package:astrology/resourse/Wallet/wallet.dart';
 import 'package:astrology/resourse/app_router.dart';
@@ -35,65 +36,11 @@ class _AccountPageState extends State<AccountPage> {
         color: Color(0xff17384e),
         constraints:
             BoxConstraints(minHeight: size.height, minWidth: size.width),
-        // padding: EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
-        // decoration: BoxDecoration(
-        //     image: DecorationImage(
-        //   image: AssetImage('assets/background/background1.png'),
-        //   fit: BoxFit.fill,
-        // )),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // SafeArea(
-              //   child: Container(
-              //     child: Row(
-              //       children: <Widget>[
-              //         Text(
-              //           'Hồ sơ',
-              //           style: TextStyle(
-              //             fontSize: 20.0,
-              //             color: Colors.white,
-              //             fontWeight: FontWeight.bold,
-              //           ),
-              //         ),
-              //         Spacer(),
-              //         // GestureDetector(
-              //         //   onTap: () {
-              //         //     Navigator.push(
-              //         //         context,
-              //         //         MaterialPageRoute(
-              //         //             builder: (context) => AddProfilePage()));
-              //         //   },
-              //         //   child: CircleAvatar(
-              //         //     child: Icon(
-              //         //       Icons.add,
-              //         //       color: Colors.white,
-              //         //     ),
-              //         //     radius: 15.0,
-              //         //     backgroundColor: Colors.blue,
-              //         //   ),
-              //         // ),
-              //         SizedBox(width: size.width * 0.04),
-              //         GestureDetector(
-              //             onTap: () {
-              //               // final provider = Provider.of<GoogleSignInProvider>(
-              //               //     context,
-              //               //     listen: false);
-              //               // provider.logout();
-              //               AuthRepo().logout();
-              //             },
-              //             child: CircleAvatar(
-              //               child: Icon(Icons.logout),
-              //               backgroundColor: Colors.blue,
-              //               radius: 15,
-              //             )),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-
               Container(
                 padding: EdgeInsets.fromLTRB(0, 20.0, 0, 20),
                 child: Row(
@@ -108,8 +55,6 @@ class _AccountPageState extends State<AccountPage> {
                         borderRadius: BorderRadius.circular(15.0),
                         image: DecorationImage(
                           image: NetworkImage(_imageLink),
-                          // image: NetworkImage(
-                          //     'https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/306828431_463684089115167_4431332057427388959_n.jpg?stp=dst-jpg_s851x315&_nc_cat=1&ccb=1-7&_nc_sid=da31f3&_nc_ohc=2T7JscA9QIQAX9DCc0c&tn=_lI93l0CeEEGW7vN&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT_3X_s_P62ilsmxjXBf6waUEw_lFvG1UFlagSONKVuEWA&oe=6325CE27'),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -138,7 +83,6 @@ class _AccountPageState extends State<AccountPage> {
                         children: <Widget>[
                           Text(
                             _name,
-                            // 'Hồ Quốc Khải',
                             style: TextStyle(
                               fontSize: 20.0,
                               color: Colors.white,
@@ -211,7 +155,6 @@ class _AccountPageState extends State<AccountPage> {
                   ],
                 ),
               ),
-
               GestureDetector(
                 onTap: () {
                   Navigator.push(

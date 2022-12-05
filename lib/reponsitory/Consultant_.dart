@@ -101,4 +101,5 @@ Future<List<ConsultantSpecModel>> fetchGeneralConsultantBySpecial(
   // log(response.body);
   Map map = jsonDecode(response.body);
   return parseGeneralConsultantSpecData(map['data']);
+  // return parseGeneralConsultantData(map['data']);
 }

@@ -1,6 +1,9 @@
 import 'package:astrology/Components/app_bar.dart';
 import 'package:astrology/model/SurveyType_model.dart';
 import 'package:astrology/reponsitory/SurveyType_.dart';
+import 'package:astrology/resourse/Surveys/First-Login.dart';
+import 'package:astrology/resourse/Surveys/Result.dart';
+import 'package:astrology/resourse/Surveys/ResultSurvey.dart';
 import 'package:astrology/resourse/Surveys/Survey.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -21,26 +24,61 @@ class _SurveyTypePageState extends State<SurveyTypePage> {
         Navigator.pop(context);
       }),
       body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage('assets/background/background1.png'),
-          fit: BoxFit.fill,
-        )),
-        child: FutureBuilder<List<SurveysTypeModel>>(
-          future: fetchSurveyType(http.Client()),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('Something went wrong!!'),
-              );
-            } else if (snapshot.hasData) {
-              return SurveyList(surveyModels: snapshot.data!);
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+        constraints:
+            BoxConstraints(minHeight: size.height, minWidth: size.width),
+        color: Color(0xff031d2e),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 60,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            Color(0xff17384e),
+                          ),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                        color: Colors.white60,
+                                      )))),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResultEndPage()));
+                      },
+                      child: Text(
+                        'Kết quả khảo sát của bạn',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ))),
+            ),
+            Container(
+              height: 500,
+              width: 500,
+              child: FutureBuilder<List<SurveysTypeModel>>(
+                future: fetchSurveyType(http.Client()),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Something went wrong!!'),
+                    );
+                  } else if (snapshot.hasData) {
+                    return SurveyList(surveyModels: snapshot.data!);
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -96,7 +134,7 @@ class SurveyItem extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white60),
           borderRadius: BorderRadius.circular(12.0),
-          color: Color.fromARGB(255, 138, 42, 139),
+          color: Color(0xff17384e),
         ),
         child: Center(
           child: Column(

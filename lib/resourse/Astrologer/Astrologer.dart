@@ -314,14 +314,17 @@ class ConsulItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                height: size.height * 0.15,
-                width: size.width * 0.4,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    image: DecorationImage(
-                      image: NetworkImage(item.imageUrl!),
-                    )),
+              Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5),
+                child: Container(
+                  height: size.height * 0.15,
+                  width: size.width * 0.4,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      image: DecorationImage(
+                          image: NetworkImage(item.imageUrl!),
+                          fit: BoxFit.cover)),
+                ),
               ),
               Expanded(
                 child: Column(

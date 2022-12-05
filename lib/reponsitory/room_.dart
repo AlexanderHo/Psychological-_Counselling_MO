@@ -76,8 +76,8 @@ Future<void> OnJoinLive(
   ClientRole? role,
   String? token,
 ) async {
-  await _handleCameraandMic(Permission.camera);
-  await _handleCameraandMic(Permission.microphone);
+  // await _handleCameraandMic(Permission.camera);
+  // await _handleCameraandMic(Permission.microphone);
   await AppRouter.push(
     BodyLive(
       chanelName: chanelName,

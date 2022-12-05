@@ -30,6 +30,7 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
+  bool isLoadling = false;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -171,15 +172,29 @@ class _BookingPageState extends State<BookingPage> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
+                        setState(() {
+                          isLoadling = true;
+                        });
                         bookingSlot(widget.slotId, widget.consultantId,
                             widget.customerId);
-                        // Navigator.pop(context);
+                        Future.delayed(
+                          Duration(seconds: 3),
+                          () {
+                            setState(() {
+                              isLoadling = false;
+                            });
+                          },
+                        );
                       },
-                      child: Text(
-                        'XÁC NHẬN',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ))
+                      child: isLoadling
+                          ? CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : Text(
+                              'XÁC NHẬN',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ))
                 ],
               ),
             ))
