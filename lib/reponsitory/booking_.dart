@@ -30,7 +30,7 @@ Future<void> bookingSlot(
   print(a.body);
   log(a.statusCode.toString());
   if (response.statusCode == 200) {
-    print("run");
+    print("booking chay");
     Fluttertoast.showToast(
         msg: "Đặt Lịch thành công",
         toastLength: Toast.LENGTH_SHORT,

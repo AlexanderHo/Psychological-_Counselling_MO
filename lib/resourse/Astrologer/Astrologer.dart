@@ -335,6 +335,7 @@ class ConsulItem extends StatelessWidget {
                     ),
                     Text(
                       item.fullName!,
+                      overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Color.fromARGB(179, 25, 25, 25),

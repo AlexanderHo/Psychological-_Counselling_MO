@@ -51,19 +51,19 @@ class _HomeScreenState extends State<HomeScreen> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text("Alert"),
-              content: const Text('Do you want Exit???'),
+              title: const Text("Thông báo"),
+              content: const Text('Bạn có muốn thoát???'),
               actions: [
                 ElevatedButton(
                   onPressed: () {
                     AuthRepo().logout();
                     Navigator.of(context).pop(true);
                   },
-                  child: const Text('Yes'),
+                  child: const Text('Có'),
                 ),
                 ElevatedButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: const Text('No'),
+                  child: const Text('Không'),
                 )
               ],
             );
@@ -614,7 +614,7 @@ class ConsulItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: Container(
-        width: 190,
+        width: 192,
         // padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.white60),
@@ -724,7 +724,7 @@ class NewsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.only(right: 4.0),
+      padding: const EdgeInsets.only(right: 5.0),
       child: Container(
         width: 300,
         // padding: const EdgeInsets.symmetric(vertical: 10),
@@ -737,16 +737,20 @@ class NewsItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                height: size.height * 0.15,
-                width: size.width * 2,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                  image: NetworkImage(item.urlBanner),
-                )),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Container(
+                  height: size.height * 0.15,
+                  width: size.width * 2,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      image: DecorationImage(
+                          image: NetworkImage(item.urlBanner),
+                          fit: BoxFit.cover)),
+                ),
               ),
               SizedBox(
-                height: 8,
+                height: 15,
               ),
               Text(
                 item.title,

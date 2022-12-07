@@ -7,7 +7,7 @@ class HistoryModel {
   final String? description;
   final String? reasonOfCustomer;
   final String? reasonOfConsultant;
-  final String? status;
+  final String status;
   final int? bookingId;
   final int consultantId;
   final String? booking;
@@ -40,7 +40,7 @@ class HistoryModel {
         description: json['description'] as String?,
         reasonOfCustomer: json['reasonOfCustomer'] as String?,
         reasonOfConsultant: json['reasonOfConsultant'] as String?,
-        status: json['status'] as String?,
+        status: json['status'] as String,
         consultantId: json['consultantId'] as int,
         bookingId: json['bookingId'] as int?,
         booking: json['booking'] as String?,

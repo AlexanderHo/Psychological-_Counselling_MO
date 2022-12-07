@@ -164,20 +164,33 @@ class ShowDetail extends StatelessWidget {
             SizedBox(
               height: 10.0,
             ),
-            Text(
-              'Trạng thái : ' + item.status!,
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                Text(
+                  'Trạng thái : ',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  item.status == "cancel" ? 'Bị Hủy' : 'Hết hạn',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: 10.0,
             ),
             item.reasonOfCustomer == null
                 ? Text(
-                    'Thời gian hủy : ' + item.reasonOfConsultant!,
+                    'Thời gian hủy của Chuyên gia : ' +
+                        item.reasonOfConsultant!,
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 20.0,
@@ -185,7 +198,7 @@ class ShowDetail extends StatelessWidget {
                     ),
                   )
                 : Text(
-                    'Thời gian hủy : ' + item.reasonOfCustomer!,
+                    'Thời gian hủy của bạn : ' + item.reasonOfCustomer!,
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 20.0,

@@ -119,7 +119,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  height: 267,
+                  height: 750,
                   width: 500,
                   child: FutureBuilder<List<SlotModel>>(
                     future: slot,
@@ -190,6 +190,7 @@ class slotItem extends StatelessWidget {
     DateFormat formatTime = DateFormat('HH:mm');
     TextEditingController? reason = TextEditingController();
     final _reasonKey = GlobalKey<FormState>();
+    var formatdate = DateFormat('yyyy-MM-dd');
 
     return Padding(
       padding: const EdgeInsets.only(top: 5.0),
@@ -364,7 +365,30 @@ class slotItem extends StatelessWidget {
                             ),
                             child: OutlinedButton(
                               onPressed: () {
-                                room = fetchRoom(item.id, item.bookingId!);
+                                if (_convertStringToDateTime2(formatdate.format(
+                                            DateTime.parse(item.dateSlot!)) +
+                                        ' ' +
+                                        item.timeStart!)!
+                                    .subtract(Duration(minutes: 5))
+                                    .isBefore(DateTime.now())) {
+                                  room = fetchRoom(item.id, item.bookingId!);
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                            title: const Text('Thông báo'),
+                                            content: Text(
+                                                'Bạn chỉ được tham gia phòng trước 5 phút( thời gian có thể bắt đầu vào phòng: ${formatTime.format(_convertStringToDateTime(item.timeStart!)!)})'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          context, 'Đồng ý'),
+                                                  child: const Text('Đồng ý'))
+                                            ],
+                                          ));
+                                }
                               },
                               child: Text(
                                 'Tham gia',
@@ -394,6 +418,15 @@ class slotItem extends StatelessWidget {
     DateTime? _dateTime;
     try {
       _dateTime = new DateFormat("hh:mm").parse(time);
+    } catch (e) {}
+    return _dateTime;
+  }
+
+  DateTime? _convertStringToDateTime2(String time) {
+    DateTime? _dateTime;
+    try {
+      _dateTime = new DateFormat('yyyy-MM-dd HH:mm').parse(time);
+      // print(_dateTime);
     } catch (e) {}
     return _dateTime;
   }
